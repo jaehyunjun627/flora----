@@ -13,6 +13,11 @@
   box-shadow: 0 2px 10px rgba(60, 90, 60, 0.07);
 }
 
+/* 컴팩트 모드 */
+.my-calendar.compact {
+  padding: 18px 20px;
+}
+
 /* ── 헤더 ── */
 .calendar-header {
   display: flex;
@@ -28,21 +33,81 @@
   margin: 0 !important;
 }
 
-.btn-add-plant {
+/* 헤더 우측 액션 버튼 그룹 */
+.cal-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-checkin-cal {
   background: #4a7c59;
   color: #fff;
   border: none;
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.btn-checkin-cal:hover { background: #3c6849; }
+.btn-checkin-cal.done {
+  background: #e8f5eb;
+  color: #4a7c59;
+  border: 1px solid #c5dfc9;
+  cursor: default;
+}
+
+.btn-add-plant {
+  background: #f5f2ed;
+  color: #4a7c59;
+  border: 1.5px solid #c5dfc9;
   border-radius: 20px;
-  padding: 7px 15px;
-  font-size: 13px;
+  padding: 6px 13px;
+  font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
 }
 
 .btn-add-plant:hover {
-  background: #3c6849;
-  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
+  background: #eef6ef;
+  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.15);
+}
+
+/* 범례 */
+.cal-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  font-size: 11px;
+  color: #7a7a7a;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-item.attended { color: #4a7c59; font-weight: 700; }
+.legend-item.missed   { color: #d97070; font-weight: 700; }
+
+.legend-dot-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 /* ── AI 케어 팁 배너 ── */
@@ -140,12 +205,33 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 5px;
+  padding-top: 4px;
   cursor: pointer;
   border: 1.5px solid transparent;
   transition: background 0.12s, border-color 0.12s;
-  min-height: 38px;
+  min-height: 34px;
+  position: relative;
 }
+
+/* 출석 완료: 연초록 */
+.cal-cell.att-done {
+  background: #e8f5eb;
+}
+
+/* 출석 미완: 연빨간 */
+.cal-cell.att-missed {
+  background: #fdeaea;
+}
+
+/* 출석 마킹 문자 */
+.att-mark {
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+.att-mark.done { color: #4a7c59; }
+.att-mark.miss { color: #d97070; }
 
 .cal-cell:not(.empty):hover {
   background: #f0f8f1;
@@ -445,6 +531,80 @@
 @keyframes cal-spin {
   to { transform: rotate(360deg); }
 }
+
+/* ── 미션 모달 ── */
+.mission-modal { max-height: 90vh; overflow-y: auto; }
+
+.mission-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.mission-date {
+  font-size: 12px;
+  color: #9a9a9a;
+  background: #f5f2ed;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.mission-group { margin-bottom: 14px; }
+
+.mission-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a7a7a;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+}
+
+.mission-group-label.special { color: #c8956a; }
+
+.mission-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #faf9f7;
+  border: 1px solid #eceae5;
+  margin-bottom: 6px;
+}
+
+.mission-item.done { opacity: 0.55; background: #f0f8f1; border-color: #c5dfc9; }
+.mission-item.special-item { background: #fff8f3; border-color: #f0d5bc; }
+.mission-item.special-item.done { background: #fdf5ee; }
+
+.mission-check {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  flex-shrink: 0;
+  color: #c0c0c0;
+  transition: color 0.12s;
+}
+.mission-check:hover { color: #4a7c59; }
+
+.mission-item-icon { font-size: 20px; flex-shrink: 0; }
+.mission-item-text { flex: 1; }
+.mission-item-title { font-size: 13px; font-weight: 600; color: #2a2a2a; }
+.mission-item.done .mission-item-title { text-decoration: line-through; color: #8a8a8a; }
+.mission-item-desc { font-size: 11px; color: #9a9a9a; margin-top: 2px; }
+
+.mission-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 6px;
+  border-top: 1px solid #f0ede8;
+  margin-bottom: 4px;
+}
+.mission-progress-text { font-size: 13px; color: #7a7a7a; font-weight: 600; }
+.mission-all-done { font-size: 13px; color: #4a7c59; font-weight: 700; }
 
 /* ── 반응형 ── */
 @media (max-width: 600px) {
