@@ -21,7 +21,36 @@ function Layout({ children }) {
     }
   };
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    const currentPath = location.pathname;
+    const currentParams = new URLSearchParams(location.search);
+
+    if (path === '/') {
+      return currentPath === '/';
+    }
+
+    const [targetPath, targetSearch] = path.split('?');
+    if (targetPath !== currentPath) {
+      // /products?category=... 과 /community, /plants 구분
+      return false;
+    }
+
+    if (!targetSearch) {
+      // /products 기본 인기 메뉴 (category 미설정)
+      if (currentPath === '/products') {
+        return !currentParams.has('category');
+      }
+      return true;
+    }
+
+    const targetParams = new URLSearchParams(targetSearch);
+    for (const [key, value] of targetParams.entries()) {
+      if (currentParams.get(key) !== value) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const navLinks = [
     { path: '/products', label: '마켓' },
