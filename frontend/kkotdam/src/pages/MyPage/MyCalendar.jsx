@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import '../../css/MyCalendar.css';
 
-// AI 분석 결과로 캘린더 이벤트 생성
 function generateScheduleFromAi(plant, aiResult) {
   const schedules = [];
   const today = new Date();
 
-  // 물주기 (4회)
   for (let i = 1; i <= 4; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + aiResult.wateringInterval * i);
@@ -22,7 +20,6 @@ function generateScheduleFromAi(plant, aiResult) {
     });
   }
 
-  // 분갈이 (1회)
   const repotDate = new Date(today);
   repotDate.setDate(today.getDate() + aiResult.repottingInterval);
   schedules.push({
@@ -36,7 +33,6 @@ function generateScheduleFromAi(plant, aiResult) {
     isAiGenerated: true,
   });
 
-  // 비료 (간격 있으면 2회)
   if (aiResult.fertilizingInterval) {
     for (let i = 1; i <= 2; i++) {
       const date = new Date(today);
@@ -54,7 +50,6 @@ function generateScheduleFromAi(plant, aiResult) {
     }
   }
 
-  // 가지치기 (간격 있으면 1회)
   if (aiResult.pruningInterval) {
     const pruneDate = new Date(today);
     pruneDate.setDate(today.getDate() + aiResult.pruningInterval);
@@ -86,16 +81,12 @@ const EVENT_TYPE_COLOR = {
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
-export default function MyCalendar() {
+export default function MyCalendar({ plants, setPlants }) {
   const today = new Date();
   const todayStr = today.toISOString().split('T')[0];
 
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [plants, setPlants] = useState([
-    { id: 1, name: '몬스테라', nickname: '몬이', plantType: '관엽식물' },
-    { id: 2, name: '선인장', nickname: '선이', plantType: '선인장' },
-  ]);
   const [events, setEvents] = useState(() => {
     const t = new Date();
     return [
@@ -165,7 +156,6 @@ export default function MyCalendar() {
       setEvents(prev => [...prev, ...generateScheduleFromAi(plant, aiResult)]);
       if (aiResult.careNotes) setAiCareNotes(aiResult.careNotes);
     } catch {
-      // 백엔드 없을 때 기본값 fallback
       const fallback = { wateringInterval: 7, repottingInterval: 180 };
       const plant = { ...newPlant, id: Date.now() };
       setPlants(prev => [...prev, plant]);
@@ -183,7 +173,6 @@ export default function MyCalendar() {
 
   return (
     <div className="my-calendar">
-      {/* 헤더 */}
       <div className="calendar-header">
         <h2>내 식물 캘린더</h2>
         <button className="btn-add-plant" onClick={() => setShowAddPlant(true)}>
@@ -191,7 +180,6 @@ export default function MyCalendar() {
         </button>
       </div>
 
-      {/* AI 케어 팁 */}
       {aiCareNotes && (
         <div className="ai-care-notes">
           <span className="ai-badge-sm">AI 팁</span>
@@ -199,21 +187,18 @@ export default function MyCalendar() {
         </div>
       )}
 
-      {/* 식물 칩 */}
       <div className="plant-list">
         {plants.map(p => (
           <span key={p.id} className="plant-chip">🌿 {p.nickname || p.name}</span>
         ))}
       </div>
 
-      {/* 월 네비게이션 */}
       <div className="calendar-nav">
         <button onClick={prevMonth}>&#8249;</button>
         <span>{currentYear}년 {currentMonth + 1}월</span>
         <button onClick={nextMonth}>&#8250;</button>
       </div>
 
-      {/* 캘린더 그리드 */}
       <div className="calendar-grid">
         {DAYS.map(d => (
           <div key={d} className="cal-day-header">{d}</div>
@@ -247,7 +232,6 @@ export default function MyCalendar() {
         })}
       </div>
 
-      {/* 이벤트 목록 */}
       <div className="event-list">
         <h3 className="event-list-title">
           {selectedDay ? `${currentMonth + 1}월 ${selectedDay}일 일정` : '다가오는 일정'}
@@ -268,7 +252,6 @@ export default function MyCalendar() {
         )}
       </div>
 
-      {/* 식물 추가 모달 */}
       {showAddPlant && (
         <div className="modal-overlay" onClick={() => !isAnalyzing && setShowAddPlant(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>

@@ -47,9 +47,7 @@
   transition: color 0.15s, border-color 0.15s;
 }
 
-.mypage-tab:hover {
-  color: #4a7c59;
-}
+.mypage-tab:hover { color: #4a7c59; }
 
 .mypage-tab.active {
   color: #4a7c59;
@@ -57,6 +55,712 @@
   font-weight: 600;
 }
 
-.mypage-content {
-  min-height: 400px;
+.mypage-content { min-height: 400px; }
+
+/* 탭 컨텐츠 */
+.activity-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ================================
+   공통 섹션 카드
+   ================================ */
+.att-section,
+.badge-section,
+.point-level-section,
+.plant-card-section {
+  background: #ffffff;
+  border: 1px solid #e8e4dd;
+  border-radius: 14px;
+  padding: 22px 20px;
+  box-shadow: 0 2px 10px rgba(60, 90, 60, 0.06);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 15px !important;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin: 0 !important;
+}
+
+/* ================================
+   출석 미션
+   ================================ */
+.btn-checkin {
+  background: #4a7c59;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-checkin:hover { background: #3c6849; }
+.btn-checkin.done {
+  background: #e8f5eb;
+  color: #4a7c59;
+  border: 1px solid #c5dfc9;
+  cursor: default;
+}
+
+.att-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f8fdf9;
+  border: 1px solid #daeedd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.att-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.att-stat-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4a7c59;
+  line-height: 1.1;
+}
+
+.att-stat-label {
+  font-size: 11px;
+  color: #8a8a8a;
+  margin-top: 2px;
+}
+
+.att-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: #daeedd;
+}
+
+/* 출석 캘린더 */
+.att-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.att-day-header {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #9a9a9a;
+  padding: 4px 0;
+}
+
+.att-day-header:first-child { color: #d97070; }
+.att-day-header:last-child { color: #7090c8; }
+
+.att-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: #5a5a5a;
+  border: 1.5px solid transparent;
+  transition: background 0.12s;
+}
+
+.att-cell.empty { background: transparent; }
+
+.att-cell.att-today {
+  border-color: #4a7c59;
+  background: #eef6ef;
+  color: #2a2a2a;
+  font-weight: 700;
+}
+
+.att-cell.att-checked {
+  background: #4a7c59;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* 미션 모달 */
+.mission-modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.mission-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.mission-date {
+  font-size: 12px;
+  color: #9a9a9a;
+  background: #f5f2ed;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.mission-group {
+  margin-bottom: 16px;
+}
+
+.mission-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a7a7a;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.mission-group-label.special {
+  color: #c8956a;
+}
+
+.mission-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  background: #faf9f7;
+  border: 1px solid #eceae5;
+  margin-bottom: 7px;
+  transition: background 0.12s;
+}
+
+.mission-item.done {
+  opacity: 0.55;
+  background: #f0f8f1;
+  border-color: #c5dfc9;
+}
+
+.mission-item.special-item {
+  background: #fff8f3;
+  border-color: #f0d5bc;
+}
+
+.mission-item.special-item.done {
+  background: #fdf5ee;
+}
+
+.mission-check {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  flex-shrink: 0;
+  line-height: 1;
+  color: #c0c0c0;
+  transition: color 0.12s;
+}
+
+.mission-check:hover { color: #4a7c59; }
+
+.mission-item-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mission-item-text { flex: 1; }
+
+.mission-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.mission-item.done .mission-item-title {
+  text-decoration: line-through;
+  color: #8a8a8a;
+}
+
+.mission-item-desc {
+  font-size: 12px;
+  color: #9a9a9a;
+  margin-top: 2px;
+}
+
+.mission-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 6px;
+  border-top: 1px solid #f0ede8;
+  margin-bottom: 4px;
+}
+
+.mission-progress-text {
+  font-size: 13px;
+  color: #7a7a7a;
+  font-weight: 600;
+}
+
+.mission-all-done {
+  font-size: 13px;
+  color: #4a7c59;
+  font-weight: 700;
+}
+
+/* ================================
+   뱃지 컬렉션
+   ================================ */
+.badge-count-chip {
+  font-size: 12px;
+  color: #4a7c59;
+  background: #eef6ef;
+  border: 1px solid #c5dfc9;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-weight: 600;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.badge-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 8px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #e8e4dd;
+  background: #faf9f7;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  text-align: center;
+}
+
+.badge-card.earned:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(74, 124, 89, 0.15);
+  border-color: #a8d4b0;
+}
+
+.badge-card.earned.selected {
+  border-color: #4a7c59;
+  background: #eef6ef;
+  box-shadow: 0 0 0 2px #4a7c5940;
+}
+
+.badge-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.badge-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.badge-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a5a5a;
+  line-height: 1.3;
+}
+
+.badge-selected-mark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  color: #4a7c59;
+  font-weight: 700;
+}
+
+.badge-lock-overlay {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.badge-hint {
+  font-size: 12px;
+  color: #9a9a9a;
+  margin: 0;
+}
+
+.badge-selected-info {
+  color: #4a7c59;
+  font-weight: 600;
+}
+
+/* ================================
+   포인트 & 레벨
+   ================================ */
+.level-card {
+  background: #f8fdf9;
+  border: 1px solid #daeedd;
+  border-radius: 12px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
+}
+
+.level-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.level-badge-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.level-right { flex: 1; }
+
+.level-name-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a2a2a;
+}
+
+.level-points-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a7c59;
+  line-height: 1.2;
+}
+
+.level-points-text span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a8a8a;
+}
+
+.level-benefit-chip {
+  font-size: 12px;
+  background: #fff3e0;
+  color: #c8956a;
+  border: 1px solid #f0d5bc;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-weight: 600;
+}
+
+.level-bar-wrap {
+  height: 8px;
+  background: #e8e4dd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.level-bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.5s ease;
+}
+
+.level-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #7a7a7a;
+  margin-bottom: 8px;
+}
+
+.level-bar-labels strong { color: #4a7c59; }
+
+.level-bar-range { color: #b0b0b0; }
+
+.level-next-info {
+  font-size: 12px;
+  color: #8a8a8a;
+  background: #fff;
+  border: 1px solid #e8e4dd;
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+
+.level-next-info strong { color: #4a7c59; }
+
+/* 레벨 로드맵 */
+.level-roadmap {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.roadmap-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 70px;
+  position: relative;
+  opacity: 0.45;
+}
+
+.roadmap-step.reached { opacity: 1; }
+
+.roadmap-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #e8e4dd;
+  z-index: 0;
+}
+
+.roadmap-step.reached:not(:last-child)::after {
+  background: #4a7c59;
+}
+
+.roadmap-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e8e4dd;
+  border: 2px solid #e8e4dd;
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.roadmap-info {
+  text-align: center;
+}
+
+.roadmap-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: #5a5a5a;
+  margin-bottom: 2px;
+}
+
+.roadmap-pts {
+  font-size: 9px;
+  color: #9a9a9a;
+}
+
+.roadmap-benefit {
+  font-size: 9px;
+  color: #c8956a;
+  margin-top: 2px;
+}
+
+/* ================================
+   식물 명함
+   ================================ */
+.plant-card-preview {
+  border: 2px solid;
+  border-radius: 18px;
+  padding: 28px 24px;
+  margin-bottom: 16px;
+  min-height: 200px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.pc-logo {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.7;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+}
+
+.pc-name {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 5px;
+  letter-spacing: -0.5px;
+}
+
+.pc-badge-nick {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.pc-divider {
+  border: none;
+  border-top: 1px solid;
+  margin: 0 0 14px;
+  opacity: 0.4;
+}
+
+.pc-plants-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9a9a9a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.pc-plants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.pc-plant-chip {
+  display: inline-block;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.pc-no-plants {
+  font-size: 12px;
+  color: #b0b0b0;
+}
+
+.pc-footer {
+  font-size: 10px;
+  opacity: 0.55;
+  text-align: right;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* 색상 선택 */
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.color-picker-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7a7a7a;
+  white-space: nowrap;
+}
+
+.color-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.color-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s;
+  padding: 0;
+}
+
+.color-dot:hover { transform: scale(1.15); }
+
+.color-dot.active {
+  border-color: #2a2a2a;
+  transform: scale(1.15);
+}
+
+.color-name-label {
+  font-size: 11px;
+  color: #9a9a9a;
+}
+
+.card-badge-hint {
+  font-size: 12px;
+  color: #c8956a;
+  background: #fff8f3;
+  border: 1px solid #f0d5bc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 0 0 12px;
+}
+
+.card-action-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-card-action {
+  flex: 1;
+  background: #f5f2ed;
+  color: #4a7c59;
+  border: 1.5px solid #c5dfc9;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.btn-card-action:hover {
+  background: #eef6ef;
+  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.15);
+}
+
+/* ================================
+   반응형
+   ================================ */
+@media (max-width: 600px) {
+  .mypage-wrap { padding: 20px 14px; }
+
+  .badge-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+
+  .badge-icon { font-size: 20px; }
+
+  .badge-name { font-size: 9px; }
+
+  .level-roadmap { gap: 0; }
+
+  .roadmap-step { min-width: 55px; }
+
+  .plant-card-preview { padding: 20px 16px; }
 }

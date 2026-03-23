@@ -1,13 +1,25 @@
 import { useState } from 'react';
 import MyCalendar from './MyCalendar';
+import AttendanceMission from './AttendanceMission';
+import BadgeCollection from './BadgeCollection';
+import PointLevel from './PointLevel';
+import PlantCard from './PlantCard';
 import '../../css/MyPage.css';
 
 const TABS = [
-  { id: 'calendar', label: '🌿 식물 캘린더' },
+  { id: 'activity', label: '🌿 내 활동' },
+  { id: 'card', label: '🪪 식물 명함' },
+];
+
+const INITIAL_PLANTS = [
+  { id: 1, name: '몬스테라', nickname: '몬이', plantType: '관엽식물' },
+  { id: 2, name: '선인장', nickname: '선이', plantType: '선인장' },
 ];
 
 export default function MyPage() {
-  const [activeTab, setActiveTab] = useState('calendar');
+  const [activeTab, setActiveTab] = useState('activity');
+  const [plants, setPlants] = useState(INITIAL_PLANTS);
+  const [selectedBadge, setSelectedBadge] = useState(null);
 
   return (
     <div className="mypage-wrap">
@@ -29,7 +41,19 @@ export default function MyPage() {
       </div>
 
       <div className="mypage-content">
-        {activeTab === 'calendar' && <MyCalendar />}
+        {activeTab === 'activity' && (
+          <div className="activity-tab">
+            <MyCalendar plants={plants} setPlants={setPlants} />
+            <AttendanceMission />
+            <BadgeCollection selectedBadge={selectedBadge} onSelectBadge={setSelectedBadge} />
+            <PointLevel />
+          </div>
+        )}
+        {activeTab === 'card' && (
+          <div className="card-tab">
+            <PlantCard selectedBadge={selectedBadge} plants={plants} />
+          </div>
+        )}
       </div>
     </div>
   );
