@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "subscriptions")
+@Table(name = "SUBSCRIPTIONS")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,64 +15,39 @@ import java.time.LocalDateTime;
 public class Subscription {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subscription_seq")
-    @SequenceGenerator(name = "subscription_seq", sequenceName = "subscription_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "plan_type", nullable = false)
-    private PlanType planType;  // MONTHLY, ANNUAL
+    @Column(name = "plan", length = 20)
+    private String plan;  // ex) MONTHLY, ANNUAL
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", length = 20)
     @Builder.Default
-    private SubscriptionStatus status = SubscriptionStatus.ACTIVE;
+    private String status = "ACTIVE";  // ACTIVE, PAUSED, CANCELLED
 
-    @Column(name = "start_date", nullable = false)
-    private LocalDate startDate;
+    @Column(name = "next_delivery_date")
+    private LocalDate nextDeliveryDate;
 
-    @Column(name = "next_billing_date", nullable = false)
-    private LocalDate nextBillingDate;
-
-    @Column(name = "delivery_address")
+    @Column(name = "delivery_address", length = 500)
     private String deliveryAddress;
 
-    @Column(name = "receiver_name")
-    private String receiverName;
-
-    @Column(name = "receiver_phone")
-    private String receiverPhone;
-
-    // 제철 꽃 자동 발송 여부
-    @Column(name = "seasonal_flower", nullable = false)
-    @Builder.Default
-    private boolean seasonalFlower = true;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "subscribed_at")
+    private LocalDateTime subscribedAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        subscribedAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
-    }
-
-    public enum PlanType {
-        MONTHLY, ANNUAL
-    }
-
-    public enum SubscriptionStatus {
-        ACTIVE, PAUSED, CANCELLED
     }
 }

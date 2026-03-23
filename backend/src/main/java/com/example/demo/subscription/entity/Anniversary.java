@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "anniversaries")
+@Table(name = "ANNIVERSARY_DELIVERIES")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,35 +15,32 @@ import java.time.LocalDateTime;
 public class Anniversary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "anniversary_seq")
-    @SequenceGenerator(name = "anniversary_seq", sequenceName = "anniversary_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subscription_id", nullable = false)
+    @JoinColumn(name = "subscription_id")
     private Subscription subscription;
 
-    // 기념일 이름 (예: 결혼기념일, 생일, 어버이날)
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "recipient_name", length = 30)
+    private String recipientName;
 
-    // 매년 반복되는 날짜 (월-일 기준)
-    @Column(name = "anniversary_date", nullable = false)
+    @Column(name = "anniversary_date")
     private LocalDate anniversaryDate;
 
-    // 기념일 챙기기 활성화 여부
-    @Column(name = "is_active", nullable = false)
-    @Builder.Default
-    private boolean active = true;
+    @Lob
+    @Column(name = "handwritten_letter")
+    private String handwrittenLetter;
 
-    // 꽃 배송 며칠 전에 보낼지 (기본 당일)
-    @Column(name = "days_before")
-    @Builder.Default
-    private int daysBefore = 0;
+    @Column(name = "plant_id", length = 50)
+    private String plantId;  // MongoDB plants._id 참조
 
-    // 원하는 꽃 스타일 메모
-    @Column(name = "flower_note")
-    private String flowerNote;
+    @Column(name = "status", length = 20)
+    @Builder.Default
+    private String status = "PENDING";  // PENDING, CONFIRMED, SHIPPED, DELIVERED
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
