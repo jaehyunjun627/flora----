@@ -1,0 +1,435 @@
+/* ===== Subscription Page ===== */
+.subscription-page {
+  background: var(--bg);
+}
+
+/* Hero */
+.sub-hero {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.sub-hero-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.sub-hero-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FFD600;
+  margin-bottom: 16px;
+}
+
+.sub-hero-title {
+  font-size: 36px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.sub-hero-desc {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.7;
+}
+
+/* Section common */
+.sub-section-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.sub-section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+
+/* Plans */
+.sub-plans-section {
+  padding: 56px 0;
+}
+
+.sub-plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.sub-plan-card {
+  background: #fff;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.sub-plan-card:hover {
+  border-color: var(--border);
+}
+
+.sub-plan-card.selected {
+  border-color: var(--text-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.sub-plan-card.popular {
+  border-color: var(--text-dark);
+}
+
+.sub-plan-popular {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text-dark);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 12px;
+}
+
+.sub-plan-header h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.sub-plan-header p {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.sub-plan-price {
+  margin-bottom: 16px;
+}
+
+.sub-plan-original {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.sub-plan-current {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.sub-plan-current strong {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-dark);
+}
+
+.sub-plan-current span {
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+.sub-plan-discount {
+  display: inline-block;
+  background: #FFF0F0;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+.sub-plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.sub-plan-features li {
+  font-size: 14px;
+  color: var(--text-medium);
+  padding: 5px 0;
+}
+
+.sub-plan-check {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-light);
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+}
+
+.sub-plan-card.selected .sub-plan-check {
+  color: var(--primary);
+}
+
+/* Delivery */
+.sub-delivery-section {
+  padding: 56px 0;
+  background: var(--bg-secondary);
+}
+
+.sub-delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.sub-delivery-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.sub-delivery-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sub-delivery-card p {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.sub-delivery-days {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sub-day-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.sub-day-btn.active {
+  background: var(--text-dark);
+  color: #fff;
+  border-color: var(--text-dark);
+}
+
+.sub-date-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.sub-recipient-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.sub-recipient-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.sub-recipient-btn.active {
+  background: var(--text-dark);
+  color: #fff;
+  border-color: var(--text-dark);
+}
+
+/* Gift form */
+.sub-gift-form {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.sub-gift-form h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.sub-gift-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sub-gift-input,
+.sub-gift-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text-dark);
+}
+
+.sub-gift-input.full,
+.sub-gift-textarea {
+  grid-column: 1 / -1;
+}
+
+.sub-gift-textarea {
+  resize: vertical;
+}
+
+/* Summary */
+.sub-summary-section {
+  padding: 56px 0;
+}
+
+.sub-summary-card {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  border: 2px solid var(--text-dark);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+
+.sub-summary-card h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.sub-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 14px;
+}
+
+.sub-summary-row span {
+  color: var(--text-light);
+}
+
+.sub-summary-row strong {
+  color: var(--text-dark);
+}
+
+.sub-summary-row.total {
+  font-size: 18px;
+}
+
+.sub-summary-row.total strong {
+  font-weight: 900;
+}
+
+.sub-summary-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.sub-subscribe-btn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 24px;
+  background: var(--text-dark);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 28px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.sub-subscribe-btn:hover {
+  background: #000;
+}
+
+.sub-summary-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 12px;
+}
+
+/* FAQ */
+.sub-faq-section {
+  padding: 56px 0;
+  background: var(--bg-secondary);
+}
+
+.sub-faq-list {
+  max-width: 720px;
+}
+
+.sub-faq-item {
+  background: #fff;
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.sub-faq-item summary {
+  padding: 16px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  list-style: none;
+}
+
+.sub-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.sub-faq-item summary::before {
+  content: 'Q. ';
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.sub-faq-item p {
+  padding: 0 20px 16px;
+  font-size: 14px;
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sub-plans-grid,
+  .sub-delivery-grid {
+    grid-template-columns: 1fr;
+  }
+  .sub-hero-title {
+    font-size: 28px;
+  }
+  .sub-gift-fields {
+    grid-template-columns: 1fr;
+  }
+}

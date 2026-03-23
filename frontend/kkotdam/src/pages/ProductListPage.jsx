@@ -50,6 +50,8 @@ export default function ProductListPage() {
   const handleCategoryChange = (cat) => {
     setCategory(cat);
     setPage(0);
+    const query = cat ? `?category=${encodeURIComponent(cat)}` : '';
+    navigate(`/products${query}`);
   };
 
   return (
@@ -65,7 +67,7 @@ export default function ProductListPage() {
           <button
             key={cat.value}
             onClick={() => handleCategoryChange(cat.value)}
-            className={`category-btn ${category === cat.value ? "active" : ""}`}
+            className={`category-btn category-button ${category === cat.value ? "active" : ""}`}
           >
             {cat.label}
           </button>

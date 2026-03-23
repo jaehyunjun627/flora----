@@ -16,6 +16,7 @@ import CommunityDetailPage from './pages/CommunityDetailPage';
 import MyPage from './pages/MyPage';
 import CalendarPage from './pages/CalendarPage';
 import PlantEncyclopediaPage from './pages/PlantEncyclopediaPage';
+import SubscriptionPage from './pages/SubscriptionPage';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/plants" element={<PlantEncyclopediaPage />} />
+            <Route path="/subscription" element={<SubscriptionPage />} />
           </Routes>
         </Layout>
       </Router>

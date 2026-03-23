@@ -1,42 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getTodayBirthFlower } from '../data/birthFlowers';
 import api from '../services/api';
 import './HomePage.css';
 
-const BANNER_SLIDES = [
+const SUBSCRIPTION_PLANS = [
   {
-    title: '봄맞이 식물 페스티벌',
-    subtitle: '인기 식물 최대 40% 할인',
-    cta: '지금 구경하기',
-    bg: 'linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%)',
-    color: '#1B5E20',
+    id: 'basic',
+    name: '베이직 플랜',
+    price: 19900,
+    originalPrice: 25000,
+    period: '2주마다',
+    desc: '계절 꽃 한 다발',
+    badge: '인기',
+    features: ['제철 꽃 한 다발', '무료 배송', '꽃 관리 가이드'],
+    color: '#35A865',
   },
   {
-    title: '초보 식집사를 위한 가이드',
-    subtitle: '키우기 쉬운 반려식물 TOP 10',
-    cta: '추천 보기',
-    bg: 'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 50%, #FFE082 100%)',
+    id: 'premium',
+    name: '프리미엄 플랜',
+    price: 34900,
+    originalPrice: 45000,
+    period: '2주마다',
+    desc: '프리미엄 꽃 + 화병',
+    badge: '추천',
+    features: ['프리미엄 꽃 다발', '시그니처 화병 포함', '무료 배송', '전문가 관리 팁'],
     color: '#E65100',
   },
   {
-    title: '꽃담 커뮤니티 오픈!',
-    subtitle: '나만의 식물 이야기를 공유하세요',
-    cta: '커뮤니티 가기',
-    bg: 'linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 50%, #CE93D8 100%)',
+    id: 'season',
+    name: '시즌 한정',
+    price: 49900,
+    originalPrice: 65000,
+    period: '월 1회',
+    desc: '한정판 계절 컬렉션',
+    badge: '한정',
+    features: ['시즌 한정 꽃 컬렉션', '프리미엄 화병', '손편지 카드', '무료 배송', '1:1 플로리스트 상담'],
     color: '#6A1B9A',
   },
-];
-
-const QUICK_MENUS = [
-  { icon: '🌸', label: '꽃', path: '/products?category=꽃' },
-  { icon: '🌿', label: '식물', path: '/products?category=식물' },
-  { icon: '🪴', label: '화분', path: '/products?category=화분' },
-  { icon: '🌱', label: '비료/토양', path: '/products?category=비료' },
-  { icon: '✂️', label: '원예도구', path: '/products?category=도구' },
-  { icon: '📖', label: '식물도감', path: '/plants' },
-  { icon: '💬', label: '커뮤니티', path: '/community' },
-  { icon: '🎁', label: '이벤트', path: '/' },
 ];
 
 export default function HomePage() {
@@ -44,28 +46,34 @@ export default function HomePage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [pixabayImages, setPixabayImages] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [birthFlower, setBirthFlower] = useState(null);
+  const [birthFlowerImg, setBirthFlowerImg] = useState(null);
 
   useEffect(() => {
-    loadData();
+    const flower = getTodayBirthFlower();
+    setBirthFlower(flower);
+    loadData(flower);
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide(prev => (prev + 1) % BANNER_SLIDES.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const loadData = async () => {
+  const loadData = async (flower) => {
     try {
-      const [prodRes, imgRes] = await Promise.allSettled([
+      const requests = [
         api.get('/api/products', { params: { page: 0, size: 8 } }),
         api.get('/api/external/pixabay', { params: { q: 'flower bouquet', perPage: 12 } }),
-      ]);
-      if (prodRes.status === 'fulfilled') setProducts(prodRes.value.data.content || []);
-      if (imgRes.status === 'fulfilled') setPixabayImages(imgRes.value.data.hits || []);
+      ];
+      if (flower?.search) {
+        requests.push(
+          api.get('/api/external/pixabay', { params: { q: flower.search, perPage: 3 } })
+        );
+      }
+      const results = await Promise.allSettled(requests);
+      if (results[0].status === 'fulfilled') setProducts(results[0].value.data.content || []);
+      if (results[1].status === 'fulfilled') setPixabayImages(results[1].value.data.hits || []);
+      if (results[2]?.status === 'fulfilled') {
+        const hits = results[2].value.data.hits || [];
+        if (hits.length > 0) setBirthFlowerImg(hits[0].webformatURL);
+      }
     } catch (e) {
       console.error('데이터 로딩 실패:', e);
     } finally {
@@ -73,38 +81,81 @@ export default function HomePage() {
     }
   };
 
-  const slide = BANNER_SLIDES[currentSlide];
+  const today = new Date();
+  const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+  const dayNames = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+  const dayName = dayNames[today.getDay()];
 
   return (
     <div className="home">
-      {/* Hero Banner Slider */}
-      <section className="hero-banner" style={{ background: slide.bg }}>
-        <div className="hero-inner">
-          <div className="hero-text">
-            <h1 className="hero-title" style={{ color: slide.color }}>{slide.title}</h1>
-            <p className="hero-subtitle" style={{ color: slide.color, opacity: 0.8 }}>{slide.subtitle}</p>
+      {/* 오늘의 탄생화 Hero */}
+      {birthFlower && (
+        <section className="birth-flower-hero">
+          <div className="birth-flower-bg">
+            {birthFlowerImg && <img src={birthFlowerImg} alt="" className="birth-flower-bg-img" />}
+            <div className="birth-flower-bg-overlay" />
+          </div>
+          <div className="birth-flower-inner">
+            <div className="birth-flower-content">
+              <div className="birth-flower-date-badge">
+                <span className="birth-flower-today-label">TODAY</span>
+                <span className="birth-flower-date">{formattedDate} {dayName}</span>
+              </div>
+              <h1 className="birth-flower-title">
+                {birthFlower.emoji} 오늘의 탄생화
+              </h1>
+              <h2 className="birth-flower-name">
+                {birthFlower.name}
+              </h2>
+              <p className="birth-flower-meaning">
+                — "{birthFlower.meaning}"
+              </p>
+              <div className="birth-flower-actions">
+                <button className="birth-flower-cta" onClick={() => navigate('/plants')}>
+                  꽃말 더 알아보기
+                </button>
+                <button className="birth-flower-cta-outline" onClick={() => navigate('/products')}>
+                  선물하기
+                </button>
+                <button className="birth-flower-cta-sub" onClick={() => {
+                  document.getElementById('subscription')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  🌸 정기 구독하기
+                </button>
+              </div>
+            </div>
+            {birthFlowerImg && (
+              <div className="birth-flower-image-wrap">
+                <img src={birthFlowerImg} alt={birthFlower.name} className="birth-flower-image" />
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* 카테고리 태그 (kukka 스타일) */}
+      <section className="category-tags-section">
+        <div className="category-tags-inner">
+          {[
+            { label: '🌸 봄맞이 꽃', path: '/products?category=꽃' },
+            { label: '🌿 인기 식물', path: '/products?category=식물' },
+            { label: '🪴 감성 화분', path: '/products?category=화분' },
+            { label: '📖 식물도감', path: '/plants' },
+            { label: '💬 커뮤니티', path: '/community' },
+            { label: '🎁 이벤트', path: '/' },
+          ].map((tag, i) => (
             <button
-              className="hero-cta"
-              style={{ background: slide.color }}
-              onClick={() => navigate('/products')}
+              key={i}
+              className={`category-tag ${i === 0 ? 'active' : ''}`}
+              onClick={() => navigate(tag.path)}
             >
-              {slide.cta}
+              {tag.label}
             </button>
-          </div>
-          {/* Slide indicators */}
-          <div className="hero-dots">
-            {BANNER_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`hero-dot ${i === currentSlide ? 'active' : ''}`}
-                onClick={() => setCurrentSlide(i)}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* 인기 상품 */}
+      {/* 인기 상품 (kukka 스타일 카드) */}
       <section className="section">
         <div className="section-inner">
           <div className="section-header">
@@ -155,13 +206,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 오늘의 꽃 (Pixabay) */}
+      {/* 정기구독 섹션 (kukka 스타일) */}
+      <section className="subscription-section" id="subscription">
+        <div className="section-inner">
+          <div className="subscription-header">
+            <span className="subscription-badge-top">SUBSCRIPTION</span>
+            <h2 className="subscription-title">꽃담 정기구독</h2>
+            <p className="subscription-subtitle">
+              2주마다 신선한 제철 꽃을 문 앞까지 배달해드립니다.<br />
+              당신의 일상에 꽃을 더하세요.
+            </p>
+          </div>
+          <div className="subscription-grid">
+            {SUBSCRIPTION_PLANS.map(plan => (
+              <div key={plan.id} className="subscription-card">
+                <div className="subscription-card-badge" style={{ background: plan.color }}>
+                  {plan.badge}
+                </div>
+                <h3 className="subscription-card-name">{plan.name}</h3>
+                <p className="subscription-card-desc">{plan.desc}</p>
+                <div className="subscription-card-pricing">
+                  <span className="subscription-card-original">
+                    {plan.originalPrice.toLocaleString()}원
+                  </span>
+                  <span className="subscription-card-price">
+                    {plan.price.toLocaleString()}원
+                  </span>
+                  <span className="subscription-card-period">/ {plan.period}</span>
+                </div>
+                <div className="subscription-card-discount">
+                  {Math.round((1 - plan.price / plan.originalPrice) * 100)}% 할인
+                </div>
+                <ul className="subscription-card-features">
+                  {plan.features.map((f, i) => (
+                    <li key={i}>✓ {f}</li>
+                  ))}
+                </ul>
+                <button
+                  className="subscription-card-btn"
+                  style={{ background: plan.color }}
+                  onClick={() => navigate('/subscription')}
+                >
+                  구독 시작하기
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="subscription-notice">
+            <p>* 구독은 언제든 해지할 수 있으며, 배송일 3일 전까지 변경/취소 가능합니다.</p>
+            <p>* 첫 구독 시 15% 추가 할인 쿠폰을 드립니다.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 꽃 갤러리 (기존 Pixabay) */}
       {pixabayImages.length > 0 && (
         <section className="section section-gray">
           <div className="section-inner">
             <div className="section-header">
-              <h2 className="section-title">오늘의 꽃</h2>
-              <p className="section-subtitle">Pixabay에서 제공하는 아름다운 꽃 사진</p>
+              <h2 className="section-title">이달의 추천 꽃</h2>
+              <p className="section-subtitle">계절에 맞는 아름다운 꽃을 만나보세요</p>
             </div>
             <div className="flower-gallery">
               {pixabayImages.slice(0, 8).map(img => (
@@ -192,9 +296,9 @@ export default function HomePage() {
               <p>식물 전문 포장으로 안전하게 배송</p>
             </div>
             <div className="intro-card">
-              <span className="intro-icon">💬</span>
-              <h3>커뮤니티</h3>
-              <p>식물 전문가와 초보 식집사의 소통 공간</p>
+              <span className="intro-icon">🔄</span>
+              <h3>정기구독</h3>
+              <p>2주마다 제철 꽃을 문 앞까지 배달</p>
             </div>
             <div className="intro-card">
               <span className="intro-icon">📖</span>

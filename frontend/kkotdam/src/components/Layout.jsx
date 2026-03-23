@@ -21,9 +21,39 @@ function Layout({ children }) {
     }
   };
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    const currentPath = location.pathname;
+    const currentParams = new URLSearchParams(location.search);
+
+    if (path === '/') {
+      return currentPath === '/';
+    }
+
+    const [targetPath, targetSearch] = path.split('?');
+    if (targetPath !== currentPath) {
+      // /products?category=... 과 /community, /plants 구분
+      return false;
+    }
+
+    if (!targetSearch) {
+      // /products 기본 인기 메뉴 (category 미설정)
+      if (currentPath === '/products') {
+        return !currentParams.has('category');
+      }
+      return true;
+    }
+
+    const targetParams = new URLSearchParams(targetSearch);
+    for (const [key, value] of targetParams.entries()) {
+      if (currentParams.get(key) !== value) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const navLinks = [
+    { path: '/subscription', label: '정기구독' },
     { path: '/products', label: '마켓' },
     { path: '/community', label: '커뮤니티' },
     { path: '/plants', label: '식물도감' },
@@ -157,6 +187,7 @@ function Layout({ children }) {
           </div>
           <div className="footer-links">
             <h4>서비스</h4>
+            <Link to="/subscription">정기구독</Link>
             <Link to="/products">식물 마켓</Link>
             <Link to="/community">커뮤니티</Link>
             <Link to="/plants">식물도감</Link>
