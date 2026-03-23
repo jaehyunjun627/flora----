@@ -23,11 +23,23 @@ function getStreak(attendance, todayStr) {
     if (attendance.includes(dateStr)) {
       streak++;
       current.setDate(current.getDate() - 1);
-    } else {
-      break;
-    }
+    } else break;
   }
   return streak;
+}
+
+function getMaxStreak(attendance) {
+  if (attendance.length === 0) return 0;
+  const sorted = [...attendance].sort();
+  let max = 1, cur = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const prev = new Date(sorted[i - 1]);
+    const next = new Date(sorted[i]);
+    const diff = (next - prev) / 86400000;
+    if (diff === 1) { cur++; max = Math.max(max, cur); }
+    else cur = 1;
+  }
+  return max;
 }
 
 export default function AttendanceMission() {
@@ -46,85 +58,77 @@ export default function AttendanceMission() {
   });
 
   const hasTodayAttendance = attendance.includes(todayStr);
-  const thisMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
-  const monthAttendance = attendance.filter(d => d.startsWith(thisMonth));
+  const streak = getStreak(attendance, todayStr);
+  const maxStreak = getMaxStreak(attendance);
+  const nextGoal = Math.ceil((streak + 1) / 7) * 7;
 
   const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
   const specialMission = SPECIAL_MISSIONS[dayOfYear % SPECIAL_MISSIONS.length];
 
-  const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
+  // 최근 28일 표시
+  const recentDays = Array.from({ length: 28 }, (_, i) => {
+    const d = new Date(today);
+    d.setDate(today.getDate() - (27 - i));
+    return d.toISOString().split('T')[0];
+  });
 
   const handleCheckIn = () => {
     if (!hasTodayAttendance) {
-      const newAttendance = [...attendance, todayStr];
-      setAttendance(newAttendance);
-      localStorage.setItem('flora-attendance', JSON.stringify(newAttendance));
+      const updated = [...attendance, todayStr];
+      setAttendance(updated);
+      localStorage.setItem('flora-attendance', JSON.stringify(updated));
     }
     setShowModal(true);
   };
 
-  const toggleMission = (missionId) => {
-    const updated = completedMissions.includes(missionId)
-      ? completedMissions.filter(id => id !== missionId)
-      : [...completedMissions, missionId];
+  const toggleMission = (id) => {
+    const updated = completedMissions.includes(id)
+      ? completedMissions.filter(m => m !== id)
+      : [...completedMissions, id];
     setCompletedMissions(updated);
     localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
   };
 
   return (
-    <div className="att-section">
-      <div className="section-header">
-        <h3 className="section-title">📅 출석 미션</h3>
+    <div className="streak-section">
+      <div className="streak-header">
+        <span className="section-title">🔥 출석 스트릭</span>
         <button
           className={`btn-checkin${hasTodayAttendance ? ' done' : ''}`}
           onClick={handleCheckIn}
         >
-          {hasTodayAttendance ? '✅ 출석완료' : '출석 미션 하기'}
+          {hasTodayAttendance ? '✅ 출석완료' : '출석하기'}
         </button>
       </div>
 
-      <div className="att-stats">
-        <div className="att-stat-item">
-          <span className="att-stat-num">{monthAttendance.length}</span>
-          <span className="att-stat-label">이번달 출석</span>
-        </div>
-        <div className="att-stat-divider" />
-        <div className="att-stat-item">
-          <span className="att-stat-num">{getStreak(attendance, todayStr)}</span>
-          <span className="att-stat-label">연속 출석</span>
-        </div>
-        <div className="att-stat-divider" />
-        <div className="att-stat-item">
-          <span className="att-stat-num">{completedMissions.length}/3</span>
-          <span className="att-stat-label">오늘 미션</span>
-        </div>
+      {/* 스트릭 수 */}
+      <div className="streak-count-row">
+        <span className="streak-big">{streak}</span>
+        <span className="streak-unit">일 연속 🔥</span>
       </div>
 
-      {/* 이번달 출석 캘린더 */}
-      <div className="att-calendar">
-        {['일', '월', '화', '수', '목', '금', '토'].map(d => (
-          <div key={d} className="att-day-header">{d}</div>
-        ))}
-        {Array.from({ length: firstDay }).map((_, i) => (
-          <div key={`e-${i}`} className="att-cell empty" />
-        ))}
-        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
-          const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const isToday = dateStr === todayStr;
-          const attended = attendance.includes(dateStr);
+      {/* 최근 28일 도트 */}
+      <div className="streak-dots">
+        {recentDays.map((d, i) => {
+          const checked = attendance.includes(d);
+          const isToday = d === todayStr;
           return (
-            <div
-              key={day}
-              className={`att-cell${isToday ? ' att-today' : ''}${attended ? ' att-checked' : ''}`}
-            >
-              {attended ? '✓' : day}
-            </div>
+            <span
+              key={i}
+              className={`streak-dot${checked ? ' checked' : ''}${isToday ? ' today' : ''}`}
+              title={d}
+            />
           );
         })}
       </div>
 
-      {/* 출석미션 모달 */}
+      {/* 기록 */}
+      <div className="streak-meta">
+        <span>최고 기록 <strong>{maxStreak}일</strong> 🏆</span>
+        <span>다음 목표 <strong>{nextGoal}일</strong> 🎯</span>
+      </div>
+
+      {/* 미션 모달 */}
       {showModal && (
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal mission-modal" onClick={e => e.stopPropagation()}>
