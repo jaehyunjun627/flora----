@@ -1,0 +1,41 @@
+.sub-nav {
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.sub-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+}
+
+.sub-nav-link {
+  text-decoration: none;
+  color: #374151;
+  font-size: 14px;
+  padding: 12px 16px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.sub-nav-link:hover {
+  color: #1a7040;
+}
+
+.sub-nav-link.active {
+  color: #1a7040;
+  font-weight: 600;
+}
+
+.sub-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #1a7040;
+  border-radius: 2px 2px 0 0;
+}
