@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import './MyCalendar.css';
 
-// 식물 추가 시 AI가 자동으로 물주기/분갈이 일정을 배정
-function generateAiSchedule(plant) {
+// AI 분석 결과를 바탕으로 캘린더 이벤트 생성
+function generateScheduleFromAi(plant, aiResult) {
   const schedules = [];
   const today = new Date();
 
+  // 물주기 (4회)
   for (let i = 1; i <= 4; i++) {
     const date = new Date(today);
-    date.setDate(today.getDate() + plant.wateringInterval * i);
+    date.setDate(today.getDate() + aiResult.wateringInterval * i);
     schedules.push({
       id: Date.now() + i,
       plantId: plant.id,
@@ -20,8 +22,9 @@ function generateAiSchedule(plant) {
     });
   }
 
+  // 분갈이 (1회)
   const repotDate = new Date(today);
-  repotDate.setDate(today.getDate() + plant.repottingInterval);
+  repotDate.setDate(today.getDate() + aiResult.repottingInterval);
   schedules.push({
     id: Date.now() + 100,
     plantId: plant.id,
@@ -32,6 +35,40 @@ function generateAiSchedule(plant) {
     isCompleted: false,
     isAiGenerated: true,
   });
+
+  // 비료 (간격이 있을 경우 2회)
+  if (aiResult.fertilizingInterval) {
+    for (let i = 1; i <= 2; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + aiResult.fertilizingInterval * i);
+      schedules.push({
+        id: Date.now() + 200 + i,
+        plantId: plant.id,
+        plantName: plant.name,
+        type: 'FERTILIZING',
+        title: `🌱 ${plant.nickname || plant.name} 비료주기`,
+        date: date.toISOString().split('T')[0],
+        isCompleted: false,
+        isAiGenerated: true,
+      });
+    }
+  }
+
+  // 가지치기 (간격이 있을 경우 1회)
+  if (aiResult.pruningInterval) {
+    const pruneDate = new Date(today);
+    pruneDate.setDate(today.getDate() + aiResult.pruningInterval);
+    schedules.push({
+      id: Date.now() + 300,
+      plantId: plant.id,
+      plantName: plant.name,
+      type: 'PRUNING',
+      title: `✂️ ${plant.nickname || plant.name} 가지치기`,
+      date: pruneDate.toISOString().split('T')[0],
+      isCompleted: false,
+      isAiGenerated: true,
+    });
+  }
 
   return schedules;
 }
@@ -56,8 +93,8 @@ export default function MyCalendar() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [plants, setPlants] = useState([
-    { id: 1, name: '몬스테라', nickname: '몬이', plantType: '관엽식물', wateringInterval: 7, repottingInterval: 180 },
-    { id: 2, name: '선인장', nickname: '선이', plantType: '선인장', wateringInterval: 14, repottingInterval: 365 },
+    { id: 1, name: '몬스테라', nickname: '몬이', plantType: '관엽식물' },
+    { id: 2, name: '선인장', nickname: '선이', plantType: '선인장' },
   ]);
   const [events, setEvents] = useState(() => {
     const t = new Date();
@@ -81,8 +118,9 @@ export default function MyCalendar() {
   const [selectedDay, setSelectedDay] = useState(null);
   const [newPlant, setNewPlant] = useState({
     name: '', nickname: '', plantType: '관엽식물',
-    wateringInterval: 7, repottingInterval: 180,
   });
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiCareNotes, setAiCareNotes] = useState('');
 
   const firstDay = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -107,13 +145,45 @@ export default function MyCalendar() {
     ));
   };
 
-  const handleAddPlant = () => {
+  const handleAddPlant = async () => {
     if (!newPlant.name.trim()) return;
-    const plant = { ...newPlant, id: Date.now() };
-    setPlants(prev => [...prev, plant]);
-    setEvents(prev => [...prev, ...generateAiSchedule(plant)]);
-    setNewPlant({ name: '', nickname: '', plantType: '관엽식물', wateringInterval: 7, repottingInterval: 180 });
-    setShowAddPlant(false);
+
+    setIsAnalyzing(true);
+    setAiCareNotes('');
+
+    try {
+      const response = await fetch('/api/plants/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plantName: newPlant.name,
+          nickname: newPlant.nickname,
+          plantType: newPlant.plantType,
+        }),
+      });
+
+      if (!response.ok) throw new Error('AI 분석 실패');
+
+      const aiResult = await response.json();
+      const plant = { ...newPlant, id: Date.now() };
+
+      setPlants(prev => [...prev, plant]);
+      setEvents(prev => [...prev, ...generateScheduleFromAi(plant, aiResult)]);
+      setAiCareNotes(aiResult.careNotes || '');
+
+      setNewPlant({ name: '', nickname: '', plantType: '관엽식물' });
+      setShowAddPlant(false);
+    } catch {
+      // 백엔드 없을 때 기본값으로 fallback
+      const fallback = { wateringInterval: 7, repottingInterval: 180 };
+      const plant = { ...newPlant, id: Date.now() };
+      setPlants(prev => [...prev, plant]);
+      setEvents(prev => [...prev, ...generateScheduleFromAi(plant, fallback)]);
+      setNewPlant({ name: '', nickname: '', plantType: '관엽식물' });
+      setShowAddPlant(false);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const selectedEvents = selectedDay
@@ -126,6 +196,12 @@ export default function MyCalendar() {
         <h2>내 식물 캘린더</h2>
         <button onClick={() => setShowAddPlant(true)}>+ 식물 추가하기</button>
       </div>
+
+      {aiCareNotes && (
+        <div className="ai-care-notes">
+          <span className="ai-badge">AI 팁</span> {aiCareNotes}
+        </div>
+      )}
 
       <div className="plant-list">
         {plants.map(p => (
@@ -188,36 +264,53 @@ export default function MyCalendar() {
       </div>
 
       {showAddPlant && (
-        <div className="modal-overlay" onClick={() => setShowAddPlant(false)}>
+        <div className="modal-overlay" onClick={() => !isAnalyzing && setShowAddPlant(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <h3>식물 추가하기</h3>
-            <p className="modal-sub">식물을 추가하면 AI가 자동으로 물주기, 분갈이 일정을 캘린더에 배정해드려요!</p>
-            <label>
-              식물 이름 *
-              <input value={newPlant.name} onChange={e => setNewPlant(p => ({ ...p, name: e.target.value }))} placeholder="예) 몬스테라, 고무나무" />
-            </label>
-            <label>
-              애칭
-              <input value={newPlant.nickname} onChange={e => setNewPlant(p => ({ ...p, nickname: e.target.value }))} placeholder="예) 몬이, 고무야" />
-            </label>
-            <label>
-              식물 종류
-              <select value={newPlant.plantType} onChange={e => setNewPlant(p => ({ ...p, plantType: e.target.value }))}>
-                {PLANT_TYPES.map(t => <option key={t}>{t}</option>)}
-              </select>
-            </label>
-            <label>
-              물주기 주기 (일)
-              <input type="number" min={1} value={newPlant.wateringInterval} onChange={e => setNewPlant(p => ({ ...p, wateringInterval: Number(e.target.value) }))} />
-            </label>
-            <label>
-              분갈이 주기 (일)
-              <input type="number" min={30} value={newPlant.repottingInterval} onChange={e => setNewPlant(p => ({ ...p, repottingInterval: Number(e.target.value) }))} />
-            </label>
-            <div className="modal-actions">
-              <button onClick={handleAddPlant}>추가하기</button>
-              <button onClick={() => setShowAddPlant(false)}>취소</button>
-            </div>
+            <p className="modal-sub">
+              식물 이름을 입력하면 AI가 자동으로 물주기, 분갈이, 비료 등 맞춤 일정을 캘린더에 추가해드려요!
+            </p>
+
+            {isAnalyzing ? (
+              <div className="ai-analyzing">
+                <div className="ai-spinner" />
+                <p>AI가 <strong>{newPlant.name}</strong> 케어 일정을 분석 중...</p>
+              </div>
+            ) : (
+              <>
+                <label>
+                  식물 이름 *
+                  <input
+                    value={newPlant.name}
+                    onChange={e => setNewPlant(p => ({ ...p, name: e.target.value }))}
+                    placeholder="예) 몬스테라, 고무나무, 로즈마리"
+                  />
+                </label>
+                <label>
+                  애칭
+                  <input
+                    value={newPlant.nickname}
+                    onChange={e => setNewPlant(p => ({ ...p, nickname: e.target.value }))}
+                    placeholder="예) 몬이, 고무야"
+                  />
+                </label>
+                <label>
+                  식물 종류
+                  <select
+                    value={newPlant.plantType}
+                    onChange={e => setNewPlant(p => ({ ...p, plantType: e.target.value }))}
+                  >
+                    {PLANT_TYPES.map(t => <option key={t}>{t}</option>)}
+                  </select>
+                </label>
+                <div className="modal-actions">
+                  <button onClick={handleAddPlant} disabled={!newPlant.name.trim()}>
+                    🤖 AI로 일정 자동 생성
+                  </button>
+                  <button onClick={() => setShowAddPlant(false)}>취소</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
