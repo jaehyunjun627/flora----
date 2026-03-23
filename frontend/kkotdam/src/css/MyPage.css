@@ -1,0 +1,62 @@
+/* ================================
+   꽃담 마이페이지 레이아웃
+   ================================ */
+
+.mypage-wrap {
+  padding: 32px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.mypage-header {
+  margin-bottom: 24px;
+}
+
+.mypage-title {
+  font-size: 22px !important;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin: 0 0 6px !important;
+  letter-spacing: -0.3px;
+}
+
+.mypage-sub {
+  font-size: 13px;
+  color: #8a8a8a;
+}
+
+/* 탭 바 */
+.mypage-tab-bar {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1.5px solid #e8e4dd;
+  margin-bottom: 20px;
+}
+
+.mypage-tab {
+  background: none;
+  border: none;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1.5px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #8a8a8a;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.mypage-tab:hover {
+  color: #4a7c59;
+}
+
+.mypage-tab.active {
+  color: #4a7c59;
+  border-bottom-color: #4a7c59;
+  font-weight: 600;
+}
+
+.mypage-content {
+  min-height: 400px;
+}
