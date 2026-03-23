@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MyCalendar from './MyCalendar';
-import BadgeCollection from './BadgeCollection';
+import BadgeCollection, { ALL_BADGES } from './BadgeCollection';
 import PointLevel from './PointLevel';
 import PlantCard from './PlantCard';
 import '../../css/MyPage.css';
@@ -16,18 +16,26 @@ const INITIAL_PLANTS = [
 ];
 
 const USER = {
-  name:      '초희',
-  email:     'flora@example.com',
-  joinDate:  '2025.01.01',
-  plants:    3,
-  journals:  5,
-  posts:     23,
+  name:     '초희',
+  email:    'flora@example.com',
+  joinDate: '2025.01.01',
 };
 
 export default function MyPage() {
-  const [activeTab,     setActiveTab]     = useState('activity');
-  const [plants,        setPlants]        = useState(INITIAL_PLANTS);
-  const [selectedBadge, setSelectedBadge] = useState(null);
+  const [activeTab,       setActiveTab]       = useState('activity');
+  const [plants,          setPlants]          = useState(() => {
+    try { return JSON.parse(localStorage.getItem('flora-plants') || 'null') || INITIAL_PLANTS; }
+    catch { return INITIAL_PLANTS; }
+  });
+  const [selectedBadge,   setSelectedBadge]   = useState(null);
+  const [showBadgePicker, setShowBadgePicker] = useState(false);
+
+  // 식물 목록 localStorage 동기화
+  useEffect(() => {
+    localStorage.setItem('flora-plants', JSON.stringify(plants));
+  }, [plants]);
+
+  const earnedBadges = ALL_BADGES.filter(b => b.earned);
 
   return (
     <div className="mypage-wrap">
@@ -41,20 +49,53 @@ export default function MyPage() {
       <div className="profile-banner">
         <div className="profile-avatar">🌿</div>
         <div className="profile-info">
-          <div className="profile-name">{USER.name}</div>
+
+          {/* 닉네임 + 뱃지 칭호 */}
+          <div className="profile-name-row">
+            <span className="profile-name">{USER.name}</span>
+            {selectedBadge && (
+              <span className="profile-badge-title">
+                {selectedBadge.icon} {selectedBadge.name}
+              </span>
+            )}
+            <button
+              className="btn-badge-pick"
+              onClick={() => setShowBadgePicker(v => !v)}
+            >
+              {selectedBadge ? '변경' : '칭호 선택'}
+            </button>
+          </div>
+
+          {/* 뱃지 칭호 선택 드롭다운 */}
+          {showBadgePicker && (
+            <div className="badge-picker-dropdown">
+              {earnedBadges.map(b => (
+                <button
+                  key={b.id}
+                  className={`badge-picker-item${selectedBadge?.id === b.id ? ' active' : ''}`}
+                  onClick={() => { setSelectedBadge(b); setShowBadgePicker(false); }}
+                >
+                  {b.icon} {b.name}
+                </button>
+              ))}
+              {selectedBadge && (
+                <button
+                  className="badge-picker-item clear"
+                  onClick={() => { setSelectedBadge(null); setShowBadgePicker(false); }}
+                >
+                  ✕ 칭호 해제
+                </button>
+              )}
+            </div>
+          )}
+
           <div className="profile-meta">{USER.email} · {USER.joinDate} 가입</div>
+
+          {/* 키우는 식물 수 (실시간 반영) */}
           <div className="profile-stats">
             <div className="profile-stat">
-              <span className="pstat-num">{USER.plants}종</span>
+              <span className="pstat-num">{plants.length}종</span>
               <span className="pstat-label">키우는 식물</span>
-            </div>
-            <div className="profile-stat">
-              <span className="pstat-num">{USER.journals}개</span>
-              <span className="pstat-label">교육 일지</span>
-            </div>
-            <div className="profile-stat">
-              <span className="pstat-num">{USER.posts}개</span>
-              <span className="pstat-label">작성 일지</span>
             </div>
           </div>
         </div>
@@ -76,10 +117,7 @@ export default function MyPage() {
       <div className="mypage-content">
         {activeTab === 'activity' && (
           <div className="activity-tab">
-            {/* 캘린더 (출석 + 미션 통합) */}
             <MyCalendar plants={plants} setPlants={setPlants} />
-
-            {/* 2컬럼: 포인트(좌) | 뱃지(우) */}
             <div className="two-col-grid">
               <PointLevel />
               <BadgeCollection selectedBadge={selectedBadge} onSelectBadge={setSelectedBadge} />

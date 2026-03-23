@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../../css/MyCalendar.css';
 
 function generateScheduleFromAi(plant, aiResult) {
@@ -96,30 +96,43 @@ const BASIC_MISSIONS = [
   { id: 'quiz',     text: '식물 퀴즈 풀기',       icon: '❓', desc: '메인화면의 오늘의 퀴즈를 풀어보세요' },
 ];
 
+// 초기 이벤트 mock 데이터
+function getInitialEvents() {
+  const t = new Date();
+  return [
+    {
+      id: 1, plantId: 1, plantName: '몬스테라', type: 'WATERING',
+      title: '💧 몬이 물주기',
+      date: new Date(t.getFullYear(), t.getMonth(), t.getDate() + 2).toISOString().split('T')[0],
+      isCompleted: false, isAiGenerated: true,
+    },
+    {
+      id: 2, plantId: 2, plantName: '선인장', type: 'REPOTTING',
+      title: '🪴 선이 분갈이',
+      date: new Date(t.getFullYear(), t.getMonth(), t.getDate() + 5).toISOString().split('T')[0],
+      isCompleted: false, isAiGenerated: true,
+    },
+  ];
+}
+
 export default function MyCalendar({ plants, setPlants }) {
-  const today = new Date();
+  const today    = new Date();
   const todayStr = today.toISOString().split('T')[0];
 
-  const [currentYear, setCurrentYear]   = useState(today.getFullYear());
+  const [currentYear,  setCurrentYear]  = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
 
+  // 이벤트 - localStorage 영속 저장 (식물 삭제 전까지 월 넘어가도 유지)
   const [events, setEvents] = useState(() => {
-    const t = new Date();
-    return [
-      {
-        id: 1, plantId: 1, plantName: '몬스테라', type: 'WATERING',
-        title: '💧 몬이 물주기',
-        date: new Date(t.getFullYear(), t.getMonth(), t.getDate() + 2).toISOString().split('T')[0],
-        isCompleted: false, isAiGenerated: true,
-      },
-      {
-        id: 2, plantId: 2, plantName: '선인장', type: 'REPOTTING',
-        title: '🪴 선이 분갈이',
-        date: new Date(t.getFullYear(), t.getMonth(), t.getDate() + 5).toISOString().split('T')[0],
-        isCompleted: false, isAiGenerated: true,
-      },
-    ];
+    try {
+      const saved = JSON.parse(localStorage.getItem('flora-events') || 'null');
+      return saved || getInitialEvents();
+    } catch { return getInitialEvents(); }
   });
+
+  useEffect(() => {
+    localStorage.setItem('flora-events', JSON.stringify(events));
+  }, [events]);
 
   // 출석 데이터
   const [attendance, setAttendance] = useState(() => {
@@ -127,12 +140,13 @@ export default function MyCalendar({ plants, setPlants }) {
     catch { return []; }
   });
 
-  const [showAddPlant,  setShowAddPlant]  = useState(false);
-  const [showMission,   setShowMission]   = useState(false);
-  const [selectedDay,   setSelectedDay]   = useState(null);
-  const [newPlant,      setNewPlant]      = useState({ name: '', nickname: '', plantType: '관엽식물' });
-  const [isAnalyzing,   setIsAnalyzing]   = useState(false);
-  const [aiCareNotes,   setAiCareNotes]   = useState('');
+  const [showAddPlant,      setShowAddPlant]      = useState(false);
+  const [showMission,       setShowMission]       = useState(false);
+  const [selectedDay,       setSelectedDay]       = useState(null);
+  const [newPlant,          setNewPlant]          = useState({ name: '', nickname: '', plantType: '관엽식물' });
+  const [isAnalyzing,       setIsAnalyzing]       = useState(false);
+  const [aiCareNotes,       setAiCareNotes]       = useState('');
+  const [deletePlantTarget, setDeletePlantTarget] = useState(null); // 삭제 확인 모달용
 
   const [completedMissions, setCompletedMissions] = useState(() => {
     try { return JSON.parse(localStorage.getItem(`flora-missions-${todayStr}`) || '[]'); }
@@ -222,9 +236,16 @@ export default function MyCalendar({ plants, setPlants }) {
     }
   };
 
-  const selectedEvents = selectedDay
-    ? getEventsForDay(selectedDay)
-    : events.filter(e => e.date >= todayStr).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 5);
+  // 식물 삭제 (해당 식물의 이벤트도 함께 삭제)
+  const confirmDeletePlant = () => {
+    if (!deletePlantTarget) return;
+    setPlants(prev => prev.filter(p => p.id !== deletePlantTarget.id));
+    setEvents(prev => prev.filter(e => e.plantId !== deletePlantTarget.id));
+    setDeletePlantTarget(null);
+  };
+
+  // 선택한 날의 일정
+  const selectedEvents = selectedDay ? getEventsForDay(selectedDay) : [];
 
   return (
     <div className="my-calendar compact">
@@ -249,9 +270,18 @@ export default function MyCalendar({ plants, setPlants }) {
         </div>
       )}
 
+      {/* 식물 칩 - 클릭 시 삭제 확인 모달 */}
       <div className="plant-list">
         {plants.map(p => (
-          <span key={p.id} className="plant-chip">🌿 {p.nickname || p.name}</span>
+          <button
+            key={p.id}
+            className="plant-chip plant-chip-btn"
+            onClick={() => setDeletePlantTarget(p)}
+            title="클릭해서 식물 삭제"
+          >
+            🌿 {p.nickname || p.name}
+            <span className="plant-chip-del">✕</span>
+          </button>
         ))}
       </div>
 
@@ -266,13 +296,14 @@ export default function MyCalendar({ plants, setPlants }) {
       <div className="cal-legend">
         <span className="legend-item attended">✓ 출석</span>
         <span className="legend-item missed">✗ 미출석</span>
-        <span className="legend-item">
-          {Object.entries(EVENT_TYPE_COLOR).slice(0, 3).map(([type, color]) => (
-            <span key={type} className="legend-dot-item">
-              <span className="legend-dot" style={{ background: color }} />
-              {type === 'WATERING' ? '물주기' : type === 'REPOTTING' ? '분갈이' : '비료'}
-            </span>
-          ))}
+        <span className="legend-dot-item">
+          <span className="legend-dot" style={{ background: EVENT_TYPE_COLOR.WATERING }} />물주기
+        </span>
+        <span className="legend-dot-item">
+          <span className="legend-dot" style={{ background: EVENT_TYPE_COLOR.REPOTTING }} />분갈이
+        </span>
+        <span className="legend-dot-item">
+          <span className="legend-dot" style={{ background: EVENT_TYPE_COLOR.FERTILIZING }} />비료
         </span>
       </div>
 
@@ -285,11 +316,12 @@ export default function MyCalendar({ plants, setPlants }) {
           <div key={`e-${i}`} className="cal-cell empty" />
         ))}
         {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
-          const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const dateStr  = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
           const isToday    = dateStr === todayStr;
           const isSelected = selectedDay === day;
           const dayEvents  = getEventsForDay(day);
           const attState   = getAttendanceState(day);
+          const isPastDate = dateStr < todayStr;
 
           return (
             <div
@@ -303,43 +335,71 @@ export default function MyCalendar({ plants, setPlants }) {
               ].filter(Boolean).join(' ')}
               onClick={() => setSelectedDay(isSelected ? null : day)}
             >
-              <span className={`day-num${isToday ? ' today-num' : ''}`}>{day}</span>
-              {attState === 'attended' && <span className="att-mark done">✓</span>}
-              {attState === 'missed'   && <span className="att-mark miss">✗</span>}
-              <div className="event-dots">
-                {dayEvents.slice(0, 3).map(e => (
-                  <span
-                    key={e.id}
-                    className="event-dot"
-                    style={{ background: EVENT_TYPE_COLOR[e.type] || '#b8b8b8' }}
-                  />
-                ))}
+              {/* 날짜 번호 + 출석 표시 */}
+              <div className="cal-cell-top">
+                <span className={`day-num${isToday ? ' today-num' : ''}`}>{day}</span>
+                {attState === 'attended' && <span className="att-mark done">✓</span>}
+                {attState === 'missed'   && <span className="att-mark miss">✗</span>}
+              </div>
+
+              {/* 일정 줄 표시 */}
+              <div className="cal-event-lines">
+                {dayEvents.slice(0, 2).map(e => {
+                  const color     = EVENT_TYPE_COLOR[e.type] || '#b8b8b8';
+                  const showCheck = e.isCompleted;
+                  const showX     = !e.isCompleted && isPastDate;
+                  return (
+                    <div
+                      key={e.id}
+                      className="cal-event-line"
+                      style={{
+                        borderLeftColor: color,
+                        background:      color + '28',
+                      }}
+                    >
+                      <span className="cel-text">{e.title}</span>
+                      {showCheck && <span className="cel-mark cel-done">✓</span>}
+                      {showX     && <span className="cel-mark cel-miss">✗</span>}
+                    </div>
+                  );
+                })}
+                {dayEvents.length > 2 && (
+                  <div className="cel-more">+{dayEvents.length - 2}</div>
+                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* 일정 목록 */}
-      <div className="event-list">
-        <h3 className="event-list-title">
-          {selectedDay ? `${currentMonth + 1}월 ${selectedDay}일 일정` : '다가오는 일정'}
-        </h3>
-        {selectedEvents.length === 0 ? (
-          <p className="no-event">등록된 일정이 없습니다.</p>
-        ) : (
-          selectedEvents.map(e => (
-            <div key={e.id} className={`event-item${e.isCompleted ? ' completed' : ''}`}>
-              <span className="event-title">{e.title}</span>
-              {e.isAiGenerated && <span className="ai-badge-sm">AI</span>}
-              <span className="event-date">{e.date}</span>
-              <button className="complete-btn" onClick={() => toggleComplete(e.id)}>
-                {e.isCompleted ? '✅' : '○'}
-              </button>
-            </div>
-          ))
-        )}
-      </div>
+      {/* 날짜 클릭 시 일정 상세 (다가오는 일정 제거 - 선택 날짜만 표시) */}
+      {selectedDay && (
+        <div className="event-list">
+          <h3 className="event-list-title">
+            {currentMonth + 1}월 {selectedDay}일 일정
+          </h3>
+          {selectedEvents.length === 0 ? (
+            <p className="no-event">등록된 일정이 없습니다.</p>
+          ) : (
+            selectedEvents.map(e => (
+              <div key={e.id} className={`event-item${e.isCompleted ? ' completed' : ''}`}>
+                <span
+                  className="event-color-dot"
+                  style={{ background: EVENT_TYPE_COLOR[e.type] || '#b8b8b8' }}
+                />
+                <span className="event-title">{e.title}</span>
+                {e.isAiGenerated && <span className="ai-badge-sm">AI</span>}
+                <button
+                  className="complete-btn"
+                  onClick={ev => { ev.stopPropagation(); toggleComplete(e.id); }}
+                >
+                  {e.isCompleted ? '✅' : '○'}
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      )}
 
       {/* 출석 미션 모달 */}
       {showMission && (
@@ -390,6 +450,28 @@ export default function MyCalendar({ plants, setPlants }) {
             <button className="btn-primary" style={{ marginTop: 8 }} onClick={() => setShowMission(false)}>
               확인
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* 식물 삭제 확인 모달 */}
+      {deletePlantTarget && (
+        <div className="modal-overlay" onClick={() => setDeletePlantTarget(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h3 className="modal-title">🗑️ 식물 삭제</h3>
+            <p className="delete-plant-desc">
+              <strong>{deletePlantTarget.nickname || deletePlantTarget.name}</strong>을(를) 삭제하면
+              해당 식물의 모든 캘린더 일정도 함께 삭제됩니다.<br />
+              정말 삭제하시겠어요?
+            </p>
+            <div className="modal-actions">
+              <button className="btn-danger" onClick={confirmDeletePlant}>
+                삭제
+              </button>
+              <button className="btn-secondary" onClick={() => setDeletePlantTarget(null)}>
+                취소
+              </button>
+            </div>
           </div>
         </div>
       )}
