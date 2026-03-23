@@ -1,0 +1,60 @@
+.anniversary-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.anniversary-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.anniversary-page__title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin-bottom: 6px;
+}
+
+.anniversary-page__desc {
+  color: #888;
+  font-size: 0.95rem;
+}
+
+.anniversary-page__add-btn {
+  padding: 10px 20px;
+  background-color: #e91e63;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.anniversary-page__add-btn:hover {
+  background-color: #c2185b;
+}
+
+.anniversary-page__loading,
+.anniversary-page__empty {
+  text-align: center;
+  color: #aaa;
+  padding: 60px 0;
+  line-height: 1.8;
+}
+
+.anniversary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
