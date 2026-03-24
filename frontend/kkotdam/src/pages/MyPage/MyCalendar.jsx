@@ -198,15 +198,11 @@ export default function MyCalendar({ plants, setPlants }) {
   // 출석하기
   const hasTodayAttendance = attendance.includes(todayStr);
   const calMissionCount = completedMissions.length;
-  const calAllMissionsDone = hasTodayAttendance && calMissionCount >= 3;
-  const calMissionInProgress = hasTodayAttendance && calMissionCount < 3;
+  const calAllMissionsDone = calMissionCount >= 3;
+  const calMissionInProgress = calMissionCount > 0 && calMissionCount < 3;
 
+  // 버튼 클릭 → 미션 모달 열기
   const handleCheckIn = () => {
-    if (!hasTodayAttendance) {
-      const updated = [...attendance, todayStr];
-      setAttendance(updated);
-      localStorage.setItem('flora-attendance', JSON.stringify(updated));
-    }
     setShowMission(true);
   };
 
@@ -216,11 +212,29 @@ export default function MyCalendar({ plants, setPlants }) {
       : [...completedMissions, id];
     setCompletedMissions(updated);
     localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+
+    // 미션 3개 완료 → 출석 자동 체크
+    if (updated.length >= 3 && !attendance.includes(todayStr)) {
+      const updatedAttendance = [...attendance, todayStr];
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
+    // 미션 취소로 3개 미만 → 출석 취소
+    if (updated.length < 3 && attendance.includes(todayStr)) {
+      const updatedAttendance = attendance.filter(d => d !== todayStr);
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
   };
 
   const resetMissions = () => {
     setCompletedMissions([]);
     localStorage.removeItem(`flora-missions-${todayStr}`);
+    if (attendance.includes(todayStr)) {
+      const updatedAttendance = attendance.filter(d => d !== todayStr);
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
   };
 
   // 오늘의 특별 미션 (날짜 기반으로 고정)
