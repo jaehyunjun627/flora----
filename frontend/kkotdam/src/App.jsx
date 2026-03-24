@@ -14,7 +14,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrderListPage from './pages/OrderListPage';
 import CommunityPage from './pages/CommunityPage';
 import CommunityDetailPage from './pages/CommunityDetailPage';
-import MyPage from './pages/MyPage';
+import MyPage from './pages/MyPage/index';
 import CalendarPage from './pages/CalendarPage';
 import PlantEncyclopediaPage from './pages/PlantEncyclopediaPage';
 import SubscriptionPage from './pages/SubscriptionPage';
