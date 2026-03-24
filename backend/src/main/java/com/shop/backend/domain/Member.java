@@ -22,4 +22,7 @@ public class Member {
     private String email;
 
     private String name;
+
+    @Column(nullable = false)
+    private int points = 0;
 }

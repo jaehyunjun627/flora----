@@ -9,6 +9,7 @@ public class MemberDto {
     private String username;
     private String email;
     private String name;
+    private int points;
 
     // 회원 가입용 생성자
     public MemberDto(String username, String email, String name) {

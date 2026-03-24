@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/common/ProductCard'
+import DailyQuiz from '../components/common/DailyQuiz'
 import { popularProducts } from '../data/mockData'
 import { getBirthFlower, getDateString } from '../data/birthFlowers'
 import './Home.css'
@@ -118,6 +119,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 데일리 퀴즈 */}
+      <DailyQuiz />
 
       {/* 신상품 */}
       <section className="section">

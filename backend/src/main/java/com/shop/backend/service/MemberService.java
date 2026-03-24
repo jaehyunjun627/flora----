@@ -37,6 +37,7 @@ public class MemberService {
         responseDto.setUsername(savedMember.getUsername());
         responseDto.setEmail(savedMember.getEmail());
         responseDto.setName(savedMember.getName());
+        responseDto.setPoints(savedMember.getPoints());
 
         return responseDto;
     }
@@ -52,6 +53,7 @@ public class MemberService {
                 dto.setUsername(member.getUsername());
                 dto.setEmail(member.getEmail());
                 dto.setName(member.getName());
+                dto.setPoints(member.getPoints());
                 return dto;
             }
         }
