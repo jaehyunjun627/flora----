@@ -218,6 +218,11 @@ export default function MyCalendar({ plants, setPlants }) {
     localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
   };
 
+  const resetMissions = () => {
+    setCompletedMissions([]);
+    localStorage.removeItem(`flora-missions-${todayStr}`);
+  };
+
   // 오늘의 특별 미션 (날짜 기반으로 고정)
   const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
   const specialMission = SPECIAL_MISSIONS[dayOfYear % SPECIAL_MISSIONS.length];
@@ -313,7 +318,6 @@ export default function MyCalendar({ plants, setPlants }) {
           >
             {calAllMissionsDone ? '✅ 출석완료' : calMissionInProgress ? `미션 진행 중 ${calMissionCount}/3` : '출석하기'}
           </button>
-          <button className="btn-add-event-header" onClick={openAddEvent}>+ 일정 추가</button>
           <button className="btn-add-plant" onClick={() => setShowAddPlant(true)}>+ 식물 추가</button>
         </div>
       </div>
@@ -338,6 +342,13 @@ export default function MyCalendar({ plants, setPlants }) {
             <span className="plant-chip-del">✕</span>
           </button>
         ))}
+      </div>
+
+      {/* 직접 일정 추가 버튼 (항상 노출) */}
+      <div className="add-event-bar">
+        <button className="btn-add-event-bar" onClick={openAddEvent}>
+          ✏️ 일정 직접 추가
+        </button>
       </div>
 
       {/* 월 네비게이션 */}
@@ -505,9 +516,20 @@ export default function MyCalendar({ plants, setPlants }) {
               )}
             </div>
 
-            <button className="btn-primary" style={{ marginTop: 8 }} onClick={() => setShowMission(false)}>
-              확인
-            </button>
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <button className="btn-primary" onClick={() => setShowMission(false)}>
+                확인
+              </button>
+              {completedMissions.length > 0 && (
+                <button
+                  className="btn-secondary"
+                  style={{ fontSize: 12, padding: '11px 12px' }}
+                  onClick={resetMissions}
+                >
+                  미션 초기화
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}

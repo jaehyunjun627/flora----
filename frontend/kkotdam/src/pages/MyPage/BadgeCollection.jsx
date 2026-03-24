@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import '../../css/MyCalendar.css';
 
 export const ALL_BADGES = [
   { id: 1, name: '새싹 가드너', icon: '🌱', desc: '첫 식물 등록', earned: true },
