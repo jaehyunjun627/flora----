@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/common/ProductCard'
-import { popularProducts } from '../data/mockData'
+import { popularProducts, notices } from '../data/mockData'
+import { getBirthFlower } from '../data/birthFlowers'
+import quizData from '../data/quizData'
 import './Home.css'
 
 const banners = [
@@ -38,8 +40,28 @@ const seasonalFlowers = [
   { emoji: '🌹', name: '장미', season: '봄~여름' },
 ]
 
+// 퀴즈: 30문제 중 랜덤 5문제
+function pickRandom(arr, n) {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5)
+  return shuffled.slice(0, n)
+}
+
 export default function Home() {
   const [currentBanner, setCurrentBanner] = useState(0)
+
+  // 탄생화 섹션
+  const today = new Date()
+  const [birthMonth, setBirthMonth] = useState(today.getMonth() + 1)
+  const [birthDay, setBirthDay] = useState(today.getDate())
+  const [birthFlower, setBirthFlower] = useState(() => getBirthFlower(today.getMonth() + 1, today.getDate()))
+
+  // 퀴즈 섹션
+  const [quizPool] = useState(() => pickRandom(quizData, 5))
+  const [quizIndex, setQuizIndex] = useState(0)
+  const [selected, setSelected] = useState(null)
+  const [score, setScore] = useState(0)
+  const [quizDone, setQuizDone] = useState(false)
+  const [showResult, setShowResult] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -49,6 +71,44 @@ export default function Home() {
   }, [])
 
   const banner = banners[currentBanner]
+
+  // 탄생화 검색
+  function handleBirthSearch() {
+    const m = parseInt(birthMonth)
+    const d = parseInt(birthDay)
+    if (m >= 1 && m <= 12 && d >= 1 && d <= 31) {
+      setBirthFlower(getBirthFlower(m, d))
+    }
+  }
+
+  // 퀴즈 선택
+  function handleSelect(optionIndex) {
+    if (selected !== null || showResult) return
+    setSelected(optionIndex)
+    const correct = quizPool[quizIndex].answer === optionIndex
+    if (correct) setScore((s) => s + 1)
+    setShowResult(true)
+  }
+
+  function handleNext() {
+    if (quizIndex + 1 >= quizPool.length) {
+      setQuizDone(true)
+    } else {
+      setQuizIndex((i) => i + 1)
+      setSelected(null)
+      setShowResult(false)
+    }
+  }
+
+  function handleRestart() {
+    setQuizIndex(0)
+    setSelected(null)
+    setScore(0)
+    setQuizDone(false)
+    setShowResult(false)
+  }
+
+  const currentQ = quizPool[quizIndex]
 
   return (
     <main className="home">
@@ -70,6 +130,60 @@ export default function Home() {
               aria-label={`배너 ${i + 1}`}
             />
           ))}
+        </div>
+      </section>
+
+      {/* 탄생화 섹션 */}
+      <section className="section birth-flower-section">
+        <div className="section-inner">
+          <div className="section-header">
+            <h2>🌺 내 탄생화 찾기</h2>
+          </div>
+          <div className="birth-flower-card">
+            <div className="birth-flower-inputs">
+              <div className="birth-input-group">
+                <label htmlFor="birth-month">월</label>
+                <input
+                  id="birth-month"
+                  type="number"
+                  min="1"
+                  max="12"
+                  value={birthMonth}
+                  onChange={(e) => setBirthMonth(e.target.value)}
+                  className="birth-input"
+                  placeholder="1~12"
+                />
+              </div>
+              <span className="birth-sep">월</span>
+              <div className="birth-input-group">
+                <label htmlFor="birth-day">일</label>
+                <input
+                  id="birth-day"
+                  type="number"
+                  min="1"
+                  max="31"
+                  value={birthDay}
+                  onChange={(e) => setBirthDay(e.target.value)}
+                  className="birth-input"
+                  placeholder="1~31"
+                />
+              </div>
+              <span className="birth-sep">일</span>
+              <button className="birth-btn" onClick={handleBirthSearch}>
+                찾기
+              </button>
+            </div>
+            {birthFlower && (
+              <div className="birth-flower-result">
+                <span className="birth-flower-emoji">{birthFlower.emoji}</span>
+                <div className="birth-flower-info">
+                  <p className="birth-flower-name">{birthFlower.name}</p>
+                  <p className="birth-flower-meaning">꽃말: <strong>{birthFlower.meaning}</strong></p>
+                  <p className="birth-flower-desc">{birthFlower.description}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -111,6 +225,76 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 퀴즈 섹션 */}
+      <section className="section quiz-section">
+        <div className="section-inner">
+          <div className="section-header">
+            <h2>🧠 꽃 지식 퀴즈</h2>
+            <span className="quiz-score-badge">점수 {score} / {quizPool.length}</span>
+          </div>
+          <div className="quiz-card">
+            {!quizDone ? (
+              <>
+                <div className="quiz-progress">
+                  <span>{quizIndex + 1} / {quizPool.length}</span>
+                  <div className="quiz-progress-bar">
+                    <div
+                      className="quiz-progress-fill"
+                      style={{ width: `${((quizIndex + 1) / quizPool.length) * 100}%` }}
+                    />
+                  </div>
+                </div>
+                <p className="quiz-question">{currentQ.question}</p>
+                <ul className="quiz-options">
+                  {currentQ.options.map((opt, i) => {
+                    let cls = 'quiz-option'
+                    if (showResult) {
+                      if (i === currentQ.answer) cls += ' correct'
+                      else if (i === selected) cls += ' wrong'
+                    }
+                    if (selected === i) cls += ' selected'
+                    return (
+                      <li key={i}>
+                        <button className={cls} onClick={() => handleSelect(i)} disabled={showResult}>
+                          <span className="quiz-option-label">{String.fromCharCode(65 + i)}</span>
+                          {opt}
+                        </button>
+                      </li>
+                    )
+                  })}
+                </ul>
+                {showResult && (
+                  <div className={`quiz-feedback ${selected === currentQ.answer ? 'correct' : 'wrong'}`}>
+                    <p className="quiz-feedback-title">
+                      {selected === currentQ.answer ? '🎉 정답!' : '❌ 오답!'}
+                    </p>
+                    <p className="quiz-explanation">{currentQ.explanation}</p>
+                    <button className="quiz-next-btn" onClick={handleNext}>
+                      {quizIndex + 1 >= quizPool.length ? '결과 보기' : '다음 문제'}
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="quiz-result">
+                <p className="quiz-result-emoji">
+                  {score === quizPool.length ? '🏆' : score >= 3 ? '🌸' : '🌱'}
+                </p>
+                <p className="quiz-result-title">
+                  {score === quizPool.length ? '완벽해요!' : score >= 3 ? '훌륭해요!' : '더 공부해봐요!'}
+                </p>
+                <p className="quiz-result-score">
+                  {quizPool.length}문제 중 <strong>{score}문제</strong> 정답
+                </p>
+                <button className="quiz-restart-btn" onClick={handleRestart}>
+                  다시 풀기
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* 구독 서비스 배너 */}
       <section className="subscription-banner">
         <div className="section-inner subscription-inner">
@@ -145,19 +329,44 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 식물도감 바로가기 */}
-      <section className="section gallery-promo">
-        <div className="section-inner">
-          <div className="gallery-promo-inner">
-            <div className="gallery-promo-text">
-              <h2>🌿 식물도감</h2>
-              <p>산림청 API 기반으로 2,000종 이상의 식물 정보를 제공합니다.<br/>
-              어울리는 꽃 추천, AI 챗봇 상담도 이용해보세요!</p>
-              <Link to="/gallery" className="gallery-promo-btn">식물도감 바로가기</Link>
+      {/* 공지사항 + 식물도감 */}
+      <section className="section notice-gallery-section">
+        <div className="section-inner notice-gallery-inner">
+          {/* 공지사항 */}
+          <div className="notice-box">
+            <div className="section-header">
+              <h2>📢 공지사항</h2>
+              <Link to="/notices" className="more-link">더보기 &gt;</Link>
             </div>
-            <div className="gallery-promo-emojis">
-              <span>🌹</span><span>🌷</span><span>🌼</span>
-              <span>🌿</span><span>🌵</span><span>🍃</span>
+            <ul className="notice-list">
+              {notices.map((notice) => (
+                <li key={notice.id} className="notice-item">
+                  <span className={`notice-type ${notice.type === '이벤트' ? 'event' : notice.type === '안내' ? 'info' : ''}`}>
+                    {notice.type}
+                  </span>
+                  <span className="notice-title">
+                    {notice.isNew && <span className="notice-new">N</span>}
+                    {notice.title}
+                  </span>
+                  <span className="notice-date">{notice.date}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 식물도감 */}
+          <div className="gallery-promo-box">
+            <div className="gallery-promo-inner">
+              <div className="gallery-promo-text">
+                <h2>🌿 식물도감</h2>
+                <p>산림청 API 기반으로 2,000종 이상의 식물 정보를 제공합니다.<br/>
+                어울리는 꽃 추천, AI 챗봇 상담도 이용해보세요!</p>
+                <Link to="/gallery" className="gallery-promo-btn">식물도감 바로가기</Link>
+              </div>
+              <div className="gallery-promo-emojis">
+                <span>🌹</span><span>🌷</span><span>🌼</span>
+                <span>🌿</span><span>🌵</span><span>🍃</span>
+              </div>
             </div>
           </div>
         </div>

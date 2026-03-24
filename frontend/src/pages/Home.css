@@ -234,34 +234,478 @@
   flex-shrink: 0;
 }
 
-/* Gallery Promo */
-.gallery-promo {
+/* ========== 탄생화 섹션 ========== */
+.birth-flower-section {
+  background: linear-gradient(135deg, #fff9f0 0%, #fff3e0 100%);
+}
+
+.birth-flower-card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #ffe0b2;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.birth-flower-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.birth-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.birth-input-group label {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.birth-input {
+  width: 70px;
+  padding: 10px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.2s;
+  text-align: center;
+}
+
+.birth-input:focus {
+  border-color: #f59e0b;
+}
+
+.birth-sep {
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.birth-btn {
+  margin-top: 20px;
+  padding: 10px 28px;
+  background: #f59e0b;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.birth-btn:hover {
+  background: #d97706;
+}
+
+.birth-flower-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  background: #fffbf0;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #fde68a;
+}
+
+.birth-flower-emoji {
+  font-size: 64px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.birth-flower-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.birth-flower-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0;
+}
+
+.birth-flower-meaning {
+  font-size: 15px;
+  color: #78350f;
+  margin: 0;
+}
+
+.birth-flower-meaning strong {
+  color: #b45309;
+}
+
+.birth-flower-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ========== 퀴즈 섹션 ========== */
+.quiz-section {
+  background: #f5f3ff;
+}
+
+.quiz-score-badge {
+  font-size: 14px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #ede9fe;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.quiz-card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #ede9fe;
+  padding: 32px;
+}
+
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.quiz-progress span {
+  font-size: 13px;
+  color: #7c3aed;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.quiz-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #ede9fe;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: #7c3aed;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.quiz-question {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.quiz-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 15px;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.quiz-option:not(:disabled):hover {
+  border-color: #a78bfa;
+  background: #f5f3ff;
+}
+
+.quiz-option.correct {
+  border-color: #10b981;
+  background: #ecfdf5;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.quiz-option.wrong {
+  border-color: #ef4444;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.quiz-option:disabled {
+  cursor: default;
+}
+
+.quiz-option-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.quiz-option.correct .quiz-option-label {
+  background: #10b981;
+  color: #fff;
+}
+
+.quiz-option.wrong .quiz-option-label {
+  background: #ef4444;
+  color: #fff;
+}
+
+.quiz-feedback {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-feedback.correct {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+}
+
+.quiz-feedback.wrong {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+}
+
+.quiz-feedback-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.quiz-explanation {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.quiz-next-btn {
+  align-self: flex-end;
+  margin-top: 4px;
+  padding: 10px 28px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quiz-next-btn:hover {
+  background: #6d28d9;
+}
+
+.quiz-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.quiz-result-emoji {
+  font-size: 64px;
+  margin: 0;
+  line-height: 1;
+}
+
+.quiz-result-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.quiz-result-score {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.quiz-result-score strong {
+  color: #7c3aed;
+  font-size: 20px;
+}
+
+.quiz-restart-btn {
+  margin-top: 8px;
+  padding: 12px 36px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.quiz-restart-btn:hover {
+  background: #6d28d9;
+}
+
+/* ========== 공지사항 + 식물도감 ========== */
+.notice-gallery-section {
   background: #f0f9f4;
+}
+
+.notice-gallery-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .notice-gallery-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 공지사항 */
+.notice-box {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #e8f5e9;
+  padding: 28px;
+}
+
+.notice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.notice-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+}
+
+.notice-item:last-child {
+  border-bottom: none;
+}
+
+.notice-type {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.notice-type.event {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.notice-type.info {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.notice-title {
+  flex: 1;
+  font-size: 14px;
+  color: #1f2937;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notice-new {
+  display: inline-block;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.notice-date {
+  font-size: 12px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+/* 식물도감 */
+.gallery-promo-box {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #e8f5e9;
+  padding: 0;
+  overflow: hidden;
 }
 
 .gallery-promo-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
-  background: #fff;
-  border-radius: 20px;
-  padding: 40px 48px;
-  border: 1px solid #e8f5e9;
+  gap: 24px;
+  padding: 28px;
 }
 
 .gallery-promo-text h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: #111827;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
 }
 
 .gallery-promo-text p {
-  font-size: 15px;
+  font-size: 14px;
   color: #6b7280;
   line-height: 1.7;
-  margin: 0 0 24px;
+  margin: 0 0 20px;
 }
 
 .gallery-promo-btn {
@@ -283,8 +727,43 @@
 .gallery-promo-emojis {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  font-size: 40px;
+  gap: 10px;
+  font-size: 36px;
   text-align: center;
   flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 26px;
+  }
+
+  .seasonal-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .subscription-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .subscription-visual {
+    font-size: 60px;
+  }
+
+  .birth-flower-inputs {
+    gap: 8px;
+  }
+
+  .birth-flower-result {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .gallery-promo-inner {
+    flex-direction: column;
+    text-align: center;
+  }
 }

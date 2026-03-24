@@ -171,3 +171,46 @@ export const galleryPlants = [
 export const categories = ['전체', '꽃', '허브', '다육식물', '관엽식물']
 
 export const seasons = ['전체', '봄', '여름', '가을', '겨울', '연중']
+
+export const notices = [
+  {
+    id: 1,
+    type: '공지',
+    title: '꽃담 서비스 정식 오픈 안내',
+    date: '2026-03-20',
+    content: '꽃담이 정식 오픈하였습니다. 많은 이용 부탁드립니다.',
+    isNew: true,
+  },
+  {
+    id: 2,
+    type: '이벤트',
+    title: '🌸 봄맞이 첫 주문 10% 할인 이벤트',
+    date: '2026-03-18',
+    content: '3월 한 달간 첫 주문 고객에게 10% 할인 쿠폰을 드립니다.',
+    isNew: true,
+  },
+  {
+    id: 3,
+    type: '안내',
+    title: '배송 지연 안내 (3월 25일)',
+    date: '2026-03-15',
+    content: '3월 25일은 물류 사정으로 배송이 하루 지연될 수 있습니다.',
+    isNew: false,
+  },
+  {
+    id: 4,
+    type: '공지',
+    title: '개인정보처리방침 개정 안내',
+    date: '2026-03-10',
+    content: '2026년 4월 1일부터 개정된 개인정보처리방침이 적용됩니다.',
+    isNew: false,
+  },
+  {
+    id: 5,
+    type: '이벤트',
+    title: '🌿 식물도감 리뷰 이벤트',
+    date: '2026-03-05',
+    content: '식물도감에 리뷰를 남기면 포인트를 드립니다.',
+    isNew: false,
+  },
+]
