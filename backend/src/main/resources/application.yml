@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  # ========================
+  # Oracle (JPA) 설정
+  # ========================
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: system
+    password: 120700
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: update        # 개발 중: update, 운영: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.OracleDialect
+
+  # ========================
+  # MongoDB 설정
+  # ========================
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/flora
+
+  # ========================
+  # 파일 업로드
+  # ========================
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# ========================
+# JWT 설정
+# ========================
+jwt:
+  secret: FloraSecretKey2026FloraSecretKey2026
+  expiration: 86400000  # 24시간
+
+# ========================
+# 외부 API
+# ========================
+external:
+  pixabay:
+    api-key: 3956381-8a0f2a1805bed555538d1bfe8  # https://pixabay.com/api/docs/ 에서 발급
+  forest:
+    api-key: 2c771237c3e6476b1eb2ebbbabe2c152eaaefad0420b752dee5ed1b4f9ce1eed   # https://www.data.go.kr 에서 발급
+
+# ========================
+# 로깅
+# ========================
+logging:
+  level:
+    com.flora.backend: DEBUG
+    org.hibernate.SQL: DEBUG

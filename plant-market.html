@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 플로라</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f4f0;color:#1a1a1a}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+
+    /* 레이아웃 */
+    .app-wrap{max-width:430px;margin:0 auto;min-height:100vh;background:#fff;position:relative;box-shadow:0 0 40px rgba(0,0,0,.1)}
+    .page-content{padding-bottom:72px;min-height:calc(100vh - 56px)}
+
+    /* 헤더 */
+    .top-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #f0f0f0;padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between}
+    .logo-area{display:flex;align-items:center;gap:8px}
+    .logo-text{font-size:19px;font-weight:800;color:#2e7d32;letter-spacing:-.5px}
+    .logo-sub{font-size:11px;color:#aaa;margin-top:-2px}
+
+    /* 바텀 내비 */
+    .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid #eee;display:flex;z-index:60;padding-bottom:env(safe-area-inset-bottom)}
+    .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:none;color:#aaa;font-size:10px;font-weight:600;gap:3px;transition:color .2s}
+    .nav-item.active{color:#2e7d32}
+    .nav-item span:first-child{font-size:22px}
+
+    /* 모달 */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
+    .sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:430px;max-height:92vh;overflow-y:auto;padding-bottom:40px;animation:slideUp .28s cubic-bezier(.34,1.4,.64,1)}
+    .sheet-handle{text-align:center;padding:14px 0 6px}
+    .sheet-handle-bar{width:40px;height:4px;background:#e0e0e0;border-radius:2px;display:inline-block}
+    .sheet-header{display:flex;align-items:center;justify-content:space-between;padding:6px 20px 14px}
+    .sheet-title{font-size:17px;font-weight:700}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+
+    /* 폼 */
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-label{font-size:13px;font-weight:600;color:#555}
+    input,textarea,select{width:100%;padding:11px 13px;border:1.5px solid #e8e8e8;border-radius:11px;font-size:15px;outline:none;font-family:inherit;transition:border-color .2s;background:#fff}
+    input:focus,textarea:focus,select:focus{border-color:#4CAF50}
+    textarea{resize:vertical;min-height:110px}
+    .err-msg{font-size:11px;color:#e53935;margin-top:2px}
+
+    /* 버튼 */
+    .btn-primary{background:#4CAF50;color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;width:100%;transition:background .2s,transform .1s}
+    .btn-primary:hover{background:#43a047}.btn-primary:active{transform:scale(.98)}
+    .btn-primary:disabled{background:#ccc;cursor:default}
+    .btn-ghost{background:transparent;color:#666;border:none;padding:7px 11px;border-radius:8px;font-size:14px;cursor:pointer;transition:background .15s}
+    .btn-ghost:hover{background:#f0f0f0}
+    .btn-outline{background:transparent;color:#4CAF50;border:1.5px solid #4CAF50;padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+    .btn-outline:hover{background:#e8f5e9}
+    .btn-danger{background:transparent;color:#e53935;border:none;padding:7px 11px;border-radius:8px;font-size:13px;cursor:pointer;transition:background .15s}
+    .btn-danger:hover{background:#fff5f5}
+
+    /* 칩/배지 */
+    .chip{display:inline-block;padding:3px 9px;background:#e8f5e9;color:#2e7d32;border-radius:20px;font-size:11px;font-weight:600}
+    .chip-blue{background:#e3f2fd;color:#1565c0}
+    .chip-orange{background:#fff3e0;color:#e65100}
+    .chip-purple{background:#f3e5f5;color:#6a1b9a}
+    .chip-red{background:#ffebee;color:#c62828}
+    .status-badge{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+    .badge-sale{background:#e8f5e9;color:#2e7d32}
+    .badge-reserved{background:#fff8e1;color:#e65100}
+    .badge-done{background:#f0f0f0;color:#999}
+
+    /* 좋아요 */
+    .like-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:3px;padding:5px 8px;border-radius:8px;font-size:13px;color:#888;transition:background .15s}
+    .like-btn:hover{background:#fff0f0}
+    .like-btn.liked{color:#e53935;font-weight:600}
+
+    /* 카드 공통 */
+    .card{background:#fff;border-radius:14px;overflow:hidden;transition:transform .15s,box-shadow .15s}
+    .card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+
+    /* 검색바 */
+    .search-wrap{padding:10px 16px 0}
+    .search-bar{display:flex;align-items:center;background:#f5f5f5;border-radius:12px;padding:10px 13px;gap:8px}
+    .search-bar input{background:transparent;border:none;font-size:14px;padding:0;flex:1;color:#333}
+    .search-bar input:focus{outline:none}
+
+    /* 카테고리 탭 */
+    .cat-scroll{display:flex;gap:7px;padding:11px 16px;overflow-x:auto;scrollbar-width:none}
+    .cat-scroll::-webkit-scrollbar{display:none}
+    .cat-btn{flex-shrink:0;border:none;border-radius:20px;padding:7px 15px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+    .cat-btn.active{background:#2e7d32;color:#fff;box-shadow:0 2px 8px rgba(46,125,50,.3)}
+    .cat-btn.inactive{background:#f0f0f0;color:#666}
+
+    /* 빈 상태 */
+    .empty{text-align:center;padding:60px 20px}
+    .empty .icon{font-size:60px;margin-bottom:14px}
+    .empty .title{font-size:16px;font-weight:600;color:#666;margin-bottom:6px}
+    .empty .sub{font-size:13px;color:#bbb}
+
+    /* 메타 정보 */
+    .meta{display:flex;align-items:center;gap:10px;font-size:12px;color:#aaa;flex-wrap:wrap}
+    .meta-dot::before{content:'·';margin-right:2px}
+    .meta-green{color:#4CAF50;font-weight:600}
+
+    /* FAB */
+    .fab{position:fixed;bottom:82px;right:50%;transform:translateX(calc(50% + 170px));background:#4CAF50;color:#fff;border:none;border-radius:50px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(76,175,80,.45);display:flex;align-items:center;gap:5px;z-index:55;transition:box-shadow .15s}
+    .fab:hover{box-shadow:0 6px 26px rgba(76,175,80,.6)}
+
+    /* 이모지 피커 */
+    .emoji-picker{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+    .emoji-opt{width:42px;height:42px;font-size:22px;border-radius:10px;border:2px solid #e8e8e8;cursor:pointer;background:#fff;transition:all .15s;display:flex;align-items:center;justify-content:center}
+    .emoji-opt.selected{border-color:#4CAF50;background:#f0faf0}
+
+    /* 구분선 */
+    .divider{height:1px;background:#f0f0f0;margin:0 16px}
+    .thick-divider{height:8px;background:#f5f5f5}
+
+    /* 댓글 */
+    .comment-item{padding:14px 0;border-bottom:1px solid #f5f5f5}
+    .comment-item:last-child{border-bottom:none}
+    .comment-author{font-size:13px;font-weight:600;color:#333}
+    .comment-text{font-size:14px;color:#444;margin-top:4px;line-height:1.6;white-space:pre-wrap}
+    .comment-meta{display:flex;align-items:center;justify-content:space-between;margin-top:5px}
+
+    /* 상세 페이지 */
+    .detail-hero{margin:0 16px;border-radius:16px;height:200px;display:flex;align-items:center;justify-content:center;font-size:90px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9)}
+    .detail-body{padding:18px 20px 0}
+    .detail-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:10px}
+    .detail-price{font-size:22px;font-weight:800;color:#1a1a1a}
+    .detail-price.sold{color:#bbb}
+    .detail-desc{font-size:14px;color:#555;line-height:1.75;white-space:pre-wrap;background:#f9f9f9;border-radius:12px;padding:14px;margin-top:14px}
+    .seller-row{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f9f9f9;border-radius:12px;margin-top:14px}
+    .seller-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#a5d6a7,#66bb6a);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .action-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-top:1px solid #f0f0f0;margin-top:16px;gap:10px}
+
+    /* 축제 카드 */
+    .festival-card{background:#fff;border-bottom:1px solid #f5f5f5;padding:16px;cursor:pointer;transition:background .15s;display:flex;gap:14px;align-items:flex-start}
+    .festival-card:hover{background:#fafaf8}
+    .festival-emoji-box{width:72px;height:72px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;border:1px solid #e8e8e8}
+    .festival-tag{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin:2px 2px 2px 0}
+    .date-badge{display:inline-flex;align-items:center;gap:4px;background:#fff8e1;color:#e65100;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600}
+
+    /* 거래 카드 */
+    .trade-card{display:flex;gap:13px;padding:15px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .15s}
+    .trade-card:hover{background:#fafaf8}
+    .trade-thumb{width:88px;height:88px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:42px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:1px solid #e0e0e0}
+
+    /* 커뮤니티 카드 */
+    .comm-card{padding:16px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .15s}
+    .comm-card:hover{background:#fafaf8}
+    .comm-card-title{font-size:15px;font-weight:700;margin-bottom:5px;line-height:1.4}
+    .comm-card-preview{font-size:13px;color:#888;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.5}
+    .comm-stats{display:flex;align-items:center;gap:12px;margin-top:8px;font-size:12px;color:#aaa}
+    .comm-stat{display:flex;align-items:center;gap:3px}
+
+    /* 위치 배너 */
+    .loc-banner{margin:12px 16px;padding:13px 15px;background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border:1px solid #c8e6c9;border-radius:12px;display:flex;align-items:center;gap:10px}
+
+    /* 스피너 */
+    .spinner{width:18px;height:18px;border:2.5px solid #e8e8e8;border-top-color:#4CAF50;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* 수정/삭제 메뉴 */
+    .action-menu{position:absolute;top:100%;right:0;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);overflow:hidden;z-index:200;min-width:120px}
+    .action-menu button{display:block;width:100%;padding:12px 16px;text-align:left;border:none;background:none;font-size:14px;cursor:pointer;transition:background .15s}
+    .action-menu button:hover{background:#f5f5f5}
+
+    /* 이미지 없을때 플레이스홀더 */
+    .img-placeholder{background:linear-gradient(135deg,#e8f5e9,#dcedc8)}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+/* ════════════════════════════════════════
+   DB — localStorage 기반
+════════════════════════════════════════ */
+const DB = {
+  KEY: 'floraDB_v2',
+  load() {
+    try { const d = localStorage.getItem(this.KEY); return d ? JSON.parse(d) : null; }
+    catch { return null; }
+  },
+  save(data) {
+    try { localStorage.setItem(this.KEY, JSON.stringify(data)); } catch(e) {}
+  }
+};
+
+/* ════════════════════════════════════════
+   초기 시드 데이터
+════════════════════════════════════════ */
+function getInitialData() {
+  return {
+    tradePosts: [
+      { id:1, title:'몬스테라 델리시오사 대형', category:'식물', price:35000, status:'sale',
+        desc:'2년 키운 몬스테라 델리시오사예요.\n\n• 화분 포함 약 60cm\n• 3~4일 간격 물주기\n• 반그늘 좋아요',
+        location:'마포구 합정동', lat:37.5499, lng:126.9138, emoji:'🌿', seller:'초록손🌱', temp:36.8, time:'10분 전', likes:12, liked:false },
+      { id:2, title:'원예 도구 세트 (새것)', category:'도구', price:18000, status:'sale',
+        desc:'선물받은 원예 도구 세트입니다. 한 번도 안 썼어요.\n\n• 모종삽·갈퀴·물뿌리개 포함\n• 스테인리스 소재',
+        location:'서대문구 연희동', lat:37.5735, lng:126.9285, emoji:'🔧', seller:'텃밭농부', temp:37.1, time:'1시간 전', likes:5, liked:false },
+      { id:3, title:'방울토마토 모종 10개', category:'씨앗', price:5000, status:'sale',
+        desc:'씨앗부터 직접 키운 방울토마토 모종이에요.\n\n• 10개 묶음\n• 흙 포함 소형 포트 제공\n• 직거래만 가능',
+        location:'은평구 불광동', lat:37.6099, lng:126.9223, emoji:'🍅', seller:'주말농부김씨', temp:36.5, time:'3시간 전', likes:8, liked:false },
+      { id:4, title:'고급 도예 화분 3개 세트', category:'도구', price:22000, status:'reserved',
+        desc:'직접 만든 도예 화분 세트입니다.\n\n• 소 9cm / 중 14cm / 대 20cm\n• 배수구 있음',
+        location:'용산구 이태원동', lat:37.5344, lng:126.9940, emoji:'🏺', seller:'도예공방', temp:37.3, time:'어제', likes:15, liked:false },
+      { id:5, title:'다육이 컬렉션 20종 분양', category:'식물', price:30000, status:'sale',
+        desc:'이사 때문에 3년 모은 다육이 정리해요 😢\n\n• 20종 각 1~2개씩\n• 직접 번식 개체 포함',
+        location:'마포구 망원동', lat:37.5556, lng:126.9027, emoji:'🌵', seller:'다육마니아', temp:36.9, time:'2일 전', likes:23, liked:false },
+      { id:6, title:'허브 씨앗 모음 (바질·로즈마리 외)', category:'씨앗', price:3000, status:'sale',
+        desc:'봄 파종용 씨앗 팝니다.\n\n• 바질, 로즈마리, 상추, 당근 포함\n• 밀봉 보관, 발아율 좋아요',
+        location:'은평구 녹번동', lat:37.5991, lng:126.9282, emoji:'🌱', seller:'씨앗나눔이', temp:36.6, time:'3일 전', likes:7, liked:false },
+      { id:7, title:'LED 식물 성장등', category:'도구', price:45000, status:'sale',
+        desc:'6개월 사용한 풀스펙트럼 LED 성장등이에요.\n\n• 타이머 기능 있음\n• 높이 조절 클립 타입',
+        location:'노원구 공릉동', lat:37.6268, lng:127.0739, emoji:'💡', seller:'식물공장장', temp:38.0, time:'4일 전', likes:6, liked:false },
+      { id:8, title:'페페로미아 워터멜론 소분', category:'식물', price:8000, status:'done',
+        desc:'페페로미아 워터멜론 소분해요.\n\n• 잎 7~8장\n• 직거래 합정역 근처',
+        location:'마포구 합정동', lat:37.5488, lng:126.9141, emoji:'🍉', seller:'잎새마당', temp:36.7, time:'5일 전', likes:11, liked:false },
+    ],
+    communityPosts: [
+      { id:101, title:'몬스테라 잎이 노랗게 변하는 이유가 뭔가요?', category:'질문',
+        content:'2달 전에 구매한 몬스테라인데 아래쪽 잎이 노랗게 변하고 있어요. 물은 일주일에 한 번 주고, 창가(직사광선 아님)에 두고 있는데 혹시 과습인가요? 뿌리 상태를 봐야 하나요?',
+        author:'식물초보', time:'30분 전', ts:Date.now()-1800000, views:42, likes:8, liked:false,
+        comments:[
+          { id:1001, author:'초록마법사', text:'잎 색깔 변화는 대부분 과습이에요! 화분 들었을 때 무거우면 과습 가능성 높아요. 며칠 물 안 주고 지켜보세요 🌿', time:'25분 전', likes:5, liked:false },
+          { id:1002, author:'텃밭농부', text:'햇빛도 확인해보세요. 창가라도 빛이 부족하면 노화가 빨리 와요. 아래 잎 한두 장 정도는 자연스러운 현상이기도 해요!', time:'15분 전', likes:3, liked:false },
+        ]
+      },
+      { id:102, title:'베란다 텃밭 봄 준비 어떻게 하세요?', category:'식물이야기',
+        content:'이번 봄에 처음으로 베란다 텃밭 도전해보려고 해요! 상추, 방울토마토, 고추 심으려는데 베란다가 동향이라 오전에만 햇빛이 들어요. 이런 환경에서 잘 자라는 채소 추천해주실 분?',
+        author:'봄텃밭준비중', time:'2시간 전', ts:Date.now()-7200000, views:98, likes:21, liked:false,
+        comments:[
+          { id:1003, author:'주말농부김씨', text:'동향이면 상추, 깻잎, 쪽파 등 잎채소 계열이 잘 돼요! 토마토는 햇빛이 많이 필요해서 조금 힘들 수도 있어요 😢', time:'1시간 전', likes:7, liked:false },
+        ]
+      },
+      { id:103, title:'5월 고양 꽃박람회 다녀왔어요 🌸 후기', category:'자유',
+        content:'주말에 고양 꽃박람회 다녀왔는데 정말 볼 것도 많고 식물 판매 부스도 엄청났어요!\n\n특히 희귀 식물 파는 곳이 많아서 눈이 즐거웠습니다. 알록달록한 튤립 밭 앞에서 사진도 많이 찍었어요 📸\n\n다음 주 주말까지 한다고 하니 근처 사시는 분들은 꼭 가보세요!',
+        author:'주말탐험가', time:'1일 전', ts:Date.now()-86400000, views:215, likes:34, liked:false,
+        comments:[
+          { id:1004, author:'다육마니아', text:'저도 다녀왔는데 정말 좋았어요!! 희귀 다육이도 많더라고요 ㅎㅎ 혹시 몇 시쯤 가셨어요?', time:'22시간 전', likes:4, liked:false },
+          { id:1005, author:'초록손🌱', text:'오 저도 가보고 싶었는데 정보 감사해요! 다음 주까지라고 하셨죠?', time:'18시간 전', likes:2, liked:false },
+        ]
+      },
+      { id:104, title:'[나눔 완료] 클레마티스 삽목 묘목 나눔했습니다', category:'나눔',
+        content:'지난번 나눔 공고 올렸던 클레마티스 삽목 묘목이요, 신청해주신 4분 모두 직거래로 나눔 완료했습니다!\n\n다음에 또 증식되면 올릴게요. 예쁘게 잘 키워주세요 🌸',
+        author:'꽃마니아', time:'3일 전', ts:Date.now()-259200000, views:87, likes:18, liked:false,
+        comments:[]
+      },
+    ],
+    festivals: [
+      { id:201, name:'고양 국제 꽃박람회', emoji:'🌸',
+        desc:'경기 북부 최대 규모의 꽃 축제! 튤립, 장미, 수국 등 100여 종의 꽃이 전시되며 희귀 식물 판매 부스와 플로리스트 체험 프로그램도 운영합니다.',
+        location:'경기 고양시 일산서구', lat:37.6584, lng:126.7756,
+        start:'2026-04-25', end:'2026-05-10',
+        category:'꽃축제', tags:['봄꽃','가족','체험'], organizer:'고양시',
+        distance:18.4, color:'#fce4ec' },
+      { id:202, name:'서울 식물원 봄꽃 페스타', emoji:'🌿',
+        desc:'마곡 서울식물원에서 열리는 봄꽃 페스타. 온실 특별 전시와 야외 정원 프로그램을 즐길 수 있어요. 주말마다 원예 워크숍 진행.',
+        location:'서울 강서구 마곡동', lat:37.5707, lng:126.8269,
+        start:'2026-04-05', end:'2026-04-27',
+        category:'수목원', tags:['온실','워크숍','봄'], organizer:'서울시',
+        distance:8.2, color:'#e8f5e9' },
+      { id:203, name:'함평 나비·곤충 축제', emoji:'🦋',
+        desc:'전남 함평에서 열리는 생태 축제. 나비와 식물이 공존하는 생태정원을 관람하고 자연 관찰 체험도 할 수 있어요.',
+        location:'전남 함평군', lat:35.0661, lng:126.5169,
+        start:'2026-05-01', end:'2026-05-10',
+        category:'체험', tags:['나비','생태','체험'], organizer:'함평군',
+        distance:265.0, color:'#f3e5f5' },
+      { id:204, name:'보성 녹차밭 봄 축제', emoji:'🍵',
+        desc:'싱그러운 녹차밭에서 즐기는 봄 축제. 차 시음, 녹차 비누 만들기, 트레킹 코스 등 다양한 체험 프로그램 운영.',
+        location:'전남 보성군', lat:34.7716, lng:127.0804,
+        start:'2026-04-20', end:'2026-05-04',
+        category:'체험', tags:['녹차','트레킹','체험'], organizer:'보성군',
+        distance:298.0, color:'#e8f5e9' },
+      { id:205, name:'과천 벚꽃 플리마켓', emoji:'🌺',
+        desc:'과천 서울랜드 인근 벚꽃길에서 열리는 식물·원예 플리마켓. 개인 셀러들의 희귀 식물, 수제 화분, 씨앗 패킷 등을 만나볼 수 있어요!',
+        location:'경기 과천시', lat:37.4275, lng:126.9887,
+        start:'2026-04-05', end:'2026-04-06',
+        category:'마켓', tags:['플리마켓','벚꽃','식물'], organizer:'과천시',
+        distance:14.7, color:'#fff3e0' },
+      { id:206, name:'용인 허브빌리지 허브 축제', emoji:'🌿',
+        desc:'허브빌리지에서 열리는 허브 테마 축제. 라벤더, 로즈마리, 민트 등 다양한 허브를 직접 만져보고 허브오일 만들기 체험 가능.',
+        location:'경기 용인시', lat:37.2411, lng:127.1775,
+        start:'2026-05-15', end:'2026-06-01',
+        category:'체험', tags:['허브','DIY','아로마'], organizer:'허브빌리지',
+        distance:37.8, color:'#e8f5e9' },
+      { id:207, name:'태안 세계 튤립 축제', emoji:'🌷',
+        desc:'서해안 최대 규모 튤립 축제! 300만 송이의 튤립 물결과 함께 야간 조명 이벤트, 포토존 등이 준비되어 있습니다.',
+        location:'충남 태안군', lat:36.7455, lng:126.2982,
+        start:'2026-04-10', end:'2026-04-26',
+        category:'꽃축제', tags:['튤립','야간','포토존'], organizer:'태안군',
+        distance:122.0, color:'#fce4ec' },
+    ]
+  };
+}
+
+/* ════════════════════════════════════════
+   유틸 함수
+════════════════════════════════════════ */
+const fmt = n => Number(n).toLocaleString('ko-KR') + '원';
+const fmtDist = d => d < 1 ? `${Math.round(d*1000)}m` : `${d.toFixed(1)}km`;
+function haversine(la1,lo1,la2,lo2){
+  const R=6371,dL=(la2-la1)*Math.PI/180,dO=(lo2-lo1)*Math.PI/180;
+  const a=Math.sin(dL/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function timeAgo(ts){
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60) return '방금 전';
+  if(s<3600) return `${Math.floor(s/60)}분 전`;
+  if(s<86400) return `${Math.floor(s/3600)}시간 전`;
+  return `${Math.floor(s/86400)}일 전`;
+}
+const CAT_COLORS = { '식물이야기':'chip','질문':'chip-blue','자유':'chip-purple','나눔':'chip-orange' };
+const FEST_CAT_COLORS = { '꽃축제':'chip-red','수목원':'chip','마켓':'chip-orange','체험':'chip-blue' };
+
+/* ════════════════════════════════════════
+   메인 APP
+════════════════════════════════════════ */
+function App() {
+  const [db, setDB] = useState(() => DB.load() || getInitialData());
+  const [tab, setTab] = useState('trade');
+  const [userLoc, setUserLoc] = useState(null);
+  const [locLoading, setLocLoading] = useState(false);
+  const [locDenied, setLocDenied] = useState(false);
+
+  useEffect(() => { DB.save(db); }, [db]);
+
+  const mutate = useCallback(fn => setDB(prev => { const n = {...prev}; fn(n); return n; }), []);
+
+  const requestLoc = () => {
+    setLocLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const {latitude:lat, longitude:lng} = pos.coords;
+        setUserLoc({lat,lng});
+        setLocLoading(false);
+        mutate(d => {
+          d.tradePosts = d.tradePosts.map(p => ({...p, distance: parseFloat(haversine(lat,lng,p.lat,p.lng).toFixed(1))}))
+            .sort((a,b) => a.distance - b.distance);
+          d.festivals = d.festivals.map(f => ({...f, distance: parseFloat(haversine(lat,lng,f.lat,f.lng).toFixed(1))}))
+            .sort((a,b) => a.distance - b.distance);
+        });
+      },
+      () => { setLocLoading(false); setLocDenied(true); }
+    );
+  };
+
+  const tabs = [
+    { key:'community', emoji:'💬', label:'커뮤니티' },
+    { key:'festival',  emoji:'🎪', label:'지역축제' },
+    { key:'trade',     emoji:'🌿', label:'지역거래' },
+  ];
+
+  return (
+    <div className="app-wrap">
+      <Header tab={tab} userLoc={userLoc} onLocClick={requestLoc} locLoading={locLoading} />
+      <div className="page-content">
+        {tab==='trade'     && <TradeTab     db={db} mutate={mutate} userLoc={userLoc} locDenied={locDenied} onLocRequest={requestLoc} locLoading={locLoading} />}
+        {tab==='festival'  && <FestivalTab  db={db} userLoc={userLoc} />}
+        {tab==='community' && <CommunityTab db={db} mutate={mutate} />}
+      </div>
+      <nav className="bottom-nav">
+        {tabs.map(t => (
+          <button key={t.key} className={`nav-item ${tab===t.key?'active':''}`} onClick={()=>setTab(t.key)}>
+            <span>{t.emoji}</span><span>{t.label}</span>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+/* ────────────────── 공통 헤더 ────────────────── */
+function Header({ tab, userLoc, onLocClick, locLoading }) {
+  const titles = { trade:'지역거래', festival:'지역축제', community:'커뮤니티' };
+  return (
+    <div className="top-header">
+      <div className="logo-area">
+        <span style={{fontSize:26}}>🌿</span>
+        <div>
+          <div className="logo-text">플로라 · {titles[tab]}</div>
+          <div className="logo-sub">우리 동네 식물 커뮤니티</div>
+        </div>
+      </div>
+      {(tab==='trade'||tab==='festival') && (
+        <button onClick={onLocClick} style={{
+          display:'flex',alignItems:'center',gap:5,
+          background: userLoc ? '#e8f5e9' : '#f5f5f5',
+          color: userLoc ? '#2e7d32' : '#666',
+          border:'none',borderRadius:20,padding:'7px 13px',
+          fontSize:12,fontWeight:600,cursor:'pointer',flexShrink:0
+        }}>
+          {locLoading ? <span className="spinner"/> : '📍'}
+          {userLoc ? '위치 설정됨' : '위치 설정'}
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   지역거래 탭
+════════════════════════════════════════ */
+const TRADE_CATS = [
+  {key:'all',label:'전체',emoji:'🌍'},
+  {key:'씨앗',label:'씨앗',emoji:'🌱'},
+  {key:'식물',label:'식물',emoji:'🌿'},
+  {key:'도구',label:'도구',emoji:'🔧'},
+  {key:'기타',label:'기타',emoji:'📦'},
+];
+const STATUS = {sale:{label:'판매중',cls:'badge-sale'},reserved:{label:'예약중',cls:'badge-reserved'},done:{label:'거래완료',cls:'badge-done'}};
+
+function TradeTab({ db, mutate, userLoc, locDenied, onLocRequest, locLoading }) {
+  const [cat, setCat] = useState('all');
+  const [search, setSearch] = useState('');
+  const [detail, setDetail] = useState(null);
+  const [showWrite, setShowWrite] = useState(false);
+
+  const posts = db.tradePosts;
+  const filtered = posts.filter(p => (cat==='all'||p.category===cat) && (!search||p.title.includes(search)||p.desc.includes(search)));
+
+  const toggleLike = (id, e) => {
+    e?.stopPropagation();
+    mutate(d => { d.tradePosts = d.tradePosts.map(p => p.id===id ? {...p,liked:!p.liked,likes:p.liked?p.likes-1:p.likes+1} : p); });
+    if(detail?.id===id) setDetail(prev => ({...prev,liked:!prev.liked,likes:prev.liked?prev.likes-1:prev.likes+1}));
+  };
+
+  const handlePost = post => {
+    const dist = userLoc ? parseFloat(haversine(userLoc.lat,userLoc.lng,37.5665,126.9780).toFixed(1)) : parseFloat((Math.random()*4+0.3).toFixed(1));
+    mutate(d => { d.tradePosts.unshift({...post,id:Date.now(),distance:dist,likes:0,liked:false,time:'방금 전',ts:Date.now()}); });
+    setShowWrite(false);
+  };
+
+  return (
+    <>
+      <div className="search-wrap">
+        <div className="search-bar">
+          <span style={{fontSize:17}}>🔍</span>
+          <input placeholder="씨앗, 식물, 도구 검색..." value={search} onChange={e=>setSearch(e.target.value)} />
+          {search && <button className="btn-ghost" style={{padding:'2px 6px',fontSize:15}} onClick={()=>setSearch('')}>✕</button>}
+        </div>
+      </div>
+
+      {!userLoc && !locDenied && (
+        <div className="loc-banner">
+          <span style={{fontSize:22,flexShrink:0}}>📍</span>
+          <div style={{flex:1}}>
+            <div style={{fontSize:13,fontWeight:700,color:'#2e7d32'}}>내 주변 거래글 보기</div>
+            <div style={{fontSize:11,color:'#777',marginTop:1}}>위치 설정 시 거리 순 정렬돼요</div>
+          </div>
+          <button onClick={onLocRequest} disabled={locLoading} style={{background:'#4CAF50',color:'#fff',border:'none',borderRadius:9,padding:'8px 13px',fontSize:12,fontWeight:700,cursor:'pointer',display:'flex',alignItems:'center',gap:4,flexShrink:0}}>
+            {locLoading?<span className="spinner"/>:null} 설정
+          </button>
+        </div>
+      )}
+
+      <div className="cat-scroll">
+        {TRADE_CATS.map(c=>(
+          <button key={c.key} className={`cat-btn ${cat===c.key?'active':'inactive'}`} onClick={()=>setCat(c.key)}>
+            {c.emoji} {c.label}
+          </button>
+        ))}
+      </div>
+
+      {filtered.length===0 ? (
+        <div className="empty"><div className="icon">🌾</div><div className="title">거래글이 없어요</div><div className="sub">첫 번째로 글을 올려보세요!</div></div>
+      ) : filtered.map(p => (
+        <div key={p.id} className="trade-card" onClick={()=>setDetail(p)}>
+          <div className="trade-thumb">{p.emoji}</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{display:'flex',gap:5,marginBottom:5,flexWrap:'wrap'}}>
+              <span className={`status-badge ${STATUS[p.status].cls}`}>{STATUS[p.status].label}</span>
+              <span className="chip">{p.category}</span>
+            </div>
+            <div style={{fontSize:15,fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',marginBottom:4}}>{p.title}</div>
+            <div className="meta">
+              <span>{p.location}</span>
+              {userLoc && <span className="meta-green">· {fmtDist(p.distance)}</span>}
+              <span>· {p.time}</span>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:6}}>
+              <span style={{fontSize:15,fontWeight:700,color:p.status==='done'?'#bbb':'#1a1a1a'}}>{fmt(p.price)}</span>
+              <button className={`like-btn ${p.liked?'liked':''}`} onClick={e=>toggleLike(p.id,e)}>
+                {p.liked?'❤️':'🤍'} {p.likes}
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <button className="fab" onClick={()=>setShowWrite(true)}>✏️ 글쓰기</button>
+
+      {detail && <TradeDetailModal post={db.tradePosts.find(p=>p.id===detail.id)||detail} onClose={()=>setDetail(null)} onLike={toggleLike} showDist={!!userLoc} />}
+      {showWrite && <TradeWriteModal onClose={()=>setShowWrite(false)} onSubmit={handlePost} userLoc={userLoc} />}
+    </>
+  );
+}
+
+function TradeDetailModal({ post, onClose, onLike, showDist }) {
+  const st = STATUS[post.status];
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e=>e.stopPropagation()}>
+        <div className="sheet-handle"><div className="sheet-handle-bar"/></div>
+        <div className="detail-hero">{post.emoji}</div>
+        <div className="detail-body">
+          <div style={{display:'flex',gap:6,marginBottom:8}}>
+            <span className={`status-badge ${st.cls}`}>{st.label}</span>
+            <span className="chip">{post.category}</span>
+          </div>
+          <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between'}}>
+            <h2 className="detail-title" style={{flex:1}}>{post.title}</h2>
+            <button className={`like-btn ${post.liked?'liked':''}`} onClick={()=>onLike(post.id)} style={{flexShrink:0,marginLeft:8}}>
+              {post.liked?'❤️':'🤍'} {post.likes}
+            </button>
+          </div>
+          <div className={`detail-price ${post.status==='done'?'sold':''}`}>{fmt(post.price)}</div>
+          <div className="seller-row">
+            <div className="seller-avatar">👤</div>
+            <div>
+              <div style={{fontSize:14,fontWeight:600}}>{post.seller}</div>
+              <div style={{fontSize:12,color:'#888'}}>
+                {post.location}{showDist&&<span style={{color:'#4CAF50'}}> · {fmtDist(post.distance)}</span>}
+                <span style={{color:'#ef6c00'}}> · 매너온도 {post.temp}°C 🌡️</span>
+              </div>
+            </div>
+          </div>
+          <div className="detail-desc">{post.desc}</div>
+          <div style={{fontSize:11,color:'#ccc',marginTop:10,marginBottom:16}}>{post.time} 등록</div>
+          {post.status!=='done'
+            ? <button className="btn-primary" style={{fontSize:15,padding:15}} onClick={()=>alert(`${post.seller}님께 채팅 기능은 준비 중이에요 🌿`)}>💬 채팅으로 거래하기</button>
+            : <button className="btn-primary" disabled>거래가 완료된 상품이에요</button>
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TradeWriteModal({ onClose, onSubmit, userLoc }) {
+  const [f, setF] = useState({title:'',category:'식물',price:'',desc:'',location:userLoc?'내 위치 근처':'',emoji:'🌿',status:'sale',lat:37.5665,lng:126.9780,seller:'나',temp:36.5});
+  const [errors, setErrors] = useState({});
+  const EMOJIS = ['🌿','🌵','🌸','🌳','🍅','🌻','🌺','🍃','🔧','🏺','💡','🌱','🫙','🍉','📦','🌷'];
+  const set = (k,v) => setF(p=>({...p,[k]:v}));
+  const validate = () => {
+    const e={};
+    if(!f.title.trim()) e.title='제목을 입력해주세요';
+    if(!f.price||isNaN(Number(f.price))) e.price='올바른 가격을 입력해주세요';
+    if(!f.desc.trim()) e.desc='내용을 입력해주세요';
+    if(!f.location.trim()) e.location='거래 지역을 입력해주세요';
+    setErrors(e); return Object.keys(e).length===0;
+  };
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e=>e.stopPropagation()}>
+        <div className="sheet-handle"><div className="sheet-handle-bar"/></div>
+        <div className="sheet-header"><span className="sheet-title">🌱 거래 글 올리기</span><button className="btn-ghost" onClick={onClose} style={{fontSize:18}}>✕</button></div>
+        <div style={{padding:'0 20px',display:'flex',flexDirection:'column',gap:14}}>
+          <div className="form-group">
+            <label className="form-label">대표 이모지</label>
+            <div className="emoji-picker">{EMOJIS.map(em=><button key={em} className={`emoji-opt ${f.emoji===em?'selected':''}`} onClick={()=>set('emoji',em)}>{em}</button>)}</div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">카테고리</label>
+            <div style={{display:'flex',gap:7,marginTop:4}}>
+              {['씨앗','식물','도구','기타'].map(c=>(
+                <button key={c} onClick={()=>set('category',c)} style={{flex:1,padding:'9px',border:'1.5px solid',borderColor:f.category===c?'#4CAF50':'#e8e8e8',borderRadius:10,cursor:'pointer',fontWeight:600,background:f.category===c?'#e8f5e9':'#fff',color:f.category===c?'#2e7d32':'#666',transition:'all .2s'}}>{c}</button>
+              ))}
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">제목 *</label>
+            <input placeholder="예: 몬스테라 중형 판매합니다" value={f.title} onChange={e=>set('title',e.target.value)} style={{borderColor:errors.title?'#e53935':undefined}} />
+            {errors.title&&<div className="err-msg">{errors.title}</div>}
+          </div>
+          <div className="form-group">
+            <label className="form-label">가격 *</label>
+            <div style={{position:'relative'}}>
+              <input type="number" placeholder="0" value={f.price} onChange={e=>set('price',e.target.value)} style={{paddingRight:36,borderColor:errors.price?'#e53935':undefined}} />
+              <span style={{position:'absolute',right:13,top:'50%',transform:'translateY(-50%)',color:'#aaa',fontSize:13}}>원</span>
+            </div>
+            {errors.price&&<div className="err-msg">{errors.price}</div>}
+          </div>
+          <div className="form-group">
+            <label className="form-label">상세 설명 *</label>
+            <textarea placeholder="식물 크기, 상태, 거래 방법 등을 적어주세요" value={f.desc} onChange={e=>set('desc',e.target.value)} style={{borderColor:errors.desc?'#e53935':undefined}} />
+            {errors.desc&&<div className="err-msg">{errors.desc}</div>}
+          </div>
+          <div className="form-group">
+            <label className="form-label">거래 지역 *</label>
+            <input placeholder="예: 마포구 합정동" value={f.location} onChange={e=>set('location',e.target.value)} style={{borderColor:errors.location?'#e53935':undefined}} />
+            {errors.location&&<div className="err-msg">{errors.location}</div>}
+          </div>
+          <div className="form-group">
+            <label className="form-label">닉네임</label>
+            <input placeholder="닉네임" value={f.seller} onChange={e=>set('seller',e.target.value)} />
+          </div>
+          <div style={{paddingBottom:20}}>
+            <button className="btn-primary" onClick={()=>validate()&&onSubmit({...f,price:Number(f.price)})}>🌿 글 올리기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   지역축제 탭
+════════════════════════════════════════ */
+const FEST_CATS = ['전체','꽃축제','수목원','마켓','체험'];
+
+function FestivalTab({ db, userLoc }) {
+  const [cat, setCat] = useState('전체');
+  const [detail, setDetail] = useState(null);
+
+  const festivals = db.festivals.filter(f => cat==='전체' || f.category===cat);
+
+  const today = new Date();
+  const isOngoing = f => new Date(f.start)<=today && today<=new Date(f.end);
+  const isUpcoming = f => new Date(f.start)>today;
+  const daysLeft = f => {
+    const diff = Math.ceil((new Date(f.end)-today)/(1000*60*60*24));
+    return diff;
+  };
+
+  return (
+    <>
+      <div className="cat-scroll">
+        {FEST_CATS.map(c=>(
+          <button key={c} className={`cat-btn ${cat===c?'active':'inactive'}`} onClick={()=>setCat(c)}>{c}</button>
+        ))}
+      </div>
+
+      <div style={{padding:'0 16px 12px',display:'flex',alignItems:'center',gap:6}}>
+        <span style={{fontSize:12,color:'#aaa'}}>
+          {userLoc ? '📍 가까운 거리 순' : '📍 위치를 설정하면 가까운 축제를 먼저 보여줘요'}
+        </span>
+      </div>
+
+      {festivals.length===0 ? (
+        <div className="empty"><div className="icon">🎪</div><div className="title">해당 카테고리 축제가 없어요</div></div>
+      ) : festivals.map(f => {
+        const ongoing = isOngoing(f);
+        const upcoming = isUpcoming(f);
+        const left = daysLeft(f);
+        return (
+          <div key={f.id} className="festival-card" onClick={()=>setDetail(f)}>
+            <div className="festival-emoji-box" style={{background:f.color}}>{f.emoji}</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:5,flexWrap:'wrap'}}>
+                {ongoing && <span style={{background:'#e8f5e9',color:'#2e7d32',padding:'2px 8px',borderRadius:20,fontSize:11,fontWeight:700}}>진행중</span>}
+                {upcoming && <span style={{background:'#e3f2fd',color:'#1565c0',padding:'2px 8px',borderRadius:20,fontSize:11,fontWeight:700}}>예정</span>}
+                {!upcoming && !ongoing && <span style={{background:'#f0f0f0',color:'#999',padding:'2px 8px',borderRadius:20,fontSize:11,fontWeight:700}}>종료</span>}
+                <span className={FEST_CAT_COLORS[f.category]||'chip'}>{f.category}</span>
+              </div>
+              <div style={{fontSize:15,fontWeight:700,marginBottom:4,lineHeight:1.3}}>{f.name}</div>
+              <div style={{fontSize:12,color:'#888',marginBottom:5}}>
+                📍 {f.location}
+                {userLoc && <span style={{color:'#4CAF50',fontWeight:600}}> · {fmtDist(f.distance)}</span>}
+              </div>
+              <div className="date-badge">
+                📅 {f.start} ~ {f.end}
+                {ongoing && left>=0 && <span>· D-{left}</span>}
+              </div>
+              <div style={{marginTop:6}}>
+                {f.tags.map(t=>(
+                  <span key={t} className="festival-tag chip-purple" style={{fontSize:10}}># {t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {detail && <FestivalDetailModal f={detail} onClose={()=>setDetail(null)} userLoc={userLoc} />}
+    </>
+  );
+}
+
+function FestivalDetailModal({ f, onClose, userLoc }) {
+  const today = new Date();
+  const ongoing = new Date(f.start)<=today && today<=new Date(f.end);
+  const upcoming = new Date(f.start)>today;
+  const left = Math.ceil((new Date(f.end)-today)/(1000*60*60*24));
+
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e=>e.stopPropagation()}>
+        <div className="sheet-handle"><div className="sheet-handle-bar"/></div>
+        <div style={{height:180,background:f.color,display:'flex',alignItems:'center',justifyContent:'center',fontSize:80,margin:'0 16px',borderRadius:16,marginBottom:16}}>{f.emoji}</div>
+        <div style={{padding:'0 20px'}}>
+          <div style={{display:'flex',gap:6,marginBottom:10,flexWrap:'wrap'}}>
+            {ongoing && <span style={{background:'#e8f5e9',color:'#2e7d32',padding:'3px 10px',borderRadius:20,fontSize:12,fontWeight:700}}>✅ 진행중</span>}
+            {upcoming && <span style={{background:'#e3f2fd',color:'#1565c0',padding:'3px 10px',borderRadius:20,fontSize:12,fontWeight:700}}>🔜 예정</span>}
+            <span className={FEST_CAT_COLORS[f.category]||'chip'}>{f.category}</span>
+          </div>
+          <h2 style={{fontSize:20,fontWeight:800,marginBottom:12,lineHeight:1.3}}>{f.name}</h2>
+          <div style={{display:'flex',flexDirection:'column',gap:8,padding:'14px',background:'#f9f9f9',borderRadius:12,marginBottom:14}}>
+            <div style={{fontSize:14,display:'flex',alignItems:'flex-start',gap:8}}>
+              <span style={{flexShrink:0}}>📍</span>
+              <span style={{color:'#555'}}>{f.location}{userLoc&&<span style={{color:'#4CAF50',fontWeight:600}}> ({fmtDist(f.distance)})</span>}</span>
+            </div>
+            <div style={{fontSize:14,display:'flex',alignItems:'flex-start',gap:8}}>
+              <span style={{flexShrink:0}}>📅</span>
+              <span style={{color:'#555'}}>{f.start} ~ {f.end}{ongoing&&` (D-${left})`}</span>
+            </div>
+            <div style={{fontSize:14,display:'flex',alignItems:'flex-start',gap:8}}>
+              <span style={{flexShrink:0}}>🏛️</span><span style={{color:'#555'}}>{f.organizer} 주최</span>
+            </div>
+          </div>
+          <p style={{fontSize:14,color:'#555',lineHeight:1.75,marginBottom:16}}>{f.desc}</p>
+          <div style={{marginBottom:20}}>
+            {f.tags.map(t=><span key={t} className="festival-tag chip-purple" style={{fontSize:12}}># {t} </span>)}
+          </div>
+          <button className="btn-primary" style={{marginBottom:8}} onClick={()=>alert('지도 연동 기능은 준비 중이에요 🗺️')}>🗺️ 지도에서 보기</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   커뮤니티 탭
+════════════════════════════════════════ */
+const COMM_CATS = ['전체','식물이야기','질문','자유','나눔'];
+
+function CommunityTab({ db, mutate }) {
+  const [cat, setCat] = useState('전체');
+  const [detail, setDetail] = useState(null);
+  const [showWrite, setShowWrite] = useState(false);
+  const [editPost, setEditPost] = useState(null);
+
+  const posts = db.communityPosts.filter(p => cat==='전체' || p.category===cat);
+
+  const openDetail = p => {
+    mutate(d => { const idx=d.communityPosts.findIndex(x=>x.id===p.id); if(idx>=0) d.communityPosts[idx].views++; });
+    setDetail({...p, views:(p.views||0)+1});
+  };
+
+  const toggleLike = id => {
+    mutate(d => { d.communityPosts = d.communityPosts.map(p => p.id===id?{...p,liked:!p.liked,likes:p.liked?p.likes-1:p.likes+1}:p); });
+    if(detail?.id===id) setDetail(prev=>({...prev,liked:!prev.liked,likes:prev.liked?prev.likes-1:prev.likes+1}));
+  };
+
+  const handlePost = (post, isEdit) => {
+    if(isEdit) {
+      mutate(d => { d.communityPosts=d.communityPosts.map(p=>p.id===post.id?{...p,...post}:p); });
+    } else {
+      mutate(d => { d.communityPosts.unshift({...post,id:Date.now(),time:'방금 전',ts:Date.now(),views:0,likes:0,liked:false,comments:[]}); });
+    }
+    setShowWrite(false); setEditPost(null);
+  };
+
+  const handleDelete = id => {
+    mutate(d => { d.communityPosts=d.communityPosts.filter(p=>p.id!==id); });
+    setDetail(null);
+  };
+
+  const addComment = (postId, comment) => {
+    mutate(d => {
+      const idx=d.communityPosts.findIndex(p=>p.id===postId);
+      if(idx>=0) d.communityPosts[idx].comments.push(comment);
+    });
+    if(detail?.id===postId) setDetail(prev=>({...prev,comments:[...prev.comments,comment]}));
+  };
+
+  const toggleCommentLike = (postId, commentId) => {
+    mutate(d => {
+      const p=d.communityPosts.find(x=>x.id===postId);
+      if(p) p.comments=p.comments.map(c=>c.id===commentId?{...c,liked:!c.liked,likes:c.liked?c.likes-1:c.likes+1}:c);
+    });
+    if(detail?.id===postId) setDetail(prev=>({...prev,comments:prev.comments.map(c=>c.id===commentId?{...c,liked:!c.liked,likes:c.liked?c.likes-1:c.likes+1}:c)}));
+  };
+
+  return (
+    <>
+      <div className="cat-scroll">
+        {COMM_CATS.map(c=><button key={c} className={`cat-btn ${cat===c?'active':'inactive'}`} onClick={()=>setCat(c)}>{c}</button>)}
+      </div>
+
+      {posts.length===0 ? (
+        <div className="empty"><div className="icon">🌱</div><div className="title">첫 글을 남겨보세요!</div><div className="sub">식물 이야기, 질문, 나눔 무엇이든 환영해요</div></div>
+      ) : posts.map(p=>(
+        <div key={p.id} className="comm-card" onClick={()=>openDetail(p)}>
+          <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:6}}>
+            <span className={CAT_COLORS[p.category]||'chip'}>{p.category}</span>
+            <span style={{fontSize:11,color:'#bbb'}}>{p.time}</span>
+          </div>
+          <div className="comm-card-title">{p.title}</div>
+          <div className="comm-card-preview">{p.content}</div>
+          <div className="comm-stats">
+            <span className="comm-stat">👁 {p.views||0}</span>
+            <span className="comm-stat">❤️ {p.likes||0}</span>
+            <span className="comm-stat">💬 {p.comments?.length||0}</span>
+            <span style={{marginLeft:'auto',fontSize:11,color:'#bbb'}}>{p.author}</span>
+          </div>
+        </div>
+      ))}
+
+      <button className="fab" onClick={()=>setShowWrite(true)}>✏️ 글쓰기</button>
+
+      {detail && (
+        <CommunityDetailModal
+          post={db.communityPosts.find(p=>p.id===detail.id)||detail}
+          onClose={()=>setDetail(null)}
+          onLike={toggleLike}
+          onEdit={p=>{setEditPost(p);setShowWrite(true);}}
+          onDelete={handleDelete}
+          onAddComment={addComment}
+          onCommentLike={toggleCommentLike}
+        />
+      )}
+      {showWrite && <CommWriteModal onClose={()=>{setShowWrite(false);setEditPost(null);}} onSubmit={handlePost} editData={editPost} />}
+    </>
+  );
+}
+
+function CommunityDetailModal({ post, onClose, onLike, onEdit, onDelete, onAddComment, onCommentLike }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [author, setAuthor] = useState('');
+  const menuRef = useRef();
+
+  useEffect(()=>{
+    const close = e => { if(menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
+    document.addEventListener('mousedown',close);
+    return ()=>document.removeEventListener('mousedown',close);
+  },[]);
+
+  const submitComment = () => {
+    if(!commentText.trim()) return;
+    onAddComment(post.id, {id:Date.now(),author:author.trim()||'익명',text:commentText.trim(),time:'방금 전',ts:Date.now(),likes:0,liked:false});
+    setCommentText('');
+  };
+
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" style={{maxHeight:'95vh'}} onClick={e=>e.stopPropagation()}>
+        <div className="sheet-handle"><div className="sheet-handle-bar"/></div>
+        <div style={{padding:'4px 20px 0',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div style={{display:'flex',alignItems:'center',gap:6}}>
+            <span className={CAT_COLORS[post.category]||'chip'}>{post.category}</span>
+            <span style={{fontSize:12,color:'#bbb'}}>{post.time}</span>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:4,position:'relative'}} ref={menuRef}>
+            <button className="btn-ghost" onClick={onClose} style={{fontSize:17}}>✕</button>
+            <button className="btn-ghost" style={{fontSize:18,padding:'5px 8px'}} onClick={()=>setMenuOpen(v=>!v)}>⋯</button>
+            {menuOpen && (
+              <div className="action-menu">
+                <button onClick={()=>{setMenuOpen(false);onEdit(post);}}>✏️ 수정하기</button>
+                <button style={{color:'#e53935'}} onClick={()=>{if(confirm('정말 삭제할까요?')){onDelete(post.id);}}}>🗑 삭제하기</button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{padding:'12px 20px 0'}}>
+          <h2 style={{fontSize:19,fontWeight:800,lineHeight:1.35,marginBottom:10}}>{post.title}</h2>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14}}>
+            <div style={{width:34,height:34,borderRadius:'50%',background:'linear-gradient(135deg,#a5d6a7,#66bb6a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16}}>👤</div>
+            <div>
+              <div style={{fontSize:13,fontWeight:600}}>{post.author}</div>
+              <div className="meta"><span>👁 {post.views||0}</span><span>❤️ {post.likes||0}</span><span>💬 {post.comments?.length||0}</span></div>
+            </div>
+          </div>
+
+          <p style={{fontSize:14,color:'#444',lineHeight:1.8,whiteSpace:'pre-wrap',marginBottom:16}}>{post.content}</p>
+
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:12,borderTop:'1px solid #f0f0f0',marginBottom:16}}>
+            <button className={`like-btn ${post.liked?'liked':''}`} onClick={()=>onLike(post.id)} style={{fontSize:14,gap:5}}>
+              {post.liked?'❤️':'🤍'} 좋아요 {post.likes||0}
+            </button>
+            <button className="btn-ghost" style={{fontSize:13}} onClick={()=>document.getElementById('comment-input')?.focus()}>
+              💬 댓글 {post.comments?.length||0}
+            </button>
+          </div>
+        </div>
+
+        <div className="thick-divider"/>
+
+        {/* 댓글 섹션 */}
+        <div style={{padding:'14px 20px 0'}}>
+          <div style={{fontSize:14,fontWeight:700,marginBottom:12,color:'#333'}}>댓글 {post.comments?.length||0}개</div>
+          {(!post.comments||post.comments.length===0) ? (
+            <div style={{textAlign:'center',padding:'20px 0',color:'#ccc',fontSize:13}}>첫 댓글을 남겨보세요 🌱</div>
+          ) : post.comments.map(c=>(
+            <div key={c.id} className="comment-item">
+              <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
+                <div style={{width:28,height:28,borderRadius:'50%',background:'#e8f5e9',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,flexShrink:0}}>🌿</div>
+                <span className="comment-author">{c.author}</span>
+                <span style={{fontSize:11,color:'#ccc'}}>{c.time}</span>
+              </div>
+              <div className="comment-text" style={{paddingLeft:36}}>{c.text}</div>
+              <div className="comment-meta" style={{paddingLeft:36}}>
+                <button className={`like-btn ${c.liked?'liked':''}`} style={{fontSize:12,padding:'3px 6px'}} onClick={()=>onCommentLike(post.id,c.id)}>
+                  {c.liked?'❤️':'🤍'} {c.likes||0}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 댓글 입력 */}
+        <div style={{padding:'14px 20px',borderTop:'1px solid #f0f0f0',position:'sticky',bottom:0,background:'#fff'}}>
+          <input id="comm-author-input" placeholder="닉네임 (선택)" value={author} onChange={e=>setAuthor(e.target.value)} style={{marginBottom:8,fontSize:13,padding:'9px 12px'}} />
+          <div style={{display:'flex',gap:8}}>
+            <textarea id="comment-input" placeholder="댓글을 입력해주세요..." value={commentText} onChange={e=>setCommentText(e.target.value)}
+              style={{flex:1,minHeight:44,resize:'none',fontSize:14,padding:'10px 12px'}}
+              onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submitComment();}}}
+            />
+            <button onClick={submitComment} style={{background:'#4CAF50',color:'#fff',border:'none',borderRadius:11,padding:'0 16px',fontWeight:700,cursor:'pointer',flexShrink:0,fontSize:14}}>등록</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CommWriteModal({ onClose, onSubmit, editData }) {
+  const [f, setF] = useState(editData ? {title:editData.title,category:editData.category,content:editData.content,author:editData.author}
+    : {title:'',category:'식물이야기',content:'',author:''});
+  const [errors, setErrors] = useState({});
+  const set = (k,v) => setF(p=>({...p,[k]:v}));
+  const validate = () => {
+    const e={};
+    if(!f.title.trim()) e.title='제목을 입력해주세요';
+    if(!f.content.trim()) e.content='내용을 입력해주세요';
+    setErrors(e); return Object.keys(e).length===0;
+  };
+  const submit = () => {
+    if(!validate()) return;
+    if(editData) onSubmit({...editData,...f,time:editData.time+' (수정됨)'},true);
+    else onSubmit({...f,author:f.author.trim()||'익명'},false);
+  };
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e=>e.stopPropagation()}>
+        <div className="sheet-handle"><div className="sheet-handle-bar"/></div>
+        <div className="sheet-header">
+          <span className="sheet-title">{editData?'✏️ 글 수정하기':'💬 글 쓰기'}</span>
+          <button className="btn-ghost" onClick={onClose} style={{fontSize:18}}>✕</button>
+        </div>
+        <div style={{padding:'0 20px',display:'flex',flexDirection:'column',gap:14}}>
+          <div className="form-group">
+            <label className="form-label">카테고리</label>
+            <div style={{display:'flex',gap:7,marginTop:4,flexWrap:'wrap'}}>
+              {['식물이야기','질문','자유','나눔'].map(c=>(
+                <button key={c} onClick={()=>set('category',c)} style={{padding:'8px 14px',border:'1.5px solid',borderColor:f.category===c?'#4CAF50':'#e8e8e8',borderRadius:20,cursor:'pointer',fontWeight:600,fontSize:13,background:f.category===c?'#e8f5e9':'#fff',color:f.category===c?'#2e7d32':'#666',transition:'all .2s'}}>{c}</button>
+              ))}
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">제목 *</label>
+            <input placeholder="제목을 입력해주세요" value={f.title} onChange={e=>set('title',e.target.value)} style={{borderColor:errors.title?'#e53935':undefined}} />
+            {errors.title&&<div className="err-msg">{errors.title}</div>}
+          </div>
+          <div className="form-group">
+            <label className="form-label">내용 *</label>
+            <textarea placeholder="식물 이야기, 질문, 나눔 등 자유롭게 적어주세요" value={f.content} onChange={e=>set('content',e.target.value)} style={{minHeight:160,borderColor:errors.content?'#e53935':undefined}} />
+            {errors.content&&<div className="err-msg">{errors.content}</div>}
+          </div>
+          {!editData && (
+            <div className="form-group">
+              <label className="form-label">닉네임 (선택)</label>
+              <input placeholder="닉네임을 입력해주세요 (미입력 시 '익명')" value={f.author} onChange={e=>set('author',e.target.value)} />
+            </div>
+          )}
+          <div style={{paddingBottom:20}}>
+            <button className="btn-primary" onClick={submit}>{editData?'수정 완료':'등록하기'}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   렌더
+════════════════════════════════════════ */
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

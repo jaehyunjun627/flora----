@@ -1,0 +1,555 @@
+/* ===== 식물 도감 페이지 ===== */
+.encyclopedia-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ─── 헤더 ─── */
+.encyclopedia-header {
+  background: linear-gradient(135deg, #1a3a2a 0%, #2d6a46 50%, #35A865 100%);
+  padding: 48px 24px;
+}
+
+.encyclopedia-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.encyclopedia-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}
+
+.encyclopedia-header-text h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.encyclopedia-header-text p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 검색 */
+.encyclopedia-search {
+  display: flex;
+  gap: 8px;
+  min-width: 360px;
+}
+
+.encyclopedia-search-input {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: 28px;
+  border: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.95);
+  color: var(--text-dark);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.encyclopedia-search-input:focus {
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.encyclopedia-search-btn {
+  padding: 12px 24px;
+  background: #fff;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.encyclopedia-search-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ─── 결과 정보 ─── */
+.encyclopedia-result-info {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+/* ─── 로딩 ─── */
+.encyclopedia-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 16px;
+  color: var(--text-light);
+}
+
+.enc-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.enc-spinner.small {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── 빈 상태 ─── */
+.encyclopedia-empty {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.encyclopedia-empty span {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.encyclopedia-empty p {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.encyclopedia-empty button {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+/* ─── 식물 카드 그리드 ─── */
+.encyclopedia-grid {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.plant-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1px solid var(--border-light);
+}
+
+.plant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 카드 이미지 */
+.plant-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.plant-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.plant-card:hover .plant-card-img img {
+  transform: scale(1.06);
+}
+
+.plant-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background: linear-gradient(135deg, #f0faf4, #e8f5e9);
+}
+
+/* 정명/이명 뱃지 */
+.plant-name-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.plant-name-badge.official {
+  background: var(--primary);
+  color: #fff;
+}
+
+.plant-name-badge.synonym {
+  background: var(--text-muted);
+  color: #fff;
+}
+
+/* 카드 본문 */
+.plant-card-body {
+  padding: 14px;
+}
+
+.plant-card-kor {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 3px;
+}
+
+.plant-card-sci {
+  font-size: 12px;
+  color: var(--text-light);
+  font-style: italic;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plant-card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.plant-tag {
+  font-size: 11px;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.plant-card-eng {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ─── 페이지네이션 ─── */
+.encyclopedia-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 36px 0;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  color: var(--text-medium);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.page-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── 상세 모달 ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(3px);
+}
+
+.plant-detail-modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  max-width: 840px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn:hover {
+  background: var(--border);
+  color: var(--text-dark);
+}
+
+.modal-inner {
+  display: flex;
+  gap: 0;
+}
+
+/* 모달 왼쪽 이미지 */
+.modal-img-wrap {
+  flex-shrink: 0;
+  width: 300px;
+  min-height: 300px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+  overflow: hidden;
+}
+
+.modal-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-img-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  background: linear-gradient(135deg, #f0faf4, #e8f5e9);
+}
+
+/* 모달 오른쪽 정보 */
+.modal-info {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.modal-badge.official {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.modal-badge.synonym {
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+}
+
+.modal-kor {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+
+.modal-sci {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-medium);
+  margin-bottom: 2px;
+}
+
+.modal-eng {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+/* 로딩 */
+.modal-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* 상세 그리드 */
+.modal-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.modal-detail-item {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.modal-detail-item strong {
+  display: block;
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-detail-item span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* 설명/서식지 */
+.modal-description {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.modal-description strong {
+  display: block;
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-description p {
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* 출처 */
+.modal-source {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── 반응형 ─── */
+@media (max-width: 1024px) {
+  .encyclopedia-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .encyclopedia-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .encyclopedia-search {
+    width: 100%;
+    min-width: unset;
+  }
+  .encyclopedia-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .modal-inner {
+    flex-direction: column;
+  }
+  .modal-img-wrap {
+    width: 100%;
+    min-height: 200px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+  .modal-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .encyclopedia-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .plant-detail-modal {
+    border-radius: var(--radius-lg);
+  }
+}

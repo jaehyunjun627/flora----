@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌿 식물 게시판</title>
+  <style>
+    :root {
+      --green-dark: #2d6a4f;
+      --green-mid: #40916c;
+      --green-light: #74c69d;
+      --green-pale: #d8f3dc;
+      --green-bg: #f0faf3;
+      --accent: #52b788;
+      --text-dark: #1b4332;
+      --text-mid: #40514e;
+      --text-light: #74c69d;
+      --card-bg: #ffffff;
+      --border: #b7e4c7;
+      --shadow: 0 2px 12px rgba(45,106,79,0.10);
+      --radius: 14px;
+      --red: #e63946;
+      --red-light: #ffe0e3;
+      --orange: #f4845f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      background: var(--green-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      color: white;
+      padding: 18px 0 0;
+      box-shadow: 0 3px 16px rgba(45,106,79,0.25);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 20px 14px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+    .user-area { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+    .user-name { background: rgba(255,255,255,0.18); border-radius: 20px; padding: 4px 14px; font-weight: 600; }
+    .btn-logout {
+      background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.35);
+      color: white; border-radius: 20px; padding: 4px 14px; cursor: pointer; font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.28); }
+    /* Category Tabs */
+    .cat-tabs {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 20px;
+      display: flex; gap: 4px;
+    }
+    .cat-tab {
+      padding: 8px 20px; border-radius: 10px 10px 0 0;
+      background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.75);
+      border: none; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+      transition: all 0.18s; letter-spacing: -0.3px;
+    }
+    .cat-tab:hover { background: rgba(255,255,255,0.22); color: white; }
+    .cat-tab.active { background: var(--green-bg); color: var(--green-dark); }
+
+    /* ===== MAIN ===== */
+    main { max-width: 860px; margin: 0 auto; padding: 24px 20px; }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px; margin-bottom: 18px;
+    }
+    .sort-btns { display: flex; gap: 6px; }
+    .sort-btn {
+      padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--border);
+      background: white; color: var(--text-mid); font-size: 0.85rem; cursor: pointer;
+      transition: all 0.15s; font-weight: 500;
+    }
+    .sort-btn.active, .sort-btn:hover {
+      background: var(--green-mid); color: white; border-color: var(--green-mid);
+    }
+    .btn-write {
+      padding: 8px 22px; background: var(--green-mid); color: white;
+      border: none; border-radius: 22px; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 2px 8px rgba(64,145,108,0.3); transition: background 0.18s;
+    }
+    .btn-write:hover { background: var(--green-dark); }
+
+    /* ===== POST LIST ===== */
+    .post-list { display: flex; flex-direction: column; gap: 12px; }
+    .post-card {
+      background: var(--card-bg); border-radius: var(--radius);
+      border: 1.5px solid var(--border); padding: 18px 22px;
+      cursor: pointer; transition: box-shadow 0.18s, border-color 0.18s;
+      box-shadow: var(--shadow);
+    }
+    .post-card:hover { border-color: var(--green-light); box-shadow: 0 4px 20px rgba(45,106,79,0.13); }
+    .post-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .cat-badge {
+      padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;
+      background: var(--green-pale); color: var(--green-dark); letter-spacing: -0.3px;
+    }
+    .cat-badge.자랑 { background: #fff3cd; color: #856404; }
+    .cat-badge.식물추천 { background: #d8f3dc; color: #2d6a4f; }
+    .cat-badge.상담 { background: #e0f0ff; color: #1565c0; }
+    .post-title { font-size: 1.05rem; font-weight: 700; color: var(--text-dark); flex: 1; }
+    .post-meta { display: flex; align-items: center; gap: 14px; font-size: 0.82rem; color: #888; flex-wrap: wrap; }
+    .post-meta .author { color: var(--green-mid); font-weight: 600; }
+    .meta-icon { margin-right: 3px; }
+    .post-preview { font-size: 0.88rem; color: #666; margin: 6px 0 10px; line-height: 1.55; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ===== MODAL OVERLAY ===== */
+    .overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.38); z-index: 200;
+      justify-content: center; align-items: flex-start;
+      overflow-y: auto; padding: 30px 16px;
+    }
+    .overlay.show { display: flex; }
+    .modal {
+      background: white; border-radius: 18px; width: 100%; max-width: 660px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18); padding: 0; overflow: hidden;
+      margin: auto;
+    }
+    .modal-header {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      color: white; padding: 22px 28px 18px;
+    }
+    .modal-header h2 { font-size: 1.15rem; font-weight: 800; }
+    .modal-header p { font-size: 0.82rem; opacity: 0.8; margin-top: 3px; }
+    .modal-body { padding: 24px 28px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-mid); margin-bottom: 6px; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 9px; font-size: 0.93rem; outline: none; transition: border 0.15s;
+      font-family: inherit; color: var(--text-dark); background: #fafdfa;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+      border-color: var(--green-light); background: white;
+    }
+    .form-group textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+    .modal-footer { padding: 0 28px 24px; display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-cancel {
+      padding: 9px 22px; border-radius: 22px; border: 1.5px solid var(--border);
+      background: white; color: var(--text-mid); cursor: pointer; font-size: 0.9rem; font-weight: 600;
+    }
+    .btn-submit {
+      padding: 9px 26px; border-radius: 22px; background: var(--green-mid); color: white;
+      border: none; cursor: pointer; font-size: 0.9rem; font-weight: 700;
+      box-shadow: 0 2px 8px rgba(64,145,108,0.25); transition: background 0.15s;
+    }
+    .btn-submit:hover { background: var(--green-dark); }
+    .btn-danger {
+      padding: 9px 22px; border-radius: 22px; background: var(--red); color: white;
+      border: none; cursor: pointer; font-size: 0.9rem; font-weight: 700;
+    }
+
+    /* ===== POST DETAIL ===== */
+    #postDetail .modal-body { padding: 0; }
+    .detail-meta {
+      padding: 18px 28px 14px; border-bottom: 1px solid #f0f0f0;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .detail-title { padding: 0 28px 0; font-size: 1.25rem; font-weight: 800; color: var(--text-dark); padding-top: 20px; }
+    .detail-content { padding: 16px 28px 20px; font-size: 0.95rem; line-height: 1.8; color: #333; white-space: pre-wrap; word-break: break-word; }
+    .detail-actions { padding: 0 28px 18px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid #f0f0f0; }
+    .btn-like {
+      display: flex; align-items: center; gap: 6px; padding: 8px 18px;
+      border-radius: 22px; border: 1.5px solid var(--border); background: white;
+      cursor: pointer; font-size: 0.9rem; font-weight: 700; color: var(--text-mid);
+      transition: all 0.15s;
+    }
+    .btn-like.liked { background: #fff0f3; border-color: #f4a7b9; color: var(--red); }
+    .btn-like:hover:not(.liked) { border-color: var(--green-light); }
+    .btn-sm {
+      padding: 6px 16px; border-radius: 18px; border: 1.5px solid var(--border);
+      background: white; color: var(--text-mid); cursor: pointer; font-size: 0.83rem; font-weight: 600;
+      transition: all 0.15s;
+    }
+    .btn-sm:hover { border-color: var(--green-light); background: var(--green-pale); }
+    .btn-sm.del:hover { border-color: var(--red); background: var(--red-light); color: var(--red); }
+
+    /* ===== COMMENTS ===== */
+    .comments-section { padding: 20px 28px 24px; }
+    .comments-title { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); margin-bottom: 14px; }
+    .comment-form { display: flex; gap: 8px; margin-bottom: 18px; }
+    .comment-input {
+      flex: 1; padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 9px;
+      font-size: 0.88rem; font-family: inherit; outline: none; transition: border 0.15s; background: #fafdfa;
+    }
+    .comment-input:focus { border-color: var(--green-light); background: white; }
+    .btn-comment {
+      padding: 9px 18px; border-radius: 9px; background: var(--green-mid); color: white;
+      border: none; cursor: pointer; font-size: 0.85rem; font-weight: 700; white-space: nowrap;
+    }
+    .comment-item { padding: 12px 0; border-top: 1px solid #f5f5f5; }
+    .comment-item.reply { margin-left: 28px; padding-left: 14px; border-left: 2px solid var(--green-pale); }
+    .comment-top { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .c-author { font-size: 0.83rem; font-weight: 700; color: var(--green-mid); }
+    .c-date { font-size: 0.78rem; color: #aaa; }
+    .c-text { font-size: 0.88rem; color: #333; line-height: 1.55; word-break: break-word; }
+    .c-actions { display: flex; gap: 8px; margin-top: 5px; }
+    .c-btn {
+      background: none; border: none; color: #aaa; font-size: 0.78rem; cursor: pointer;
+      padding: 0; transition: color 0.15s;
+    }
+    .c-btn:hover { color: var(--green-mid); }
+    .c-btn.del:hover { color: var(--red); }
+    .reply-form { margin: 8px 0 0 0; display: flex; gap: 8px; }
+
+    /* ===== NICKNAME MODAL ===== */
+    #loginModal .modal-body { padding: 32px 32px 24px; text-align: center; }
+    .login-emoji { font-size: 3rem; margin-bottom: 16px; }
+    .login-desc { color: #777; font-size: 0.9rem; margin-bottom: 20px; line-height: 1.5; }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state { text-align: center; padding: 60px 20px; color: #aaa; }
+    .empty-state .emoji { font-size: 3rem; margin-bottom: 14px; }
+    .empty-state p { font-size: 0.95rem; }
+
+    /* ===== PW MODAL ===== */
+    .pw-hint { font-size: 0.82rem; color: #888; margin-top: 5px; }
+
+    @media (max-width: 600px) {
+      .header-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .modal { border-radius: 14px; }
+      .modal-body, .modal-footer, .comments-section { padding-left: 18px; padding-right: 18px; }
+      .detail-title, .detail-actions, .detail-meta { padding-left: 18px; padding-right: 18px; }
+      .detail-content { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">🌿 식물 게시판</div>
+    <div class="user-area" id="userArea">
+      <span class="user-name" id="userNameDisplay"></span>
+      <button class="btn-logout" onclick="logout()">로그아웃</button>
+    </div>
+  </div>
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="setCategory('전체')">🌱 전체</button>
+    <button class="cat-tab" onclick="setCategory('자랑')">🏆 자랑</button>
+    <button class="cat-tab" onclick="setCategory('식물추천')">🌿 식물추천</button>
+    <button class="cat-tab" onclick="setCategory('상담')">💬 상담</button>
+  </div>
+</header>
+
+<main>
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="sort-btns">
+      <button class="sort-btn active" id="sortNewest" onclick="setSort('newest')">🕐 최신순</button>
+      <button class="sort-btn" id="sortOldest" onclick="setSort('oldest')">🕰 오래된순</button>
+      <button class="sort-btn" id="sortLikes" onclick="setSort('likes')">❤️ 좋아요순</button>
+    </div>
+    <button class="btn-write" onclick="openWriteModal()">✏️ 글쓰기</button>
+  </div>
+
+  <!-- POST LIST -->
+  <div class="post-list" id="postList"></div>
+</main>
+
+<!-- ===== NICKNAME/LOGIN MODAL ===== -->
+<div class="overlay show" id="loginOverlay">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header" style="text-align:center">
+      <h2>🌿 식물 게시판에 오신 것을 환영합니다</h2>
+      <p>닉네임을 입력하여 시작해주세요</p>
+    </div>
+    <div class="modal-body" id="loginModal">
+      <div class="login-emoji">🌱</div>
+      <p class="login-desc">닉네임은 게시글과 댓글에 작성자로 표시됩니다.<br>같은 닉네임을 입력하면 이전 활동 기록이 유지됩니다.</p>
+      <div class="form-group" style="margin-bottom:0">
+        <label>닉네임</label>
+        <input type="text" id="nicknameInput" placeholder="닉네임 입력..." maxlength="20" onkeydown="if(event.key==='Enter')submitLogin()" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-submit" style="width:100%" onclick="submitLogin()">🌿 시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WRITE / EDIT MODAL ===== -->
+<div class="overlay" id="writeOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="writeModalTitle">✏️ 글쓰기</h2>
+      <p>모든 식물 이야기를 자유롭게 나눠보세요</p>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editPostId" />
+      <div class="form-group">
+        <label>카테고리</label>
+        <select id="postCategory">
+          <option value="자랑">🏆 자랑</option>
+          <option value="식물추천">🌿 식물추천</option>
+          <option value="상담">💬 상담</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>제목</label>
+        <input type="text" id="postTitle" placeholder="제목을 입력해주세요" maxlength="80" />
+      </div>
+      <div class="form-group">
+        <label>내용</label>
+        <textarea id="postContent" placeholder="내용을 입력해주세요"></textarea>
+      </div>
+      <div class="form-group">
+        <label>비밀번호 <span style="font-weight:400;color:#aaa">(수정 및 삭제 시 필요)</span></label>
+        <input type="password" id="postPassword" placeholder="비밀번호를 설정해주세요" maxlength="30" />
+        <p class="pw-hint">※ 비밀번호는 저장 후 확인할 수 없으니 꼭 기억해 두세요</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('writeOverlay')">취소</button>
+      <button class="btn-submit" onclick="submitPost()">등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PASSWORD CHECK MODAL ===== -->
+<div class="overlay" id="pwOverlay">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <h2 id="pwModalTitle">🔒 비밀번호 확인</h2>
+      <p id="pwModalDesc">비밀번호를 입력해주세요</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:0">
+        <label>비밀번호</label>
+        <input type="password" id="pwInput" placeholder="비밀번호 입력..." maxlength="30" onkeydown="if(event.key==='Enter')confirmPw()" />
+      </div>
+      <p id="pwError" style="color:var(--red);font-size:0.82rem;margin-top:8px;display:none">비밀번호가 맞지 않습니다</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('pwOverlay')">취소</button>
+      <button class="btn-submit" id="pwConfirmBtn" onclick="confirmPw()">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== POST DETAIL MODAL ===== -->
+<div class="overlay" id="detailOverlay">
+  <div class="modal" id="postDetail">
+    <div class="modal-header" style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <h2 style="font-size:0.9rem;opacity:0.85">게시글 상세</h2>
+      </div>
+      <button onclick="closeModal('detailOverlay')" style="background:rgba(255,255,255,0.2);border:none;color:white;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+    <div class="modal-body" id="postDetailBody"></div>
+  </div>
+</div>
+
+<!-- ===== COMMENT PW MODAL ===== -->
+<div class="overlay" id="commentPwOverlay">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <h2>🔒 댓글 삭제</h2>
+      <p>댓글 비밀번호를 입력해주세요</p>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:0">
+        <input type="password" id="commentPwInput" placeholder="비밀번호..." maxlength="30" onkeydown="if(event.key==='Enter')confirmCommentPw()" />
+      </div>
+      <p id="commentPwError" style="color:var(--red);font-size:0.82rem;margin-top:8px;display:none">비밀번호가 맞지 않습니다</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('commentPwOverlay')">취소</button>
+      <button class="btn-submit" onclick="confirmCommentPw()">삭제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===========================
+   DATA LAYER (localStorage)
+   =========================== */
+const STORAGE_KEY = 'plant_board_posts';
+const USER_KEY = 'plant_board_user';
+
+function getPosts() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+function savePosts(posts) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+function getUser() {
+  return localStorage.getItem(USER_KEY) || '';
+}
+function saveUser(name) {
+  localStorage.setItem(USER_KEY, name);
+}
+
+/* ===========================
+   STATE
+   =========================== */
+let currentCategory = '전체';
+let currentSort = 'newest';
+let currentUser = '';
+let pwCallback = null;
+let commentPwCallback = null;
+let currentDetailPostId = null;
+
+/* ===========================
+   INIT
+   =========================== */
+window.addEventListener('DOMContentLoaded', () => {
+  const saved = getUser();
+  if (saved) {
+    currentUser = saved;
+    document.getElementById('userNameDisplay').textContent = saved;
+    document.getElementById('loginOverlay').classList.remove('show');
+    renderPosts();
+  } else {
+    document.getElementById('loginOverlay').classList.add('show');
+  }
+});
+
+/* ===========================
+   AUTH
+   =========================== */
+function submitLogin() {
+  const name = document.getElementById('nicknameInput').value.trim();
+  if (!name) { alert('닉네임을 입력해주세요'); return; }
+  currentUser = name;
+  saveUser(name);
+  document.getElementById('userNameDisplay').textContent = name;
+  document.getElementById('loginOverlay').classList.remove('show');
+  renderPosts();
+}
+function logout() {
+  if (!confirm('로그아웃 하시겠습니까?')) return;
+  currentUser = '';
+  localStorage.removeItem(USER_KEY);
+  document.getElementById('loginOverlay').classList.add('show');
+  document.getElementById('nicknameInput').value = '';
+}
+
+/* ===========================
+   CATEGORY & SORT
+   =========================== */
+function setCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  const labels = ['전체','자랑','식물추천','상담'];
+  document.querySelectorAll('.cat-tab')[labels.indexOf(cat)].classList.add('active');
+  renderPosts();
+}
+function setSort(s) {
+  currentSort = s;
+  ['Newest','Oldest','Likes'].forEach(n => document.getElementById('sort'+n).classList.remove('active'));
+  document.getElementById('sort'+s.charAt(0).toUpperCase()+s.slice(1)).classList.add('active');
+  renderPosts();
+}
+
+/* ===========================
+   RENDER POSTS
+   =========================== */
+function renderPosts() {
+  let posts = getPosts();
+  if (currentCategory !== '전체') {
+    posts = posts.filter(p => p.category === currentCategory);
+  }
+  if (currentSort === 'newest') posts.sort((a,b) => b.createdAt - a.createdAt);
+  else if (currentSort === 'oldest') posts.sort((a,b) => a.createdAt - b.createdAt);
+  else if (currentSort === 'likes') posts.sort((a,b) => (b.likes||0) - (a.likes||0) || b.createdAt - a.createdAt);
+
+  const list = document.getElementById('postList');
+  if (posts.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="emoji">🌱</div><p>아직 게시글이 없어요.<br>첫 번째 글을 작성해보세요!</p></div>`;
+    return;
+  }
+  list.innerHTML = posts.map(p => {
+    const commentCount = countComments(p.comments || []);
+    return `<div class="post-card" onclick="openDetail(${p.id})">
+      <div class="post-card-top">
+        <span class="cat-badge ${p.category}">${getCatEmoji(p.category)} ${p.category}</span>
+        <span class="post-title">${escHtml(p.title)}</span>
+      </div>
+      <div class="post-preview">${escHtml(p.content)}</div>
+      <div class="post-meta">
+        <span class="author">👤 ${escHtml(p.author)}</span>
+        <span>🕐 ${formatDate(p.createdAt)}</span>
+        <span>👁 ${p.views||0}</span>
+        <span>❤️ ${p.likes||0}</span>
+        <span>💬 ${commentCount}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function countComments(comments) {
+  return comments.reduce((acc, c) => acc + 1 + (c.replies ? c.replies.length : 0), 0);
+}
+
+function getCatEmoji(cat) {
+  return {자랑:'🏆',식물추천:'🌿',상담:'💬'}[cat] || '';
+}
+
+/* ===========================
+   WRITE / EDIT
+   =========================== */
+function openWriteModal(editId = null) {
+  if (!currentUser) { alert('먼저 로그인해주세요'); return; }
+  document.getElementById('writeModalTitle').textContent = editId ? '✏️ 글 수정' : '✏️ 글쓰기';
+  document.getElementById('editPostId').value = editId || '';
+  document.getElementById('postPassword').value = '';
+  document.getElementById('postPassword').placeholder = editId ? '기존 비밀번호를 입력해주세요' : '비밀번호를 설정해주세요';
+
+  if (editId) {
+    const posts = getPosts();
+    const post = posts.find(p => p.id === editId);
+    if (!post) return;
+    document.getElementById('postTitle').value = post.title;
+    document.getElementById('postContent').value = post.content;
+    document.getElementById('postCategory').value = post.category;
+    document.querySelector('.pw-hint').textContent = '※ 작성 시 설정한 비밀번호를 입력해주세요';
+    document.getElementById('writeOverlay').querySelector('.btn-submit').textContent = '수정 완료';
+  } else {
+    document.getElementById('postTitle').value = '';
+    document.getElementById('postContent').value = '';
+    document.getElementById('postCategory').value = '자랑';
+    document.querySelector('.pw-hint').textContent = '※ 비밀번호는 저장 후 확인할 수 없으니 꼭 기억해 두세요';
+    document.getElementById('writeOverlay').querySelector('.btn-submit').textContent = '등록';
+  }
+  document.getElementById('writeOverlay').classList.add('show');
+}
+
+function submitPost() {
+  const editId = document.getElementById('editPostId').value;
+  const title = document.getElementById('postTitle').value.trim();
+  const content = document.getElementById('postContent').value.trim();
+  const category = document.getElementById('postCategory').value;
+  const password = document.getElementById('postPassword').value;
+
+  if (!title) { alert('제목을 입력해주세요'); return; }
+  if (!content) { alert('내용을 입력해주세요'); return; }
+  if (!password) { alert('비밀번호를 입력해주세요'); return; }
+
+  const posts = getPosts();
+
+  if (editId) {
+    const idx = posts.findIndex(p => p.id === Number(editId));
+    if (idx === -1) { alert('게시글을 찾을 수 없습니다'); return; }
+    if (posts[idx].password !== password) { alert('비밀번호가 맞지 않습니다'); return; }
+    posts[idx].title = title;
+    posts[idx].content = content;
+    posts[idx].category = category;
+    posts[idx].updatedAt = Date.now();
+    savePosts(posts);
+    closeModal('writeOverlay');
+    renderPosts();
+    openDetail(Number(editId));
+  } else {
+    const newPost = {
+      id: Date.now(),
+      title, content, category,
+      author: currentUser,
+      password,
+      views: 0,
+      likes: 0,
+      likedBy: [],
+      createdAt: Date.now(),
+      updatedAt: null,
+      comments: []
+    };
+    posts.unshift(newPost);
+    savePosts(posts);
+    closeModal('writeOverlay');
+    renderPosts();
+  }
+}
+
+/* ===========================
+   DELETE POST (PW)
+   =========================== */
+function deletePost(postId) {
+  openPwModal('게시글 삭제', '삭제하려면 비밀번호를 입력해주세요', () => {
+    const posts = getPosts();
+    const idx = posts.findIndex(p => p.id === postId);
+    if (idx === -1) return false;
+    const pw = document.getElementById('pwInput').value;
+    if (posts[idx].password !== pw) return false;
+    posts.splice(idx, 1);
+    savePosts(posts);
+    closeModal('pwOverlay');
+    closeModal('detailOverlay');
+    renderPosts();
+    return true;
+  });
+}
+
+/* ===========================
+   DETAIL VIEW
+   =========================== */
+function openDetail(postId) {
+  const posts = getPosts();
+  const idx = posts.findIndex(p => p.id === postId);
+  if (idx === -1) return;
+  // increment view
+  posts[idx].views = (posts[idx].views || 0) + 1;
+  savePosts(posts);
+  renderPosts();
+
+  currentDetailPostId = postId;
+  renderDetail(postId);
+  document.getElementById('detailOverlay').classList.add('show');
+}
+
+function renderDetail(postId) {
+  const posts = getPosts();
+  const post = posts.find(p => p.id === postId);
+  if (!post) return;
+  const isLiked = (post.likedBy || []).includes(currentUser);
+  const isAuthor = post.author === currentUser;
+
+  const commentsHtml = renderComments(post.comments || [], postId);
+
+  document.getElementById('postDetailBody').innerHTML = `
+    <div class="detail-meta">
+      <span class="cat-badge ${post.category}">${getCatEmoji(post.category)} ${post.category}</span>
+      <span style="font-size:0.83rem;color:#888">👤 <b style="color:var(--green-mid)">${escHtml(post.author)}</b></span>
+      <span style="font-size:0.83rem;color:#aaa">🕐 ${formatDate(post.createdAt)}${post.updatedAt ? ' <span style="color:#bbb">(수정됨)</span>' : ''}</span>
+      <span style="font-size:0.83rem;color:#aaa;margin-left:auto">👁 ${post.views}</span>
+    </div>
+    <div class="detail-title">${escHtml(post.title)}</div>
+    <div class="detail-content">${escHtml(post.content)}</div>
+    <div class="detail-actions">
+      <button class="btn-like ${isLiked?'liked':''}" onclick="toggleLike(${postId})">
+        ${isLiked?'❤️':'🤍'} 좋아요 <b>${post.likes||0}</b>
+      </button>
+      <span style="flex:1"></span>
+      ${isAuthor ? `<button class="btn-sm" onclick="closeModal('detailOverlay');openWriteModal(${postId})">✏️ 수정</button>` : ''}
+      <button class="btn-sm del" onclick="deletePost(${postId})">🗑 삭제</button>
+    </div>
+    <div class="comments-section">
+      <div class="comments-title">💬 댓글 ${countComments(post.comments||[])}개</div>
+      <div class="comment-form">
+        <input class="comment-input" id="commentText_${postId}" placeholder="댓글을 입력해주세요..." />
+        <input type="password" class="comment-input" style="max-width:110px" id="commentPw_${postId}" placeholder="비밀번호" />
+        <button class="btn-comment" onclick="addComment(${postId})">등록</button>
+      </div>
+      <div id="commentList_${postId}">${commentsHtml}</div>
+    </div>
+  `;
+}
+
+function renderComments(comments, postId) {
+  if (!comments || comments.length === 0) return '<p style="color:#bbb;font-size:0.87rem;text-align:center;padding:12px 0">아직 댓글이 없어요 🌱</p>';
+  return comments.map((c, ci) => `
+    <div class="comment-item" id="comment_${postId}_${ci}">
+      <div class="comment-top">
+        <span class="c-author">👤 ${escHtml(c.author)}</span>
+        <span class="c-date">${formatDate(c.createdAt)}</span>
+      </div>
+      <div class="c-text">${escHtml(c.text)}</div>
+      <div class="c-actions">
+        <button class="c-btn" onclick="toggleReplyForm(${postId},${ci})">↩ 답글</button>
+        <button class="c-btn del" onclick="deleteComment(${postId},${ci})">삭제</button>
+      </div>
+      <div id="replyForm_${postId}_${ci}" style="display:none" class="reply-form">
+        <input class="comment-input" id="replyText_${postId}_${ci}" placeholder="답글 입력..." />
+        <input type="password" class="comment-input" style="max-width:110px" id="replyPw_${postId}_${ci}" placeholder="비밀번호" />
+        <button class="btn-comment" onclick="addReply(${postId},${ci})">등록</button>
+      </div>
+      ${(c.replies||[]).map((r,ri) => `
+        <div class="comment-item reply" id="reply_${postId}_${ci}_${ri}">
+          <div class="comment-top">
+            <span style="font-size:0.82rem;color:#aaa">↩</span>
+            <span class="c-author">👤 ${escHtml(r.author)}</span>
+            <span class="c-date">${formatDate(r.createdAt)}</span>
+          </div>
+          <div class="c-text">${escHtml(r.text)}</div>
+          <div class="c-actions">
+            <button class="c-btn del" onclick="deleteReply(${postId},${ci},${ri})">삭제</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+/* ===========================
+   COMMENTS
+   =========================== */
+function addComment(postId) {
+  const text = document.getElementById(`commentText_${postId}`).value.trim();
+  const pw = document.getElementById(`commentPw_${postId}`).value;
+  if (!text) { alert('댓글 내용을 입력해주세요'); return; }
+  if (!pw) { alert('댓글 비밀번호를 입력해주세요'); return; }
+
+  const posts = getPosts();
+  const idx = posts.findIndex(p => p.id === postId);
+  if (!posts[idx].comments) posts[idx].comments = [];
+  posts[idx].comments.push({ author: currentUser, text, password: pw, createdAt: Date.now(), replies: [] });
+  savePosts(posts);
+  document.getElementById(`commentText_${postId}`).value = '';
+  document.getElementById(`commentPw_${postId}`).value = '';
+  renderDetail(postId);
+}
+
+function addReply(postId, ci) {
+  const text = document.getElementById(`replyText_${postId}_${ci}`).value.trim();
+  const pw = document.getElementById(`replyPw_${postId}_${ci}`).value;
+  if (!text) { alert('답글 내용을 입력해주세요'); return; }
+  if (!pw) { alert('답글 비밀번호를 입력해주세요'); return; }
+
+  const posts = getPosts();
+  const idx = posts.findIndex(p => p.id === postId);
+  if (!posts[idx].comments[ci].replies) posts[idx].comments[ci].replies = [];
+  posts[idx].comments[ci].replies.push({ author: currentUser, text, password: pw, createdAt: Date.now() });
+  savePosts(posts);
+  renderDetail(postId);
+}
+
+function toggleReplyForm(postId, ci) {
+  const el = document.getElementById(`replyForm_${postId}_${ci}`);
+  el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+  if (el.style.display === 'flex') document.getElementById(`replyText_${postId}_${ci}`).focus();
+}
+
+function deleteComment(postId, ci) {
+  commentPwCallback = () => {
+    const posts = getPosts();
+    const idx = posts.findIndex(p => p.id === postId);
+    const pw = document.getElementById('commentPwInput').value;
+    if (posts[idx].comments[ci].password !== pw) return false;
+    posts[idx].comments.splice(ci, 1);
+    savePosts(posts);
+    closeModal('commentPwOverlay');
+    renderDetail(postId);
+    renderPosts();
+    return true;
+  };
+  document.getElementById('commentPwInput').value = '';
+  document.getElementById('commentPwError').style.display = 'none';
+  document.getElementById('commentPwOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('commentPwInput').focus(), 100);
+}
+
+function deleteReply(postId, ci, ri) {
+  commentPwCallback = () => {
+    const posts = getPosts();
+    const idx = posts.findIndex(p => p.id === postId);
+    const pw = document.getElementById('commentPwInput').value;
+    if (posts[idx].comments[ci].replies[ri].password !== pw) return false;
+    posts[idx].comments[ci].replies.splice(ri, 1);
+    savePosts(posts);
+    closeModal('commentPwOverlay');
+    renderDetail(postId);
+    renderPosts();
+    return true;
+  };
+  document.getElementById('commentPwInput').value = '';
+  document.getElementById('commentPwError').style.display = 'none';
+  document.getElementById('commentPwOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('commentPwInput').focus(), 100);
+}
+
+function confirmCommentPw() {
+  if (commentPwCallback) {
+    const ok = commentPwCallback();
+    if (!ok) {
+      document.getElementById('commentPwError').style.display = 'block';
+      document.getElementById('commentPwInput').focus();
+    }
+  }
+}
+
+/* ===========================
+   LIKES
+   =========================== */
+function toggleLike(postId) {
+  if (!currentUser) return;
+  const posts = getPosts();
+  const idx = posts.findIndex(p => p.id === postId);
+  if (idx === -1) return;
+  const likedBy = posts[idx].likedBy || [];
+  const already = likedBy.includes(currentUser);
+  if (already) {
+    posts[idx].likedBy = likedBy.filter(u => u !== currentUser);
+    posts[idx].likes = Math.max(0, (posts[idx].likes||0) - 1);
+  } else {
+    posts[idx].likedBy = [...likedBy, currentUser];
+    posts[idx].likes = (posts[idx].likes||0) + 1;
+  }
+  savePosts(posts);
+  renderDetail(postId);
+  renderPosts();
+}
+
+/* ===========================
+   PW MODAL
+   =========================== */
+function openPwModal(title, desc, cb) {
+  document.getElementById('pwModalTitle').textContent = '🔒 ' + title;
+  document.getElementById('pwModalDesc').textContent = desc;
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').style.display = 'none';
+  pwCallback = cb;
+  document.getElementById('pwOverlay').classList.add('show');
+  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+}
+
+function confirmPw() {
+  if (pwCallback) {
+    const ok = pwCallback();
+    if (!ok) {
+      document.getElementById('pwError').style.display = 'block';
+      document.getElementById('pwInput').focus();
+    }
+  }
+}
+
+/* ===========================
+   UTILS
+   =========================== */
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  const diff = Math.floor((now - d) / 1000);
+  if (diff < 60) return '방금 전';
+  if (diff < 3600) return Math.floor(diff/60) + '분 전';
+  if (diff < 86400) return Math.floor(diff/3600) + '시간 전';
+  if (diff < 604800) return Math.floor(diff/86400) + '일 전';
+  return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+
+// Close overlay on background click
+['writeOverlay','pwOverlay','detailOverlay','commentPwOverlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) closeModal(id);
+  });
+});
+</script>
+</body>
+</html>
