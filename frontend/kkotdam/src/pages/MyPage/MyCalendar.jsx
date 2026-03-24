@@ -172,6 +172,44 @@ export default function MyCalendar({ plants, setPlants }) {
     catch { return []; }
   });
 
+  // 오늘 일정
+  const todayAllEvents = events.filter(e => e.date === todayStr);
+  const todayDoneEvents = todayAllEvents.filter(e => e.isCompleted);
+
+  // 퀴즈 완료 여부 (메인페이지에서 localStorage에 저장)
+  const [quizDoneToday, setQuizDoneToday] = useState(
+    () => !!localStorage.getItem(`flora-quiz-done-${todayStr}`)
+  );
+
+  // 탭 포커스 시 퀴즈 완료 재확인
+  useEffect(() => {
+    const check = () => setQuizDoneToday(!!localStorage.getItem(`flora-quiz-done-${todayStr}`));
+    window.addEventListener('focus', check);
+    return () => window.removeEventListener('focus', check);
+  }, [todayStr]);
+
+  // 퀴즈 완료 감지 → 미션 자동 체크
+  useEffect(() => {
+    if (quizDoneToday && !completedMissions.includes('quiz')) {
+      const updated = [...completedMissions, 'quiz'];
+      setCompletedMissions(updated);
+      localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+    }
+  }, [quizDoneToday]); // eslint-disable-line
+
+  // 오늘 일정 전부 완료 → 캘린더 미션 자동 체크
+  useEffect(() => {
+    if (
+      todayAllEvents.length > 0 &&
+      todayDoneEvents.length === todayAllEvents.length &&
+      !completedMissions.includes('calendar')
+    ) {
+      const updated = [...completedMissions, 'calendar'];
+      setCompletedMissions(updated);
+      localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+    }
+  }, [todayDoneEvents.length, todayAllEvents.length]); // eslint-disable-line
+
   const firstDay    = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -495,18 +533,58 @@ export default function MyCalendar({ plants, setPlants }) {
 
             <div className="mission-group">
               <div className="mission-group-label">📌 기본 미션 <span className="mission-pts-label">각 +4P</span></div>
-              {BASIC_MISSIONS.map(m => (
-                <div key={m.id} className={`mission-item${completedMissions.includes(m.id) ? ' done' : ''}`}>
-                  <button className="mission-check" onClick={() => toggleMission(m.id)}>
-                    {completedMissions.includes(m.id) ? '✅' : '○'}
-                  </button>
-                  <span className="mission-item-icon">{m.icon}</span>
-                  <div className="mission-item-text">
-                    <div className="mission-item-title">{m.text}</div>
-                    <div className="mission-item-desc">{m.desc}</div>
-                  </div>
+
+              {/* 캘린더 일정 미션 */}
+              <div className={`mission-item${completedMissions.includes('calendar') ? ' done' : ''}`}>
+                <span className="mission-check-static">
+                  {completedMissions.includes('calendar') ? '✅' : '○'}
+                </span>
+                <span className="mission-item-icon">📅</span>
+                <div className="mission-item-text">
+                  <div className="mission-item-title">캘린더 일정 체크하기</div>
+                  {completedMissions.includes('calendar') ? (
+                    <div className="mission-item-desc mission-done-text">완료!</div>
+                  ) : todayAllEvents.length === 0 ? (
+                    <div className="mission-item-desc">
+                      오늘 일정 없음
+                      <button className="btn-mission-action" onClick={() => toggleMission('calendar')}>
+                        완료 처리
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mission-item-desc">
+                      오늘 일정 {todayAllEvents.length}개 중 {todayDoneEvents.length}개 완료
+                      <span className="mission-hint"> — 캘린더에서 일정 완료 체크 시 자동 인정</span>
+                    </div>
+                  )}
                 </div>
-              ))}
+              </div>
+
+              {/* 퀴즈 미션 */}
+              <div className={`mission-item${completedMissions.includes('quiz') ? ' done' : ''}`}>
+                <span className="mission-check-static">
+                  {completedMissions.includes('quiz') ? '✅' : '○'}
+                </span>
+                <span className="mission-item-icon">❓</span>
+                <div className="mission-item-text">
+                  <div className="mission-item-title">식물 퀴즈 풀기</div>
+                  {completedMissions.includes('quiz') ? (
+                    <div className="mission-item-desc mission-done-text">완료!</div>
+                  ) : (
+                    <div className="mission-item-desc">
+                      메인 퀴즈 완료 시 자동 인정
+                      <a
+                        className="btn-mission-action"
+                        href="/#quiz"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        퀴즈 풀러가기 →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="mission-group">

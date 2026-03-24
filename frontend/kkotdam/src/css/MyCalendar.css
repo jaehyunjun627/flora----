@@ -768,7 +768,34 @@
 .mission-item-text { flex: 1; }
 .mission-item-title { font-size: 13px; font-weight: 600; color: #2a2a2a; }
 .mission-item.done .mission-item-title { text-decoration: line-through; color: #8a8a8a; }
-.mission-item-desc { font-size: 11px; color: #9a9a9a; margin-top: 2px; }
+.mission-item-desc { font-size: 11px; color: #9a9a9a; margin-top: 2px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.mission-done-text { color: #4a7c59 !important; font-weight: 600; }
+.mission-hint { font-size: 10px; color: #b8b8b8; }
+
+/* 미션 내 액션 버튼/링크 */
+.btn-mission-action {
+  display: inline-block;
+  background: #4a7c59;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-mission-action:hover { background: #3c6849; }
+
+/* 수동 체크 버튼 없는 미션용 정적 아이콘 */
+.mission-check-static {
+  font-size: 18px;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
 
 .mission-progress-row {
   display: flex;
