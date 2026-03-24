@@ -52,7 +52,7 @@ external:
   pixabay:
     api-key: 3956381-8a0f2a1805bed555538d1bfe8  # https://pixabay.com/api/docs/ 에서 발급
   forest:
-    api-key: YOUR_DATA_GO_KR_KEY   # https://www.data.go.kr 에서 발급
+    api-key: 2c771237c3e6476b1eb2ebbbabe2c152eaaefad0420b752dee5ed1b4f9ce1eed   # https://www.data.go.kr 에서 발급
 
 # ========================
 # 로깅

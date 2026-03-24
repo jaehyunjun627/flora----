@@ -48,8 +48,6 @@ public class PixabayService {
                     .queryParam("key", apiKey)
                     .queryParam("q", query)
                     .queryParam("image_type", "photo")
-                    .queryParam("category", "nature")
-                    .queryParam("lang", "ko")
                     .queryParam("page", page)
                     .queryParam("per_page", Math.min(perPage, 50))
                     .queryParam("safesearch", true)

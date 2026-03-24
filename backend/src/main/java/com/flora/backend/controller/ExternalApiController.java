@@ -33,27 +33,31 @@ public class ExternalApiController {
     }
 
     // ==========================================
-    // 산림청(농촌진흥청) 식물 정보
+    // 산림청 국가표준식물목록 API
     // ==========================================
 
     /**
-     * 식물 목록 검색
-     * GET /api/external/plants?q=장미&page=1
+     * 식물 목록 검색 (q 없으면 기본 목록)
+     * GET /api/external/plants?q=장미&page=1&numOfRows=12
      */
     @GetMapping("/plants")
     public ResponseEntity<Map<String, Object>> searchPlants(
-            @RequestParam String q,
-            @RequestParam(defaultValue = "1") int page) {
-        return ResponseEntity.ok(forestApiService.searchPlants(q, page));
+            @RequestParam(required = false, defaultValue = "") String q,
+            @RequestParam(required = false, defaultValue = "") String searchWord,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "12") int numOfRows) {
+        // q 또는 searchWord 둘 다 지원
+        String keyword = (searchWord != null && !searchWord.isBlank()) ? searchWord : q;
+        return ResponseEntity.ok(forestApiService.searchPlants(keyword, page, numOfRows));
     }
 
     /**
-     * 식물 상세 정보
-     * GET /api/external/plants/{cntntsNo}
+     * 식물 상세 정보 (taxonId 기반)
+     * GET /api/external/plants/{taxonId}
      */
-    @GetMapping("/plants/{cntntsNo}")
+    @GetMapping("/plants/{taxonId}")
     public ResponseEntity<Map<String, Object>> getPlantDetail(
-            @PathVariable String cntntsNo) {
-        return ResponseEntity.ok(forestApiService.getPlantDetail(cntntsNo));
+            @PathVariable String taxonId) {
+        return ResponseEntity.ok(forestApiService.getPlantDetail(taxonId));
     }
 }
