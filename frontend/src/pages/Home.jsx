@@ -70,14 +70,6 @@ export default function Home() {
     return () => clearInterval(timer)
   }, [])
 
-  // 퀴즈 완료 시 마이페이지 미션 연동
-  useEffect(() => {
-    if (quizDone) {
-      const todayStr = new Date().toISOString().split('T')[0]
-      localStorage.setItem(`flora-quiz-done-${todayStr}`, 'true')
-    }
-  }, [quizDone])
-
   const banner = banners[currentBanner]
 
   // 탄생화 검색
@@ -234,7 +226,7 @@ export default function Home() {
       </section>
 
       {/* 퀴즈 섹션 */}
-      <section id="quiz" className="section quiz-section">
+      <section className="section quiz-section">
         <div className="section-inner">
           <div className="section-header">
             <h2>🧠 꽃 지식 퀴즈</h2>

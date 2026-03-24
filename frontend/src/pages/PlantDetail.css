@@ -1,0 +1,420 @@
+/* Breadcrumb */
+.breadcrumb {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 24px;
+}
+
+.breadcrumb-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.breadcrumb a {
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #1a7040;
+}
+
+.breadcrumb span:last-child {
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Hero */
+.detail-hero {
+  padding: 48px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-hero-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 56px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .detail-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.detail-image-area {
+  position: sticky;
+  top: 80px;
+}
+
+.detail-image-box {
+  background: linear-gradient(135deg, #f0f9f4 0%, #d4edda 100%);
+  border-radius: 24px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #c8e6c9;
+}
+
+.detail-emoji {
+  font-size: 140px;
+}
+
+/* Info */
+.detail-category {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a7040;
+  background: #e8f5e9;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-name {
+  font-size: 40px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.detail-scientific {
+  font-size: 16px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0 0 20px;
+}
+
+.detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.detail-tag {
+  font-size: 13px;
+  color: #1a7040;
+  background: #e8f5e9;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.detail-description {
+  font-size: 15px;
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+/* Care Cards */
+.care-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .care-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.care-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.care-icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.care-label {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.care-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.care-tip {
+  font-size: 13px;
+  color: #6b7280;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+/* Action Buttons */
+.detail-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-btn.primary {
+  background: #1a7040;
+  color: #fff;
+}
+
+.action-btn.primary:hover {
+  background: #145a32;
+}
+
+.action-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.action-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+/* Sections */
+.detail-section {
+  padding: 56px 24px;
+}
+
+.detail-section.bg-light {
+  background: #f9fafb;
+}
+
+.detail-section-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.detail-section-inner h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 8px;
+}
+
+.section-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 28px;
+}
+
+/* Monthly Guide */
+.monthly-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+  .monthly-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .monthly-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.monthly-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  transition: border-color 0.2s;
+}
+
+.monthly-card:hover {
+  border-color: #1a7040;
+}
+
+.monthly-month {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a7040;
+  margin: 0 0 6px;
+}
+
+.monthly-tip {
+  font-size: 13px;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.calendar-cta {
+  background: #e8f5e9;
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.calendar-cta p {
+  font-size: 14px;
+  color: #374151;
+  margin: 0;
+}
+
+.calendar-link {
+  color: #1a7040;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.calendar-link:hover {
+  text-decoration: underline;
+}
+
+/* Related Products */
+.related-products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .related-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Related Plants */
+.related-plants-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.related-plant-card {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.related-plant-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #a8d5b5;
+}
+
+.related-plant-emoji {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.related-plant-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.related-plant-sci {
+  font-size: 13px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0;
+}
+
+/* Footer */
+.detail-footer {
+  padding: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.back-to-gallery {
+  color: #1a7040;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.back-to-gallery:hover {
+  text-decoration: underline;
+}
+
+/* Not Found */
+.plant-not-found {
+  text-align: center;
+  padding: 120px 24px;
+  color: #9ca3af;
+}
+
+.plant-not-found span {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.plant-not-found h2 {
+  font-size: 24px;
+  color: #374151;
+  margin: 0 0 24px;
+}
+
+.back-btn {
+  display: inline-block;
+  background: #1a7040;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+}

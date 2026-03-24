@@ -1,0 +1,332 @@
+/* Gallery Header */
+.gallery-header {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  padding: 48px 24px;
+}
+
+.gallery-header-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.gallery-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a3d2b;
+  margin: 0 0 8px;
+}
+
+.gallery-header p {
+  font-size: 15px;
+  color: #2d6a4f;
+  margin: 0 0 28px;
+}
+
+.gallery-search {
+  display: flex;
+  max-width: 560px;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(26, 112, 64, 0.15);
+}
+
+.gallery-search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  color: #374151;
+  background: transparent;
+}
+
+.gallery-search input::placeholder {
+  color: #9ca3af;
+}
+
+.gallery-search button {
+  background: #1a7040;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gallery-search button:hover {
+  background: #145a32;
+}
+
+/* Gallery Body */
+.gallery-body {
+  padding: 32px 0 64px;
+}
+
+.gallery-body-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+/* Sidebar */
+.gallery-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+}
+
+.filter-group {
+  margin-bottom: 28px;
+}
+
+.filter-group h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+  margin-bottom: 2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.filter-btn:hover {
+  background: #f0f9f4;
+  color: #1a7040;
+}
+
+.filter-btn.active {
+  background: #e8f5e9;
+  color: #1a7040;
+  font-weight: 600;
+}
+
+.ai-promo {
+  background: linear-gradient(135deg, #1a7040, #2d9a60);
+  border-radius: 16px;
+  padding: 20px;
+  color: #fff;
+  margin-top: 8px;
+}
+
+.ai-promo-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  opacity: 0.9;
+}
+
+.ai-promo p {
+  font-size: 12px;
+  opacity: 0.85;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.ai-promo-btn {
+  width: 100%;
+  background: #fff;
+  color: #1a7040;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ai-promo-btn:hover {
+  background: #e8f5e9;
+}
+
+/* Gallery Content */
+.gallery-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.gallery-result-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.clear-search {
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.clear-search:hover {
+  background: #fecaca;
+}
+
+/* Plant Grid */
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .plant-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.plant-card {
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: block;
+}
+
+.plant-card:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.plant-card-image {
+  background: #f5f5f5;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.plant-emoji {
+  font-size: 72px;
+}
+
+.plant-difficulty {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.plant-card-info {
+  padding: 16px;
+}
+
+.plant-category {
+  font-size: 11px;
+  color: #1a7040;
+  font-weight: 600;
+  background: #e8f5e9;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.plant-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.plant-scientific {
+  font-size: 12px;
+  color: #9ca3af;
+  font-style: italic;
+  margin: 0 0 8px;
+}
+
+.plant-season {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 10px;
+}
+
+.plant-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.plant-tag {
+  font-size: 11px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.plant-care {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #6b7280;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+}
+
+/* Empty State */
+.gallery-empty {
+  text-align: center;
+  padding: 80px 24px;
+  color: #9ca3af;
+}
+
+.gallery-empty span {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.gallery-empty p {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 8px;
+}
+
+.gallery-empty-sub {
+  font-size: 14px;
+  color: #9ca3af;
+  margin: 0;
+}

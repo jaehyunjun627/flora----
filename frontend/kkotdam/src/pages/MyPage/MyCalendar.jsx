@@ -516,6 +516,13 @@ export default function MyCalendar({ plants, setPlants }) {
                 >
                   {e.isCompleted ? '✅' : '○'}
                 </button>
+                <button
+                  className="delete-event-btn"
+                  onClick={ev => { ev.stopPropagation(); setEvents(prev => prev.filter(ev2 => ev2.id !== e.id)); }}
+                  title="일정 삭제"
+                >
+                  🗑
+                </button>
               </div>
             ))
           )}
