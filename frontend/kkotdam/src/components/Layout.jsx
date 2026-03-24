@@ -107,12 +107,6 @@ function Layout({ children }) {
                 >
                   &#128230;<span>주문내역</span>
                 </button>
-                <button
-                  className="header-icon-btn"
-                  onClick={() => navigate('/calendar')}
-                >
-                  &#127807;<span>식물캘린더</span>
-                </button>
                 {user.role === 'SELLER' && (
                   <button
                     className="header-icon-btn"

@@ -15,7 +15,6 @@ import OrderListPage from './pages/OrderListPage';
 import CommunityPage from './pages/CommunityPage';
 import CommunityDetailPage from './pages/CommunityDetailPage';
 import MyPage from './pages/MyPage/index';
-import CalendarPage from './pages/CalendarPage';
 import PlantEncyclopediaPage from './pages/PlantEncyclopediaPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import NoticePage from './pages/NoticePage';
@@ -40,7 +39,6 @@ function App() {
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/community/:id" element={<CommunityDetailPage />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/plants" element={<PlantEncyclopediaPage />} />
             <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="/notice" element={<NoticePage />} />
