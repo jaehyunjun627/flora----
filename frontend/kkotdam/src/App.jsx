@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Layout';
+import ChatBot from './components/ChatBot';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -41,6 +42,7 @@ function App() {
             <Route path="/subscription" element={<SubscriptionPage />} />
           </Routes>
         </Layout>
+        <ChatBot />
       </Router>
     </AuthProvider>
   );
