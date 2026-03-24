@@ -58,6 +58,9 @@ export default function AttendanceMission() {
   });
 
   const hasTodayAttendance = attendance.includes(todayStr);
+  const missionCount = completedMissions.length;
+  const allMissionsDone = hasTodayAttendance && missionCount >= 3;
+  const missionInProgress = hasTodayAttendance && missionCount < 3;
   const streak = getStreak(attendance, todayStr);
   const maxStreak = getMaxStreak(attendance);
   const nextGoal = Math.ceil((streak + 1) / 7) * 7;
@@ -94,10 +97,10 @@ export default function AttendanceMission() {
       <div className="streak-header">
         <span className="section-title">🔥 출석 스트릭</span>
         <button
-          className={`btn-checkin${hasTodayAttendance ? ' done' : ''}`}
+          className={`btn-checkin${allMissionsDone ? ' done' : missionInProgress ? ' inprogress' : ''}`}
           onClick={handleCheckIn}
         >
-          {hasTodayAttendance ? '✅ 출석완료' : '출석하기'}
+          {allMissionsDone ? '✅ 출석완료' : missionInProgress ? `미션 진행 중 ${missionCount}/3` : '출석하기'}
         </button>
       </div>
 

@@ -59,6 +59,13 @@
   border: 1px solid #c5dfc9;
   cursor: default;
 }
+.btn-checkin-cal.inprogress {
+  background: #fff3e0;
+  color: #c8956a;
+  border: 1px solid #f0d5bc;
+  cursor: pointer;
+}
+.btn-checkin-cal.inprogress:hover { background: #fde8cc; }
 
 .btn-add-plant {
   background: #f5f2ed;
@@ -391,11 +398,47 @@
   padding-top: 16px;
 }
 
+.event-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
 .event-list-title {
   font-size: 13px !important;
   font-weight: 600;
   color: #3a3a3a;
-  margin: 0 0 10px !important;
+  margin: 0 !important;
+}
+
+.btn-add-event {
+  background: #f5f2ed;
+  border: 1.5px solid #c5dfc9;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #4a7c59;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-add-event:hover { background: #eef6ef; }
+
+.btn-add-event-header {
+  background: #f5f2ed;
+  border: 1.5px solid #c5dfc9;
+  border-radius: 20px;
+  padding: 6px 13px;
+  font-size: 12px;
+  color: #4a7c59;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-add-event-header:hover {
+  background: #eef6ef;
+  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.15);
 }
 
 .no-event {
