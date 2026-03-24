@@ -8,7 +8,7 @@ const CATEGORIES = [
   { value: "", label: "전체" },
   { value: "식물", label: "식물" },
   { value: "꽃", label: "꽃" },
-  { value: "화분", label: "화분" },
+  { value: "화분/소품", label: "화분/소품" },
   { value: "비료", label: "비료/토양" },
   { value: "도구", label: "원예도구" },
 ];

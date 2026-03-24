@@ -409,6 +409,8 @@
   border: 1px solid var(--border-light);
   transition: all 0.3s;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .subscription-card:hover {
@@ -514,6 +516,7 @@
   font-weight: 700;
   transition: all 0.2s;
   border: none;
+  margin-top: auto;
 }
 
 .subscription-card-btn:hover {
