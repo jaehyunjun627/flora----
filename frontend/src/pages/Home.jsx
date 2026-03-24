@@ -2,34 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/common/ProductCard'
 import { popularProducts } from '../data/mockData'
+import { getBirthFlower, getDateString } from '../data/birthFlowers'
 import './Home.css'
 
-const banners = [
-  {
-    id: 1,
-    title: '봄맞이 식물 페스티벌',
-    subtitle: '인기 식물 최대 40% 할인',
-    cta: '지금 구경하기',
-    ctaLink: '/market?category=popular',
-    bg: 'linear-gradient(135deg, #d4edda 0%, #a8d5b5 50%, #6aaf84 100%)',
-  },
-  {
-    id: 2,
-    title: '구독 서비스 출시!',
-    subtitle: '매달 제철 꽃다발을 집에서 받아보세요',
-    cta: '구독하기',
-    ctaLink: '/subscription',
-    bg: 'linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%)',
-  },
-  {
-    id: 3,
-    title: '식물 도감에서 찾아보세요',
-    subtitle: '산림청 API 기반 2,000종 이상의 식물 정보',
-    cta: '식물도감 보기',
-    ctaLink: '/gallery',
-    bg: 'linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 50%, #81c784 100%)',
-  },
-]
+const today = new Date()
+const birthFlower = getBirthFlower(today)
+const dateString = getDateString(today)
 
 const seasonalFlowers = [
   { emoji: '🌸', name: '벚꽃', season: '봄 제철' },
@@ -39,37 +17,48 @@ const seasonalFlowers = [
 ]
 
 export default function Home() {
-  const [currentBanner, setCurrentBanner] = useState(0)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % banners.length)
-    }, 4000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const banner = banners[currentBanner]
-
   return (
     <main className="home">
-      {/* Hero Banner */}
-      <section className="hero-banner" style={{ background: banner.bg }}>
-        <div className="hero-content">
-          <h1 className="hero-title">{banner.title}</h1>
-          <p className="hero-subtitle">{banner.subtitle}</p>
-          <Link to={banner.ctaLink} className="hero-cta">
-            {banner.cta}
-          </Link>
+      {/* 탄생화 히어로 */}
+      <section className="birth-hero">
+        <div className="birth-hero-inner">
+          <div className="birth-hero-left">
+            <div className="birth-today-badge">TODAY</div>
+            <p className="birth-date">{dateString}</p>
+            <p className="birth-label">🤍 오늘의 탄생화</p>
+            <h1 className="birth-flower-name">{birthFlower.flower}</h1>
+            <p className="birth-meaning">"{birthFlower.meaning}"</p>
+            <div className="birth-buttons">
+              <Link to={`/gallery?q=${birthFlower.flower}`} className="birth-btn birth-btn-primary">
+                꽃말 더 알아보기
+              </Link>
+              <Link to="/market" className="birth-btn birth-btn-outline">
+                선물하기
+              </Link>
+              <Link to="/subscription" className="birth-btn birth-btn-green">
+                🌸 정기 구독하기
+              </Link>
+            </div>
+          </div>
+          <div className="birth-hero-right">
+            <div className="birth-flower-img" style={{ background: `radial-gradient(circle, ${birthFlower.color}33 0%, ${birthFlower.color}11 70%)`, border: `2px solid ${birthFlower.color}66` }}>
+              <span className="birth-flower-emoji">{birthFlower.emoji}</span>
+            </div>
+          </div>
         </div>
-        <div className="hero-dots">
-          {banners.map((_, i) => (
-            <button
-              key={i}
-              className={`hero-dot ${i === currentBanner ? 'active' : ''}`}
-              onClick={() => setCurrentBanner(i)}
-              aria-label={`배너 ${i + 1}`}
-            />
-          ))}
+      </section>
+
+      {/* 카테고리 탭 */}
+      <section className="category-tabs-section">
+        <div className="section-inner">
+          <div className="category-tabs">
+            <Link to="/market?category=spring" className="cat-tab">🌸 봄맞이 꽃</Link>
+            <Link to="/market?category=plant" className="cat-tab">🌿 인기 식물</Link>
+            <Link to="/market?category=pot" className="cat-tab">🪴 감성 화분</Link>
+            <Link to="/gallery" className="cat-tab">📚 식물도감</Link>
+            <Link to="/community" className="cat-tab">💬 커뮤니티</Link>
+            <Link to="/market?category=event" className="cat-tab">🎁 이벤트</Link>
+          </div>
         </div>
       </section>
 

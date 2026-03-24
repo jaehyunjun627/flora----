@@ -2,75 +2,178 @@
   min-height: 80vh;
 }
 
-/* Hero Banner */
-.hero-banner {
+/* 탄생화 히어로 */
+.birth-hero {
+  background: linear-gradient(135deg, #1a2f1a 0%, #2d4a1e 40%, #1c3a12 100%);
+  padding: 60px 24px;
   position: relative;
-  padding: 64px 24px 80px;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: background 0.5s ease;
+  overflow: hidden;
 }
 
-.hero-content {
+.birth-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.birth-hero-inner {
   max-width: 1280px;
   margin: 0 auto;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
 }
 
-.hero-title {
-  font-size: 36px;
-  font-weight: 700;
-  color: #1a3d2b;
-  margin: 0 0 12px;
+.birth-hero-left {
+  flex: 1;
 }
 
-.hero-subtitle {
-  font-size: 16px;
-  color: #2d6a4f;
-  margin: 0 0 28px;
-}
-
-.hero-cta {
+.birth-today-badge {
   display: inline-block;
-  background: #1a7040;
-  color: #fff;
-  padding: 12px 28px;
-  border-radius: 24px;
+  background: #f9c74f;
+  color: #1a2f1a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.birth-date {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+.birth-label {
+  color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
+.birth-flower-name {
+  font-size: 56px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 12px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.birth-meaning {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.75);
+  font-style: italic;
+  margin: 0 0 32px;
+}
+
+.birth-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.birth-btn {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 24px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
-.hero-cta:hover {
-  background: #145a32;
+.birth-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
-.hero-dots {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
+.birth-btn-primary {
+  background: #f9c74f;
+  color: #1a2f1a;
+}
+
+.birth-btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.5);
+}
+
+.birth-btn-green {
+  background: #2d9a60;
+  color: #fff;
+}
+
+.birth-hero-right {
+  flex-shrink: 0;
+}
+
+.birth-flower-img {
+  width: 240px;
+  height: 240px;
+  border-radius: 28px;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
 }
 
-.hero-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.2s, transform 0.2s;
+.birth-flower-emoji {
+  font-size: 120px;
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
 }
 
-.hero-dot.active {
+@media (max-width: 768px) {
+  .birth-hero-inner {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .birth-flower-name {
+    font-size: 40px;
+  }
+  .birth-flower-img {
+    width: 160px;
+    height: 160px;
+  }
+  .birth-flower-emoji {
+    font-size: 80px;
+  }
+}
+
+/* 카테고리 탭 */
+.category-tabs-section {
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fff;
+}
+
+.category-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cat-tab {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 20px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.cat-tab:hover {
   background: #1a7040;
-  transform: scale(1.3);
+  color: #fff;
 }
 
 /* Sections */
