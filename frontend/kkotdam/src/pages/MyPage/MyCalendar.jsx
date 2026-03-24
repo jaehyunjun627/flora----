@@ -480,7 +480,7 @@ export default function MyCalendar({ plants, setPlants }) {
             </div>
 
             <div className="mission-group">
-              <div className="mission-group-label">📌 기본 미션</div>
+              <div className="mission-group-label">📌 기본 미션 <span className="mission-pts-label">각 +4P</span></div>
               {BASIC_MISSIONS.map(m => (
                 <div key={m.id} className={`mission-item${completedMissions.includes(m.id) ? ' done' : ''}`}>
                   <button className="mission-check" onClick={() => toggleMission(m.id)}>
@@ -496,7 +496,7 @@ export default function MyCalendar({ plants, setPlants }) {
             </div>
 
             <div className="mission-group">
-              <div className="mission-group-label special">⭐ 오늘의 특별 미션</div>
+              <div className="mission-group-label special">⭐ 오늘의 특별 미션 <span className="mission-pts-label">+2P</span></div>
               <div className={`mission-item special-item${completedMissions.includes('special') ? ' done' : ''}`}>
                 <button className="mission-check" onClick={() => toggleMission('special')}>
                   {completedMissions.includes('special') ? '✅' : '○'}
@@ -512,7 +512,7 @@ export default function MyCalendar({ plants, setPlants }) {
             <div className="mission-progress-row">
               <span className="mission-progress-text">{completedMissions.length} / 3 완료</span>
               {completedMissions.length === 3 && (
-                <span className="mission-all-done">🎉 모두 완료! +30P 적립!</span>
+                <span className="mission-all-done">🎉 모두 완료! +10P 적립!</span>
               )}
             </div>
 

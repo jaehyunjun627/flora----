@@ -726,6 +726,17 @@
 
 .mission-group-label.special { color: #c8956a; }
 
+.mission-pts-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4a7c59;
+  background: #eef6ef;
+  border-radius: 8px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 .mission-item {
   display: flex;
   align-items: center;

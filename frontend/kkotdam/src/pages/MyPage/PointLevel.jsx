@@ -68,9 +68,9 @@ export default function PointLevel() {
 
       {/* 포인트 획득 안내 */}
       <div className="point-guide">
-        <span>🎯 출석 시 +50P</span>
-        <span>⭐ 출석미션 완료 시 +30P</span>
-        <span>🌿 일기 작성 시 +20P</span>
+        <span>📌 기본미션 완료 시 각 +4P</span>
+        <span>⭐ 특별미션 완료 시 +2P</span>
+        <span>🎯 하루 미션 모두 완료 시 +10P</span>
       </div>
     </div>
   );
