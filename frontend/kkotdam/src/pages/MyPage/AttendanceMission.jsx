@@ -152,6 +152,9 @@ export default function AttendanceMission() {
                     <div className="mission-item-title">{m.text}</div>
                     <div className="mission-item-desc">{m.desc}</div>
                   </div>
+                  {m.id === 'quiz' && (
+                    <a href="/#quiz" className="mission-goto-btn">퀴즈 풀러가기</a>
+                  )}
                 </div>
               ))}
             </div>
