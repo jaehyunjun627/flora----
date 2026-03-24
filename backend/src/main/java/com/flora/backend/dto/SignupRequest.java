@@ -22,4 +22,11 @@ public class SignupRequest {
     private String nickname;
 
     private String phone;
+
+    // 계정 유형: "USER" (일반 구매자), "SELLER" (판매자)
+    private String role;
+
+    // 판매자 전용 필드
+    private String businessName;
+    private String businessNumber;
 }

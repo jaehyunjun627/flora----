@@ -92,6 +92,22 @@ export default function ProductNewPage() {
     );
   }
 
+  if (user.role !== 'SELLER' && user.role !== 'ADMIN') {
+    return (
+      <div className="pnew-page">
+        <div className="pnew-container">
+          <div className="pnew-auth-msg">
+            <p>판매자 계정만 상품을 등록할 수 있습니다.</p>
+            <p style={{ fontSize: '14px', color: '#888', marginTop: '8px' }}>
+              판매자 계정으로 가입하시면 상품 등록이 가능해요.
+            </p>
+            <button onClick={() => navigate('/products')}>마켓으로 돌아가기</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pnew-page">
       <div className="pnew-container">

@@ -31,13 +31,21 @@ public class AuthService {
             throw new IllegalArgumentException("이미 사용 중인 닉네임입니다");
         }
 
-        // 사용자 생성
+        // 사용자 생성 (role: USER 또는 SELLER)
+        String role = "USER";
+        if (request.getRole() != null && request.getRole().equalsIgnoreCase("SELLER")) {
+            role = "SELLER";
+        }
+
         User user = User.builder()
                 .email(request.getEmail())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .nickname(request.getNickname())
                 .phone(request.getPhone())
-                .role("USER")
+                .role(role)
+                .sellerStatus(role.equals("SELLER") ? "APPROVED" : null)
+                .businessName(role.equals("SELLER") ? request.getBusinessName() : null)
+                .businessNumber(role.equals("SELLER") ? request.getBusinessNumber() : null)
                 .isActive(true)
                 .points(0)
                 .streakDays(0)

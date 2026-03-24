@@ -38,12 +38,12 @@ export function AuthProvider({ children }) {
     return res.data;
   };
 
-  const signup = async (email, password, nickname, phone) => {
-    const res = await api.post('/api/auth/signup', { email, password, nickname, phone });
-    const { token, userId, role } = res.data;
+  const signup = async (email, password, nickname, phone, role, businessName, businessNumber) => {
+    const res = await api.post('/api/auth/signup', { email, password, nickname, phone, role, businessName, businessNumber });
+    const { token, userId, role: userRole } = res.data;
     localStorage.setItem('token', token);
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setUser({ id: userId, email, nickname, role });
+    setUser({ id: userId, email, nickname, role: userRole });
     return res.data;
   };
 

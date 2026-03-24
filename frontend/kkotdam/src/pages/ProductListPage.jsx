@@ -72,7 +72,7 @@ export default function ProductListPage() {
             {cat.label}
           </button>
         ))}
-        {user && (
+        {user && (user.role === 'SELLER' || user.role === 'ADMIN') && (
           <button
             className="category-btn register-btn"
             onClick={() => navigate('/products/new')}

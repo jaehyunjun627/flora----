@@ -19,6 +19,7 @@ export default function CheckoutPage() {
     address: '',
     addressDetail: '',
     memo: '문 앞에 놓아주세요',
+    memoCustom: '',
   });
 
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -38,8 +39,9 @@ export default function CheckoutPage() {
     }
   };
 
+  // CartPage와 동일한 필드명 사용 (item.subtotal 또는 item.productPrice * quantity)
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0
+    (sum, item) => sum + (item.subtotal || (item.productPrice || item.price || 0) * (item.quantity || 1)), 0
   );
   const deliveryFee = totalPrice >= 50000 ? 0 : 3000;
   const finalPrice = totalPrice + deliveryFee;
@@ -68,7 +70,7 @@ export default function CheckoutPage() {
           quantity: item.quantity,
         })),
         deliveryAddress: `${deliveryInfo.address} ${deliveryInfo.addressDetail}`,
-        deliveryMemo: deliveryInfo.memo,
+        deliveryMemo: deliveryInfo.memo === '직접 입력' ? deliveryInfo.memoCustom : deliveryInfo.memo,
         paymentMethod: paymentMethod,
         totalAmount: finalPrice,
       });
@@ -153,11 +155,20 @@ export default function CheckoutPage() {
               <div className="checkout-field">
                 <label>배송 메모</label>
                 <select name="memo" value={deliveryInfo.memo} onChange={handleInfoChange}>
-                  <option>문 앞에 놓아주세요</option>
-                  <option>경비실에 맡겨주세요</option>
-                  <option>배송 전 연락해주세요</option>
-                  <option>직접 입력</option>
+                  <option value="문 앞에 놓아주세요">문 앞에 놓아주세요</option>
+                  <option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+                  <option value="배송 전 연락해주세요">배송 전 연락해주세요</option>
+                  <option value="직접 입력">직접 입력</option>
                 </select>
+                {deliveryInfo.memo === '직접 입력' && (
+                  <input
+                    name="memoCustom"
+                    value={deliveryInfo.memoCustom}
+                    onChange={handleInfoChange}
+                    placeholder="배송 메모를 직접 입력해주세요"
+                    style={{ marginTop: '8px' }}
+                  />
+                )}
               </div>
               <button className="checkout-next-btn" onClick={proceedToPayment}>
                 결제하기로 이동
@@ -230,7 +241,7 @@ export default function CheckoutPage() {
                   <span className="summary-item-name">{item.productName || item.name}</span>
                   <span className="summary-item-qty">x{item.quantity}</span>
                   <span className="summary-item-price">
-                    {((item.price || 0) * (item.quantity || 1)).toLocaleString()}원
+                    {(item.subtotal || (item.productPrice || item.price || 0) * (item.quantity || 1)).toLocaleString()}원
                   </span>
                 </div>
               ))}

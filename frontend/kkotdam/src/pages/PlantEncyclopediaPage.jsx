@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 import './PlantEncyclopediaPage.css';
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 20;
 // Pixabay API 키 (프론트 직접 호출 - CORS 지원)
 const PIXABAY_KEY = '3956381-8a0f2a1805bed555538d1bfe8';
 
@@ -30,10 +30,10 @@ export default function PlantEncyclopediaPage() {
       setPlants(items);
       setTotalCount(res.data.totalCount || 0);
 
-      // Pixabay 이미지 병렬 로딩 (상위 8개)
-      items.slice(0, 8).forEach(plant => {
+      // Pixabay 이미지 병렬 로딩 (전체)
+      items.forEach(plant => {
         const name = plant.korName || plant.scientificName;
-        if (name) loadPlantImage(name, plant.engName);
+        if (name) loadPlantImage(name, plant.engName, plant.scientificName);
       });
     } catch (e) {
       console.error('식물 목록 로딩 실패:', e);
@@ -43,14 +43,19 @@ export default function PlantEncyclopediaPage() {
     }
   };
 
-  // Pixabay 프론트 직접 호출 (백엔드 우회)
-  const loadPlantImage = useCallback(async (korName, engName) => {
+  // Pixabay 프론트 직접 호출 (학명 기반 검색으로 정확도 향상)
+  const loadPlantImage = useCallback(async (korName, engName, sciName) => {
     if (!korName || pixabayImages[korName]) return;
     try {
-      const query = encodeURIComponent(
-        engName && engName.trim() ? `${engName} flower` : `${korName} flower`
-      );
-      const url = `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${query}&image_type=photo&per_page=3&safesearch=true`;
+      // 영문명 우선 → 학명 속명 → 한글명 순서로 검색
+      let searchTerm = korName;
+      if (engName && engName.trim()) {
+        searchTerm = engName.split(' ')[0]; // 첫 단어만 (예: "Korean forsythia" → "forsythia")
+      } else if (sciName && sciName.trim()) {
+        searchTerm = sciName.split(' ')[0]; // 학명 속명 (예: "Rosa hybrida" → "Rosa")
+      }
+      const query = encodeURIComponent(`${searchTerm} flower plant`);
+      const url = `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${query}&image_type=photo&per_page=5&safesearch=true&category=nature`;
       const res = await fetch(url);
       const data = await res.json();
       if (data.hits?.length > 0) {
@@ -74,7 +79,7 @@ export default function PlantEncyclopediaPage() {
     // 이미지 로딩
     const name = plant.korName;
     if (name && !pixabayImages[name]) {
-      loadPlantImage(name, plant.engName);
+      loadPlantImage(name, plant.engName, plant.scientificName);
     }
 
     // 상세 정보 조회

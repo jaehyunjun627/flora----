@@ -61,6 +61,12 @@ public class User {
     @Column(name = "seller_status", length = 20)
     private String sellerStatus;
 
+    @Column(name = "business_name", length = 100)
+    private String businessName;
+
+    @Column(name = "business_number", length = 20)
+    private String businessNumber;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
