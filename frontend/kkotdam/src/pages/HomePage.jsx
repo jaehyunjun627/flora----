@@ -2,8 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getTodayBirthFlower } from '../data/birthFlowers';
+import quizData from '../data/quizData';
 import api from '../services/api';
 import './HomePage.css';
+
+// 날짜 기반으로 오늘의 퀴즈 1문제 선택
+function getTodayDateStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function getTodayQuiz(quizArr) {
+  const dateStr = getTodayDateStr();
+  // 날짜 문자열을 숫자로 변환해 index 결정 (매일 다른 문제)
+  const seed = dateStr.replace(/-/g, '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return quizArr[seed % quizArr.length];
+}
 
 const SUBSCRIPTION_PLANS = [
   {
@@ -50,6 +64,23 @@ export default function HomePage() {
   const [birthFlower, setBirthFlower] = useState(null);
   const [birthFlowerImg, setBirthFlowerImg] = useState(null);
 
+  // 퀴즈 - 하루 1문제
+  const todayStr = getTodayDateStr();
+  const QUIZ_KEY = `flora-quiz-${todayStr}`;
+  const [todayQuiz] = useState(() => getTodayQuiz(quizData));
+  const [selected, setSelected] = useState(() => {
+    try { const saved = JSON.parse(localStorage.getItem(QUIZ_KEY)); return saved?.selected ?? null; }
+    catch { return null; }
+  });
+  const [showResult, setShowResult] = useState(() => {
+    try { return !!JSON.parse(localStorage.getItem(QUIZ_KEY))?.answered; }
+    catch { return false; }
+  });
+  const [quizDone, setQuizDone] = useState(() => {
+    try { return !!JSON.parse(localStorage.getItem(QUIZ_KEY))?.answered; }
+    catch { return false; }
+  });
+
   useEffect(() => {
     const flower = getTodayBirthFlower();
     setBirthFlower(flower);
@@ -79,6 +110,21 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // 퀴즈 핸들러 - 하루 1회, 결과 localStorage 저장
+  const handleSelect = (optionIndex) => {
+    if (selected !== null || showResult) return;
+    setSelected(optionIndex);
+    setShowResult(true);
+  };
+  const handleFinish = () => {
+    const correct = selected === todayQuiz.answer;
+    // 퀴즈 결과 저장
+    localStorage.setItem(QUIZ_KEY, JSON.stringify({ answered: true, selected, correct, date: todayStr }));
+    // 마이페이지 출석 미션 연동용 키도 저장
+    localStorage.setItem(`flora-quiz-done-${todayStr}`, '1');
+    setQuizDone(true);
   };
 
   const today = new Date();
@@ -255,6 +301,64 @@ export default function HomePage() {
           <div className="subscription-notice">
             <p>* 구독은 언제든 해지할 수 있으며, 배송일 3일 전까지 변경/취소 가능합니다.</p>
             <p>* 첫 구독 시 15% 추가 할인 쿠폰을 드립니다.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 퀴즈 섹션 - 하루 1문제 */}
+      <section className="section quiz-section">
+        <div className="section-inner">
+          <div className="section-header">
+            <h2 className="section-title">🧠 오늘의 꽃 퀴즈</h2>
+            <span className="quiz-score-badge">📅 {todayStr}</span>
+          </div>
+          <div className="quiz-card">
+            {!quizDone ? (
+              <>
+                <p className="quiz-question">{todayQuiz.question}</p>
+                <ul className="quiz-options">
+                  {todayQuiz.options.map((opt, i) => {
+                    let cls = 'quiz-option';
+                    if (showResult) {
+                      if (i === todayQuiz.answer) cls += ' correct';
+                      else if (i === selected) cls += ' wrong';
+                    }
+                    return (
+                      <li key={i}>
+                        <button className={cls} onClick={() => handleSelect(i)} disabled={showResult}>
+                          <span className="quiz-option-label">{String.fromCharCode(65 + i)}</span>
+                          {opt}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+                {showResult && (
+                  <div className={`quiz-feedback ${selected === todayQuiz.answer ? 'correct' : 'wrong'}`}>
+                    <p className="quiz-feedback-title">
+                      {selected === todayQuiz.answer ? '🎉 정답!' : '❌ 오답!'}
+                    </p>
+                    <p className="quiz-explanation">{todayQuiz.explanation}</p>
+                    <button className="quiz-next-btn" onClick={handleFinish}>
+                      결과 확인
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="quiz-result">
+                <p className="quiz-result-emoji">
+                  {selected === todayQuiz.answer ? '🏆' : '🌱'}
+                </p>
+                <p className="quiz-result-title">
+                  {selected === todayQuiz.answer ? '정답이에요!' : '아쉽지만 오답이에요!'}
+                </p>
+                <p className="quiz-result-score">
+                  정답: <strong>{todayQuiz.options[todayQuiz.answer]}</strong>
+                </p>
+                <p className="quiz-result-tomorrow">내일 새로운 문제가 나와요 😊</p>
+              </div>
+            )}
           </div>
         </div>
       </section>

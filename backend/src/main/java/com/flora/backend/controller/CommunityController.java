@@ -56,6 +56,56 @@ public class CommunityController {
         return ResponseEntity.ok(communityService.toggleLike(id, userId));
     }
 
+    @PutMapping("/posts/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id,
+                                        @RequestBody Map<String, String> body,
+                                        @RequestHeader("Authorization") String token) {
+        Long userId = extractUserId(token);
+        if (userId == null) return ResponseEntity.status(401).body(Map.of("message", "로그인이 필요합니다"));
+        try {
+            return ResponseEntity.ok(communityService.updatePost(id, userId, body.get("title"), body.get("content")));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/comments/{id}")
+    public ResponseEntity<?> updateComment(@PathVariable Long id,
+                                           @RequestBody Map<String, String> body,
+                                           @RequestHeader("Authorization") String token) {
+        Long userId = extractUserId(token);
+        if (userId == null) return ResponseEntity.status(401).body(Map.of("message", "로그인이 필요합니다"));
+        try {
+            return ResponseEntity.ok(communityService.updateComment(id, userId, body.get("content")));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id,
+                                        @RequestHeader("Authorization") String token) {
+        Long userId = extractUserId(token);
+        if (userId == null) return ResponseEntity.status(401).body(Map.of("message", "로그인이 필요합니다"));
+        try {
+            return ResponseEntity.ok(communityService.deletePost(id, userId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long id,
+                                           @RequestHeader("Authorization") String token) {
+        Long userId = extractUserId(token);
+        if (userId == null) return ResponseEntity.status(401).body(Map.of("message", "로그인이 필요합니다"));
+        try {
+            return ResponseEntity.ok(communityService.deleteComment(id, userId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(Map.of("message", e.getMessage()));
+        }
+    }
+
     private Long extractUserId(String token) {
         if (token == null || !token.startsWith("Bearer ")) return null;
         try { return jwtTokenProvider.getUserId(token.substring(7)); } catch (Exception e) { return null; }

@@ -18,6 +18,9 @@ import MyPage from './pages/MyPage/index';
 import CalendarPage from './pages/CalendarPage';
 import PlantEncyclopediaPage from './pages/PlantEncyclopediaPage';
 import SubscriptionPage from './pages/SubscriptionPage';
+import NoticePage from './pages/NoticePage';
+import LocalTradePage from './pages/LocalTradePage';
+import LocalFestivalPage from './pages/LocalFestivalPage';
 
 function App() {
   return (
@@ -40,6 +43,9 @@ function App() {
             <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/plants" element={<PlantEncyclopediaPage />} />
             <Route path="/subscription" element={<SubscriptionPage />} />
+            <Route path="/notice" element={<NoticePage />} />
+            <Route path="/local-trade" element={<LocalTradePage />} />
+            <Route path="/local-festival" element={<LocalFestivalPage />} />
           </Routes>
         </Layout>
         <ChatBot />

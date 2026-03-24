@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
-import MyCalendar from './MyCalendar';
-import BadgeCollection, { ALL_BADGES } from './BadgeCollection';
-import PointLevel from './PointLevel';
-import PlantCard from './PlantCard';
+import MyCalendar from '../../components/mypage/MyCalendar';
+import BadgeCollection, { ALL_BADGES } from '../../components/mypage/BadgeCollection';
+import PointLevel from '../../components/mypage/PointLevel';
+import PlantCard from '../../components/mypage/PlantCard';
+import TermsAgreement from '../../components/mypage/TermsAgreement';
 import './MyPage.css';
 
 const TABS = [
   { id: 'activity', label: '내 활동' },
   { id: 'card',     label: '식물 명함' },
+  { id: 'terms',    label: '약관 동의' },
 ];
 
 const INITIAL_PLANTS = [
@@ -31,6 +33,7 @@ export default function MyPage() {
   });
   const [selectedBadge,   setSelectedBadge]   = useState(null);
   const [showBadgePicker, setShowBadgePicker] = useState(false);
+  const [profileBadgeTitle, setProfileBadgeTitle] = useState(null);
 
   useEffect(() => {
     if (!authUser) { navigate('/login'); return; }
@@ -49,7 +52,13 @@ export default function MyPage() {
     finally { setLoading(false); }
   };
 
-  const earnedBadges = ALL_BADGES.filter(b => b.earned);
+  // API 뱃지 데이터가 있으면 매칭, 없으면 첫 번째 뱃지만 기본 획득
+  const apiBadges = myData?.badges || null;
+  const earnedBadges = ALL_BADGES.filter(b =>
+    apiBadges
+      ? apiBadges.some(ab => ab.badgeCode === b.badgeCode || ab.badgeName === b.name)
+      : (b.id <= 1)
+  );
 
   // 유저 정보: API 데이터 우선, 없으면 authContext 사용
   const userName  = myData?.nickname || authUser?.nickname || '사용자';
@@ -71,36 +80,39 @@ export default function MyPage() {
       <div className="profile-banner">
         <div className="profile-avatar">{myData?.profileEmoji || '🌿'}</div>
         <div className="profile-info">
+
+          {/* 닉네임 + 뱃지 칭호 */}
           <div className="profile-name-row">
             <span className="profile-name">{userName}</span>
-            {selectedBadge && (
+            {profileBadgeTitle && (
               <span className="profile-badge-title">
-                {selectedBadge.icon} {selectedBadge.name}
+                {profileBadgeTitle.icon} {profileBadgeTitle.name}
               </span>
             )}
             <button
               className="btn-badge-pick"
               onClick={() => setShowBadgePicker(v => !v)}
             >
-              {selectedBadge ? '변경' : '칭호 선택'}
+              {profileBadgeTitle ? '변경' : '칭호 선택'}
             </button>
           </div>
 
+          {/* 뱃지 칭호 선택 드롭다운 */}
           {showBadgePicker && (
             <div className="badge-picker-dropdown">
               {earnedBadges.map(b => (
                 <button
                   key={b.id}
-                  className={`badge-picker-item${selectedBadge?.id === b.id ? ' active' : ''}`}
-                  onClick={() => { setSelectedBadge(b); setShowBadgePicker(false); }}
+                  className={`badge-picker-item${profileBadgeTitle?.id === b.id ? ' active' : ''}`}
+                  onClick={() => { setProfileBadgeTitle(b); setShowBadgePicker(false); }}
                 >
                   {b.icon} {b.name}
                 </button>
               ))}
-              {selectedBadge && (
+              {profileBadgeTitle && (
                 <button
                   className="badge-picker-item clear"
-                  onClick={() => { setSelectedBadge(null); setShowBadgePicker(false); }}
+                  onClick={() => { setProfileBadgeTitle(null); setShowBadgePicker(false); }}
                 >
                   ✕ 칭호 해제
                 </button>
@@ -110,6 +122,7 @@ export default function MyPage() {
 
           <div className="profile-meta">{userEmail}{joinDate ? ` · ${joinDate} 가입` : ''}</div>
 
+          {/* 키우는 식물 수 (실시간 반영) */}
           <div className="profile-stats">
             <div className="profile-stat">
               <span className="pstat-num">{plants.length}종</span>
@@ -135,7 +148,7 @@ export default function MyPage() {
             className={`mypage-tab${activeTab === tab.id ? ' active' : ''}`}
             onClick={() => setActiveTab(tab.id)}
           >
-            {tab.id === 'activity' ? '🌿 ' : '🪪 '}{tab.label}
+            {tab.id === 'activity' ? '🌿 ' : tab.id === 'card' ? '🪪 ' : '📋 '}{tab.label}
           </button>
         ))}
       </div>
@@ -146,14 +159,20 @@ export default function MyPage() {
             <MyCalendar plants={plants} setPlants={setPlants} />
             <div className="two-col-grid">
               <PointLevel points={userPoints} />
-              <BadgeCollection selectedBadge={selectedBadge} onSelectBadge={setSelectedBadge} />
+              <BadgeCollection selectedBadge={selectedBadge} onSelectBadge={setSelectedBadge} apiBadges={apiBadges} />
             </div>
           </div>
         )}
 
         {activeTab === 'card' && (
           <div className="card-tab">
-            <PlantCard selectedBadge={selectedBadge} plants={plants} userName={userName} />
+            <PlantCard selectedBadge={profileBadgeTitle} plants={plants} userName={userName} />
+          </div>
+        )}
+
+        {activeTab === 'terms' && (
+          <div className="terms-tab">
+            <TermsAgreement />
           </div>
         )}
       </div>
@@ -161,6 +180,7 @@ export default function MyPage() {
       {/* 빠른 링크 */}
       <div className="mypage-quick-links">
         <button onClick={() => navigate('/orders')} className="quick-link-btn">📦 주문 내역</button>
+        <button onClick={() => navigate('/notice')} className="quick-link-btn">📢 공지사항</button>
         <button onClick={() => navigate('/community')} className="quick-link-btn">💬 커뮤니티</button>
         <button onClick={() => { logout(); navigate('/'); }} className="quick-link-btn logout-btn">🚪 로그아웃</button>
       </div>

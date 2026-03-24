@@ -71,6 +71,23 @@ function generateScheduleFromAi(plant, aiResult) {
 
 const PLANT_TYPES = ['관엽식물', '다육식물', '허브', '선인장', '난초', '관목', '기타'];
 
+const AI_SCHEDULE_BY_TYPE = {
+  '관엽식물': { wateringInterval: 7,  repottingInterval: 180, fertilizingInterval: 21 },
+  '다육식물': { wateringInterval: 14, repottingInterval: 365, fertilizingInterval: 30 },
+  '선인장':   { wateringInterval: 21, repottingInterval: 365 },
+  '허브':     { wateringInterval: 4,  repottingInterval: 150, fertilizingInterval: 14 },
+  '난초':     { wateringInterval: 7,  repottingInterval: 365, fertilizingInterval: 21 },
+  '관목':     { wateringInterval: 5,  repottingInterval: 180, fertilizingInterval: 21, pruningInterval: 60 },
+  '기타':     { wateringInterval: 7,  repottingInterval: 180, fertilizingInterval: 21 },
+};
+
+const EVENT_TYPE_OPTIONS = [
+  { value: 'WATERING',    label: '💧 물주기' },
+  { value: 'REPOTTING',   label: '🪴 분갈이' },
+  { value: 'FERTILIZING', label: '🌱 비료주기' },
+  { value: 'CUSTOM',      label: '📌 기타' },
+];
+
 const EVENT_TYPE_COLOR = {
   WATERING:    '#5b9bd5',
   REPOTTING:   '#c4a0d0',
@@ -139,11 +156,56 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
   const [isAnalyzing,       setIsAnalyzing]       = useState(false);
   const [aiCareNotes,       setAiCareNotes]       = useState('');
   const [deletePlantTarget, setDeletePlantTarget] = useState(null);
+  const [showAddEvent,      setShowAddEvent]      = useState(false);
+  const [newEvent,          setNewEvent]          = useState({ title: '', type: 'CUSTOM', date: '' });
 
   const [completedMissions, setCompletedMissions] = useState(() => {
     try { return JSON.parse(localStorage.getItem(`flora-missions-${todayStr}`) || '[]'); }
     catch { return []; }
   });
+
+  // 오늘 일정
+  const todayAllEvents = events.filter(e => e.date === todayStr);
+  const todayDoneEvents = todayAllEvents.filter(e => e.isCompleted);
+
+  // 퀴즈 완료 여부 (메인페이지에서 localStorage에 저장)
+  const isQuizDone = () => {
+    if (localStorage.getItem(`flora-quiz-done-${todayStr}`)) return true;
+    try {
+      const saved = JSON.parse(localStorage.getItem(`flora-quiz-${todayStr}`));
+      return !!saved?.answered;
+    } catch { return false; }
+  };
+  const [quizDoneToday, setQuizDoneToday] = useState(() => isQuizDone());
+
+  // 탭 포커스 시 퀴즈 완료 재확인
+  useEffect(() => {
+    const check = () => setQuizDoneToday(isQuizDone());
+    window.addEventListener('focus', check);
+    return () => window.removeEventListener('focus', check);
+  }, [todayStr]); // eslint-disable-line
+
+  // 퀴즈 완료 감지 → 미션 자동 체크
+  useEffect(() => {
+    if (quizDoneToday && !completedMissions.includes('quiz')) {
+      const updated = [...completedMissions, 'quiz'];
+      setCompletedMissions(updated);
+      localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+    }
+  }, [quizDoneToday]); // eslint-disable-line
+
+  // 오늘 일정 전부 완료 → 캘린더 미션 자동 체크
+  useEffect(() => {
+    if (
+      todayAllEvents.length > 0 &&
+      todayDoneEvents.length === todayAllEvents.length &&
+      !completedMissions.includes('calendar')
+    ) {
+      const updated = [...completedMissions, 'calendar'];
+      setCompletedMissions(updated);
+      localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+    }
+  }, [todayDoneEvents.length, todayAllEvents.length]); // eslint-disable-line
 
   const firstDay    = new Date(currentYear, currentMonth, 1).getDay();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
@@ -171,6 +233,10 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
   // 출석하기 - 로컬 캘린더 표시 + API 연동
   const hasTodayAttendance = attendance.includes(todayStr) || apiCheckedIn;
 
+  const calMissionCount = completedMissions.length;
+  const calAllMissionsDone = calMissionCount >= 3;
+  const calMissionInProgress = calMissionCount > 0 && calMissionCount < 3;
+
   const handleCheckIn = async () => {
     if (!hasTodayAttendance) {
       const updated = [...attendance, todayStr];
@@ -188,11 +254,36 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
       : [...completedMissions, id];
     setCompletedMissions(updated);
     localStorage.setItem(`flora-missions-${todayStr}`, JSON.stringify(updated));
+
+    // 미션 3개 완료 → 출석 자동 체크
+    if (updated.length >= 3 && !attendance.includes(todayStr) && !apiCheckedIn) {
+      const updatedAttendance = [...attendance, todayStr];
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
+    // 미션 취소로 3개 미만 → 출석 취소 (API 체크인 제외)
+    if (updated.length < 3 && attendance.includes(todayStr) && !apiCheckedIn) {
+      const updatedAttendance = attendance.filter(d => d !== todayStr);
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
   };
 
+  const resetMissions = () => {
+    setCompletedMissions([]);
+    localStorage.removeItem(`flora-missions-${todayStr}`);
+    if (attendance.includes(todayStr) && !apiCheckedIn) {
+      const updatedAttendance = attendance.filter(d => d !== todayStr);
+      setAttendance(updatedAttendance);
+      localStorage.setItem('flora-attendance', JSON.stringify(updatedAttendance));
+    }
+  };
+
+  // 오늘의 특별 미션 (날짜 기반으로 고정)
   const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
   const specialMission = SPECIAL_MISSIONS[dayOfYear % SPECIAL_MISSIONS.length];
 
+  // 날짜별 출석 상태
   const getAttendanceState = (day) => {
     const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     if (attendance.includes(dateStr) || (dateStr === todayStr && apiCheckedIn)) return 'attended';
@@ -216,7 +307,7 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
       setEvents(prev => [...prev, ...generateScheduleFromAi(plant, aiResult)]);
       if (aiResult.careNotes) setAiCareNotes(aiResult.careNotes);
     } catch {
-      const fallback = { wateringInterval: 7, repottingInterval: 180 };
+      const fallback = AI_SCHEDULE_BY_TYPE[newPlant.plantType] || AI_SCHEDULE_BY_TYPE['기타'];
       const plant = { ...newPlant, id: Date.now() };
       setPlants(prev => [...prev, plant]);
       setEvents(prev => [...prev, ...generateScheduleFromAi(plant, fallback)]);
@@ -234,6 +325,39 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
     setDeletePlantTarget(null);
   };
 
+  // 직접 일정 추가
+  const openAddEvent = () => {
+    const dateStr = selectedDay
+      ? `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`
+      : todayStr;
+    setNewEvent({ title: '', type: 'CUSTOM', date: dateStr });
+    setShowAddEvent(true);
+  };
+
+  const saveCustomEvent = () => {
+    if (!newEvent.title.trim()) return;
+    const iconMap = { WATERING: '💧', REPOTTING: '🪴', FERTILIZING: '🌱', CUSTOM: '📌' };
+    const icon = iconMap[newEvent.type] || '📌';
+    const event = {
+      id: Date.now(),
+      plantId: null,
+      plantName: '',
+      type: newEvent.type,
+      title: `${icon} ${newEvent.title}`,
+      date: newEvent.date,
+      isCompleted: false,
+      isAiGenerated: false,
+    };
+    setEvents(prev => [...prev, event]);
+    // 추가한 날짜로 선택 이동
+    const parts = newEvent.date.split('-');
+    const y = parseInt(parts[0]), m = parseInt(parts[1]) - 1, d = parseInt(parts[2]);
+    if (y === currentYear && m === currentMonth) setSelectedDay(d);
+    setShowAddEvent(false);
+    setNewEvent({ title: '', type: 'CUSTOM', date: '' });
+  };
+
+  // 선택한 날의 일정
   const selectedEvents = selectedDay ? getEventsForDay(selectedDay) : [];
 
   return (
@@ -243,10 +367,10 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
         <h2>🌿 내 식물 캘린더</h2>
         <div className="cal-header-actions">
           <button
-            className={`btn-checkin-cal${hasTodayAttendance ? ' done' : ''}`}
+            className={`btn-checkin-cal${calAllMissionsDone ? ' done' : calMissionInProgress ? ' inprogress' : ''}`}
             onClick={handleCheckIn}
           >
-            {hasTodayAttendance ? '✅ 출석완료' : '출석하기'}
+            {calAllMissionsDone ? '✅ 출석완료' : calMissionInProgress ? `미션 진행 중 ${calMissionCount}/3` : '출석하기'}
           </button>
           <button className="btn-add-plant" onClick={() => setShowAddPlant(true)}>+ 식물 추가</button>
         </div>
@@ -259,7 +383,7 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
         </div>
       )}
 
-      {/* 식물 칩 */}
+      {/* 식물 칩 - 클릭 시 삭제 확인 모달 */}
       <div className="plant-list">
         {plants.length === 0 && (
           <span className="plant-chip-empty">식물을 추가해보세요 🌱</span>
@@ -275,6 +399,13 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
             <span className="plant-chip-del">✕</span>
           </button>
         ))}
+      </div>
+
+      {/* 직접 일정 추가 버튼 (항상 노출) */}
+      <div className="add-event-bar">
+        <button className="btn-add-event-bar" onClick={openAddEvent}>
+          ✏️ 일정 직접 추가
+        </button>
       </div>
 
       {/* 월 네비게이션 */}
@@ -327,22 +458,27 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
               ].filter(Boolean).join(' ')}
               onClick={() => setSelectedDay(isSelected ? null : day)}
             >
+              {/* 날짜 번호 + 출석 표시 */}
               <div className="cal-cell-top">
                 <span className={`day-num${isToday ? ' today-num' : ''}`}>{day}</span>
                 {attState === 'attended' && <span className="att-mark done">✓</span>}
                 {attState === 'missed'   && <span className="att-mark miss">✗</span>}
               </div>
 
+              {/* 일정 줄 표시 */}
               <div className="cal-event-lines">
                 {dayEvents.slice(0, 2).map(e => {
-                  const color    = EVENT_TYPE_COLOR[e.type] || '#b8b8b8';
+                  const color     = EVENT_TYPE_COLOR[e.type] || '#b8b8b8';
                   const showCheck = e.isCompleted;
                   const showX     = !e.isCompleted && isPastDate;
                   return (
                     <div
                       key={e.id}
                       className="cal-event-line"
-                      style={{ borderLeftColor: color, background: color + '28' }}
+                      style={{
+                        borderLeftColor: color,
+                        background:      color + '28',
+                      }}
                     >
                       <span className="cel-text">{e.title}</span>
                       {showCheck && <span className="cel-mark cel-done">✓</span>}
@@ -359,12 +495,15 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
         })}
       </div>
 
-      {/* 날짜 선택 시 일정 상세 */}
+      {/* 날짜 클릭 시 일정 상세 */}
       {selectedDay && (
         <div className="event-list">
-          <h3 className="event-list-title">
-            {currentMonth + 1}월 {selectedDay}일 일정
-          </h3>
+          <div className="event-list-header">
+            <h3 className="event-list-title">
+              {currentMonth + 1}월 {selectedDay}일 일정
+            </h3>
+            <button className="btn-add-event" onClick={openAddEvent}>+ 일정 추가</button>
+          </div>
           {selectedEvents.length === 0 ? (
             <p className="no-event">등록된 일정이 없습니다.</p>
           ) : (
@@ -382,6 +521,13 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
                 >
                   {e.isCompleted ? '✅' : '○'}
                 </button>
+                <button
+                  className="delete-event-btn"
+                  onClick={ev => { ev.stopPropagation(); setEvents(prev => prev.filter(ev2 => ev2.id !== e.id)); }}
+                  title="일정 삭제"
+                >
+                  🗑
+                </button>
               </div>
             ))
           )}
@@ -398,23 +544,63 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
             </div>
 
             <div className="mission-group">
-              <div className="mission-group-label">📌 기본 미션</div>
-              {BASIC_MISSIONS.map(m => (
-                <div key={m.id} className={`mission-item${completedMissions.includes(m.id) ? ' done' : ''}`}>
-                  <button className="mission-check" onClick={() => toggleMission(m.id)}>
-                    {completedMissions.includes(m.id) ? '✅' : '○'}
-                  </button>
-                  <span className="mission-item-icon">{m.icon}</span>
-                  <div className="mission-item-text">
-                    <div className="mission-item-title">{m.text}</div>
-                    <div className="mission-item-desc">{m.desc}</div>
-                  </div>
+              <div className="mission-group-label">📌 기본 미션 <span className="mission-pts-label">각 +4P</span></div>
+
+              {/* 캘린더 일정 미션 */}
+              <div className={`mission-item${completedMissions.includes('calendar') ? ' done' : ''}`}>
+                <span className="mission-check-static">
+                  {completedMissions.includes('calendar') ? '✅' : '○'}
+                </span>
+                <span className="mission-item-icon">📅</span>
+                <div className="mission-item-text">
+                  <div className="mission-item-title">캘린더 일정 체크하기</div>
+                  {completedMissions.includes('calendar') ? (
+                    <div className="mission-item-desc mission-done-text">완료!</div>
+                  ) : todayAllEvents.length === 0 ? (
+                    <div className="mission-item-desc">
+                      오늘 일정 없음
+                      <button className="btn-mission-action" onClick={() => toggleMission('calendar')}>
+                        완료 처리
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mission-item-desc">
+                      오늘 일정 {todayAllEvents.length}개 중 {todayDoneEvents.length}개 완료
+                      <span className="mission-hint"> — 캘린더에서 일정 완료 체크 시 자동 인정</span>
+                    </div>
+                  )}
                 </div>
-              ))}
+              </div>
+
+              {/* 퀴즈 미션 */}
+              <div className={`mission-item${completedMissions.includes('quiz') ? ' done' : ''}`}>
+                <span className="mission-check-static">
+                  {completedMissions.includes('quiz') ? '✅' : '○'}
+                </span>
+                <span className="mission-item-icon">❓</span>
+                <div className="mission-item-text">
+                  <div className="mission-item-title">식물 퀴즈 풀기</div>
+                  {completedMissions.includes('quiz') ? (
+                    <div className="mission-item-desc mission-done-text">완료!</div>
+                  ) : (
+                    <div className="mission-item-desc">
+                      메인 퀴즈 완료 시 자동 인정
+                      <a
+                        className="btn-mission-action"
+                        href="/#quiz"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        퀴즈 풀러가기 →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="mission-group">
-              <div className="mission-group-label special">⭐ 오늘의 특별 미션</div>
+              <div className="mission-group-label special">⭐ 오늘의 특별 미션 <span className="mission-pts-label">+2P</span></div>
               <div className={`mission-item special-item${completedMissions.includes('special') ? ' done' : ''}`}>
                 <button className="mission-check" onClick={() => toggleMission('special')}>
                   {completedMissions.includes('special') ? '✅' : '○'}
@@ -429,14 +615,25 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
 
             <div className="mission-progress-row">
               <span className="mission-progress-text">{completedMissions.length} / 3 완료</span>
-              {completedMissions.length >= 3 && (
-                <span className="mission-all-done">🎉 모두 완료! +30P 적립!</span>
+              {completedMissions.length === 3 && (
+                <span className="mission-all-done">🎉 모두 완료! +10P 적립!</span>
               )}
             </div>
 
-            <button className="btn-primary" style={{ marginTop: 8 }} onClick={() => setShowMission(false)}>
-              확인
-            </button>
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <button className="btn-primary" onClick={() => setShowMission(false)}>
+                확인
+              </button>
+              {completedMissions.length > 0 && (
+                <button
+                  className="btn-secondary"
+                  style={{ fontSize: 12, padding: '11px 12px' }}
+                  onClick={resetMissions}
+                >
+                  미션 초기화
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -452,8 +649,58 @@ export default function MyCalendar({ plants, setPlants, onApiCheckIn, apiChecked
               정말 삭제하시겠어요?
             </p>
             <div className="modal-actions">
-              <button className="btn-danger" onClick={confirmDeletePlant}>삭제</button>
-              <button className="btn-secondary" onClick={() => setDeletePlantTarget(null)}>취소</button>
+              <button className="btn-danger" onClick={confirmDeletePlant}>
+                삭제
+              </button>
+              <button className="btn-secondary" onClick={() => setDeletePlantTarget(null)}>
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 직접 일정 추가 모달 */}
+      {showAddEvent && (
+        <div className="modal-overlay" onClick={() => setShowAddEvent(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <h3 className="modal-title">📅 일정 직접 추가</h3>
+            <div className="form-group">
+              <label className="form-label">제목 <span className="required">*</span></label>
+              <input
+                className="form-input"
+                value={newEvent.title}
+                onChange={e => setNewEvent(p => ({ ...p, title: e.target.value }))}
+                placeholder="예) 물 갈아주기, 비료 체크"
+                autoFocus
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">일정 종류</label>
+              <select
+                className="form-input"
+                value={newEvent.type}
+                onChange={e => setNewEvent(p => ({ ...p, type: e.target.value }))}
+              >
+                {EVENT_TYPE_OPTIONS.map(o => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">날짜</label>
+              <input
+                type="date"
+                className="form-input"
+                value={newEvent.date}
+                onChange={e => setNewEvent(p => ({ ...p, date: e.target.value }))}
+              />
+            </div>
+            <div className="modal-actions">
+              <button className="btn-primary" onClick={saveCustomEvent} disabled={!newEvent.title.trim()}>
+                추가하기
+              </button>
+              <button className="btn-secondary" onClick={() => setShowAddEvent(false)}>취소</button>
             </div>
           </div>
         </div>

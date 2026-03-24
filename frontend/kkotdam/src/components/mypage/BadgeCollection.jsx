@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 // 전체 뱃지 목록 (earned는 API 데이터로 동적 업데이트)
 export const ALL_BADGES = [
   { id: 1, badgeCode: 'SPROUT',    name: '새싹 가드너',   icon: '🌱', desc: '첫 식물 등록' },
@@ -10,6 +12,17 @@ export const ALL_BADGES = [
   { id: 8, badgeCode: 'MISSION_30',name: '미션 완료왕',   icon: '⭐', desc: '미션 30회 완료' },
 ];
 
+const BADGE_KUDOS = {
+  1: '첫 걸음이 가장 어렵습니다. 당신의 초록 여정이 시작됐어요!',
+  2: '꾸준함이 최고의 돌봄입니다. 식물들이 당신을 사랑해요!',
+  3: '새로운 공간에서 더 크게 자랄 거예요. 훌륭한 돌봄이에요!',
+  4: '매일매일 식물과 함께하는 당신은 진정한 가드너입니다!',
+  5: '지식이 곧 사랑입니다. 당신의 식물들은 행복합니다!',
+  6: '다양한 식물들과 함께하는 당신의 정원이 아름답습니다!',
+  7: '당신은 이제 진정한 그린 마스터입니다!',
+  8: '끝까지 해내는 당신의 열정에 박수를 보냅니다!',
+};
+
 /**
  * @param {object}   selectedBadge  - 현재 선택된 뱃지
  * @param {function} onSelectBadge  - 뱃지 선택 핸들러
@@ -17,6 +30,8 @@ export const ALL_BADGES = [
  *                                    null이면 기본 earned 상태 사용
  */
 export default function BadgeCollection({ selectedBadge, onSelectBadge, apiBadges = null }) {
+  const [showDetail, setShowDetail] = useState(null);
+
   // API 뱃지 데이터가 있으면 earned 상태를 동적으로 설정
   const badges = ALL_BADGES.map(b => ({
     ...b,
@@ -46,8 +61,8 @@ export default function BadgeCollection({ selectedBadge, onSelectBadge, apiBadge
               badge.earned ? 'earned' : 'locked',
               selectedBadge?.id === badge.id ? 'selected' : '',
             ].filter(Boolean).join(' ')}
-            onClick={() => badge.earned && onSelectBadge(badge)}
-            title={badge.earned ? `${badge.desc} (클릭해서 명함에 사용)` : `🔒 ${badge.desc}`}
+            onClick={() => setShowDetail(badge)}
+            title={badge.earned ? `${badge.desc} (클릭해서 상세 보기)` : `🔒 ${badge.desc}`}
           >
             <span className="badge-icon-mp">{badge.icon}</span>
             <span className="badge-name-mp">{badge.name}</span>
@@ -60,11 +75,61 @@ export default function BadgeCollection({ selectedBadge, onSelectBadge, apiBadge
       </div>
 
       <p className="badge-hint">
-        획득한 뱃지를 클릭하면 식물명함에 사용할 수 있어요
+        뱃지를 클릭하면 획득 조건과 덕담을 볼 수 있어요
         {selectedBadge && (
           <span className="badge-selected-info"> · 선택됨: {selectedBadge.icon} {selectedBadge.name}</span>
         )}
       </p>
+
+      {/* 뱃지 상세 모달 */}
+      {showDetail && (
+        <div className="modal-overlay-mp" onClick={() => setShowDetail(null)}>
+          <div className="modal badge-detail-modal-mp" onClick={e => e.stopPropagation()}>
+            <div className="badge-modal-header-mp">
+              <span className="badge-modal-big-icon-mp">{showDetail.icon}</span>
+              <div className="badge-modal-title-wrap-mp">
+                <h3 className="modal-title-mp" style={{ marginBottom: 4 }}>{showDetail.name}</h3>
+                {showDetail.earned && selectedBadge?.id === showDetail.id && (
+                  <span className="badge-in-use-chip-mp">명함에 사용 중</span>
+                )}
+                {!showDetail.earned && <span className="badge-locked-chip-mp">🔒 미획득</span>}
+              </div>
+              <button className="badge-modal-close-mp" onClick={() => setShowDetail(null)}>✕</button>
+            </div>
+
+            <div className="badge-condition-box-mp">
+              <span className="badge-condition-label-mp">획득 조건</span>
+              <span className="badge-condition-text-mp">{showDetail.desc}</span>
+            </div>
+
+            {showDetail.earned ? (
+              <div className="badge-kudos-box-mp">
+                <span className="badge-kudos-icon-mp">🌿</span>
+                <p className="badge-kudos-text-mp">{BADGE_KUDOS[showDetail.id]}</p>
+              </div>
+            ) : (
+              <div className="badge-locked-box-mp">
+                아직 획득하지 못한 뱃지예요. 조건을 채워서 뱃지를 획득해 보세요!
+              </div>
+            )}
+
+            <div className="badge-modal-actions-mp">
+              {showDetail.earned && (
+                <button
+                  className="btn-primary-mp"
+                  onClick={() => {
+                    onSelectBadge(showDetail);
+                    setShowDetail(null);
+                  }}
+                >
+                  {selectedBadge?.id === showDetail.id ? '✓ 명함에 사용 중' : '명함 뱃지 바꾸기'}
+                </button>
+              )}
+              <button className="btn-secondary-mp" onClick={() => setShowDetail(null)}>닫기</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -32,7 +32,9 @@ public class CommunityService {
             map.put("content", p.getContent() != null && p.getContent().length() > 100
                 ? p.getContent().substring(0, 100) + "..." : p.getContent());
             map.put("category", p.getCategory());
+            map.put("authorId", p.getUser().getId());
             map.put("authorNickname", p.getUser().getNickname());
+            map.put("authorRole", p.getUser().getRole());
             map.put("viewCount", p.getViewCount());
             map.put("createdAt", p.getCreatedAt());
             map.put("likeCount", likeRepository.countByTargetTypeAndTargetId("POST", p.getId()));
@@ -55,7 +57,10 @@ public class CommunityService {
             Map<String, Object> cm = new HashMap<>();
             cm.put("id", c.getId());
             cm.put("content", c.getContent());
+            cm.put("authorId", c.getUser().getId());
             cm.put("authorNickname", c.getUser().getNickname());
+            cm.put("authorProfileEmoji", c.getUser().getProfileEmoji());
+            cm.put("authorRole", c.getUser().getRole());
             cm.put("parentCommentId", c.getParentCommentId());
             cm.put("createdAt", c.getCreatedAt());
             return cm;
@@ -70,7 +75,10 @@ public class CommunityService {
         result.put("title", post.getTitle());
         result.put("content", post.getContent());
         result.put("category", post.getCategory());
+        result.put("authorId", post.getUser().getId());
         result.put("authorNickname", post.getUser().getNickname());
+        result.put("authorProfileEmoji", post.getUser().getProfileEmoji());
+        result.put("authorRole", post.getUser().getRole());
         result.put("viewCount", post.getViewCount());
         result.put("createdAt", post.getCreatedAt());
         result.put("likeCount", likeCount);
@@ -83,10 +91,90 @@ public class CommunityService {
     public Map<String, Object> createPost(Long userId, String title, String content, String category) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+
+        // 공지사항은 ADMIN만 작성 가능
+        if ("공지".equals(category) && !"ADMIN".equals(user.getRole())) {
+            throw new RuntimeException("공지사항은 관리자만 작성할 수 있습니다");
+        }
+
         CommunityPost post = CommunityPost.builder()
             .user(user).title(title).content(content).category(category).build();
         postRepository.save(post);
         return Map.of("id", post.getId(), "message", "게시글이 등록되었습니다");
+    }
+
+    @Transactional
+    public Map<String, Object> updatePost(Long postId, Long userId, String title, String content) {
+        CommunityPost post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+
+        boolean isAuthor = post.getUser().getId().equals(userId);
+        boolean isAdmin = "ADMIN".equals(user.getRole());
+        if (!isAuthor && !isAdmin) {
+            throw new RuntimeException("수정 권한이 없습니다");
+        }
+
+        post.setTitle(title);
+        post.setContent(content);
+        postRepository.save(post);
+        return Map.of("message", "게시글이 수정되었습니다");
+    }
+
+    @Transactional
+    public Map<String, Object> updateComment(Long commentId, Long userId, String content) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+
+        boolean isAuthor = comment.getUser().getId().equals(userId);
+        boolean isAdmin = "ADMIN".equals(user.getRole());
+        if (!isAuthor && !isAdmin) {
+            throw new RuntimeException("수정 권한이 없습니다");
+        }
+
+        comment.setContent(content);
+        commentRepository.save(comment);
+        return Map.of("message", "댓글이 수정되었습니다");
+    }
+
+    @Transactional
+    public Map<String, Object> deletePost(Long postId, Long userId) {
+        CommunityPost post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+
+        // 작성자 또는 ADMIN만 삭제 가능
+        boolean isAuthor = post.getUser().getId().equals(userId);
+        boolean isAdmin = "ADMIN".equals(user.getRole());
+        if (!isAuthor && !isAdmin) {
+            throw new RuntimeException("삭제 권한이 없습니다");
+        }
+
+        post.setIsActive(false);
+        postRepository.save(post);
+        return Map.of("message", "게시글이 삭제되었습니다");
+    }
+
+    @Transactional
+    public Map<String, Object> deleteComment(Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+
+        boolean isAuthor = comment.getUser().getId().equals(userId);
+        boolean isAdmin = "ADMIN".equals(user.getRole());
+        if (!isAuthor && !isAdmin) {
+            throw new RuntimeException("삭제 권한이 없습니다");
+        }
+
+        comment.setIsActive(false);
+        commentRepository.save(comment);
+        return Map.of("message", "댓글이 삭제되었습니다");
     }
 
     @Transactional

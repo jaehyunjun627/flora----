@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Layout.css';
@@ -7,18 +7,9 @@ function Layout({ children }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState('');
-
   const handleLogout = () => {
     logout();
     navigate('/');
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
   };
 
   const isActive = (path) => {
@@ -57,6 +48,8 @@ function Layout({ children }) {
     { path: '/products', label: '마켓' },
     { path: '/community', label: '커뮤니티' },
     { path: '/plants', label: '식물도감' },
+    { path: '/local-trade', label: '지역거래' },
+    { path: '/local-festival', label: '지역축제' },
   ];
 
   const subNavLinks = [
@@ -97,18 +90,6 @@ function Layout({ children }) {
               ))}
             </nav>
           </div>
-
-          {/* Search */}
-          <form className="header-search" onSubmit={handleSearch}>
-            <input
-              className="header-search-input"
-              type="text"
-              placeholder="어떤 식물을 찾으시나요?"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <span className="header-search-icon">&#128269;</span>
-          </form>
 
           {/* Right */}
           <div className="header-right">
@@ -191,6 +172,8 @@ function Layout({ children }) {
             <Link to="/products">식물 마켓</Link>
             <Link to="/community">커뮤니티</Link>
             <Link to="/plants">식물도감</Link>
+            <Link to="/local-trade">지역거래</Link>
+            <Link to="/local-festival">지역축제</Link>
           </div>
           <div className="footer-links">
             <h4>고객지원</h4>
