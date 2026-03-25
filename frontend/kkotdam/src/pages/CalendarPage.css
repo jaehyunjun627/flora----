@@ -1,0 +1,323 @@
+.calendar-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.calendar-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.calendar-header p {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.add-plant-btn {
+  padding: 10px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.calendar-empty {
+  text-align: center;
+  padding: 80px;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+}
+
+.calendar-empty span {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.calendar-empty p {
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.calendar-empty button {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.plant-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.plant-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.plant-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.plant-emoji {
+  font-size: 36px;
+}
+
+.plant-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.plant-info p {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.plant-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.schedule-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.schedule-label {
+  font-size: 13px;
+  color: var(--text-medium);
+}
+
+.schedule-dday {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.schedule-dday.urgent {
+  color: var(--error);
+}
+
+.schedule-date {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.plant-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.watering-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.watering-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.diary-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.cal-modal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 440px;
+  padding: 28px;
+}
+
+.diary-modal {
+  max-width: 560px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.cal-field {
+  margin-bottom: 16px;
+}
+
+.cal-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-medium);
+  margin-bottom: 6px;
+}
+
+.cal-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.cal-submit {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.diary-list {
+  margin-bottom: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.diary-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.diary-date {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.diary-img {
+  width: 100%;
+  max-height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+}
+
+.diary-item p {
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+.diary-empty {
+  text-align: center;
+  color: var(--text-light);
+  padding: 24px;
+  font-size: 14px;
+}
+
+.diary-form {
+  border-top: 1px solid var(--border-light);
+  padding-top: 16px;
+}
+
+.diary-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: var(--sans);
+  resize: none;
+  margin-bottom: 8px;
+}
+
+.diary-submit {
+  padding: 10px 20px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .plant-grid {
+    grid-template-columns: 1fr;
+  }
+}

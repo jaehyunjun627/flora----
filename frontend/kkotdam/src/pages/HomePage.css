@@ -1,0 +1,1062 @@
+/* ===== Home Page ===== */
+.home {
+  background: var(--bg);
+}
+
+/* ===== 오늘의 탄생화 Hero (kukka-inspired) ===== */
+.birth-flower-hero {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.birth-flower-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.birth-flower-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  filter: blur(2px);
+}
+
+.birth-flower-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+}
+
+.birth-flower-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1256px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.birth-flower-content {
+  flex: 1;
+  max-width: 560px;
+}
+
+.birth-flower-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.birth-flower-today-label {
+  background: #FFD600;
+  color: #1a1a1a;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.birth-flower-date {
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.birth-flower-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.birth-flower-name {
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.birth-flower-meaning {
+  font-size: 18px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 32px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.birth-flower-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.birth-flower-cta {
+  padding: 13px 28px;
+  background: #FFD600;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 28px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.birth-flower-cta:hover {
+  background: #FFC400;
+  transform: translateY(-1px);
+}
+
+.birth-flower-cta-outline {
+  padding: 13px 28px;
+  background: transparent;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 28px;
+  border: 2px solid rgba(255,255,255,0.5);
+  transition: all 0.2s;
+}
+
+.birth-flower-cta-outline:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,0.1);
+}
+
+.birth-flower-cta-sub {
+  padding: 13px 28px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 28px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.birth-flower-cta-sub:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.birth-flower-image-wrap {
+  flex-shrink: 0;
+  width: 320px;
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.birth-flower-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== Category Tags (kukka-style) ===== */
+.category-tags-section {
+  background: #fff;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.category-tags-inner {
+  max-width: 1256px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-tags-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tag {
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #fff;
+  color: var(--text-medium);
+  border: 1.5px solid var(--border);
+  transition: all 0.2s;
+}
+
+.category-tag:hover {
+  border-color: var(--text-dark);
+  color: var(--text-dark);
+}
+
+.category-tag.active {
+  background: var(--text-dark);
+  color: #fff;
+  border-color: var(--text-dark);
+}
+
+/* ===== Sections ===== */
+.section {
+  padding: 48px 0;
+}
+
+.section-gray {
+  background: var(--bg-secondary);
+}
+
+.section-inner {
+  max-width: 1256px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-dark);
+  letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.section-more {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  background: none;
+  transition: opacity 0.2s;
+}
+
+.section-more:hover {
+  opacity: 0.7;
+}
+
+/* ===== Product Scroll ===== */
+.product-scroll {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.home-product-card {
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid var(--border-light);
+}
+
+.home-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.home-product-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.home-product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.home-product-card:hover .home-product-img img {
+  transform: scale(1.05);
+}
+
+.home-product-emoji {
+  font-size: 48px;
+}
+
+.home-product-info {
+  padding: 14px;
+}
+
+.home-product-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-product-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.home-product-desc {
+  font-size: 12px;
+  color: var(--text-medium);
+  line-height: 1.4;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.home-product-seller {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.home-empty-products {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+}
+
+.home-empty-products p {
+  color: var(--text-light);
+  margin-bottom: 16px;
+}
+
+.home-register-btn {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+
+.home-register-btn:hover {
+  background: var(--primary-hover);
+}
+
+/* ===== Subscription Section (kukka-inspired) ===== */
+.subscription-section {
+  padding: 72px 0;
+  background: linear-gradient(180deg, #FFFDE7 0%, #FFF8E1 50%, #FFFFFF 100%);
+}
+
+.subscription-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.subscription-badge-top {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.subscription-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.subscription-subtitle {
+  font-size: 16px;
+  color: var(--text-medium);
+  line-height: 1.7;
+}
+
+.subscription-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.subscription-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  position: relative;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.subscription-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.subscription-card:nth-child(2) {
+  border: 2px solid var(--text-dark);
+  transform: scale(1.02);
+}
+
+.subscription-card:nth-child(2):hover {
+  transform: scale(1.02) translateY(-6px);
+}
+
+.subscription-card-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 16px;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.subscription-card-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+
+.subscription-card-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+.subscription-card-pricing {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.subscription-card-original {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.subscription-card-price {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-dark);
+}
+
+.subscription-card-period {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.subscription-card-discount {
+  display: inline-block;
+  background: #FFF0F0;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.subscription-card-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 24px;
+  padding: 0;
+}
+
+.subscription-card-features li {
+  font-size: 14px;
+  color: var(--text-medium);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.subscription-card-features li:last-child {
+  border-bottom: none;
+}
+
+.subscription-card-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 28px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.2s;
+  border: none;
+  margin-top: auto;
+}
+
+.subscription-card-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.subscription-notice {
+  text-align: center;
+}
+
+.subscription-notice p {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+/* ===== Flower Gallery (Pixabay) ===== */
+.flower-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.flower-card {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+}
+
+.flower-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.flower-card:hover img {
+  transform: scale(1.08);
+}
+
+.flower-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 12px 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.flower-card:hover .flower-overlay {
+  opacity: 1;
+}
+
+.flower-tags {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ===== Intro Banner ===== */
+.intro-banner {
+  padding: 56px 0;
+  background: #fff;
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.intro-card {
+  text-align: center;
+  padding: 36px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  transition: transform 0.2s;
+}
+
+.intro-card:hover {
+  transform: translateY(-4px);
+}
+
+.intro-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.intro-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+}
+
+.intro-card p {
+  font-size: 13px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .product-scroll,
+  .flower-gallery,
+  .intro-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .subscription-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .birth-flower-image-wrap {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .birth-flower-inner {
+    flex-direction: column;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .birth-flower-name {
+    font-size: 32px;
+  }
+  .birth-flower-actions {
+    justify-content: center;
+  }
+  .birth-flower-image-wrap {
+    width: 220px;
+    height: 220px;
+  }
+  .birth-flower-date-badge {
+    justify-content: center;
+  }
+  .product-scroll,
+  .flower-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .subscription-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .subscription-card:nth-child(2) {
+    transform: none;
+  }
+  .subscription-card:nth-child(2):hover {
+    transform: translateY(-6px);
+  }
+  .intro-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .section-title {
+    font-size: 20px;
+  }
+  .subscription-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .birth-flower-hero {
+    min-height: 360px;
+  }
+  .birth-flower-name {
+    font-size: 28px;
+  }
+  .birth-flower-meaning {
+    font-size: 15px;
+  }
+  .birth-flower-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .intro-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== 퀴즈 섹션 ===== */
+.quiz-section {
+  background: #faf9f7;
+}
+
+.quiz-score-badge {
+  background: var(--primary, #35A865);
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.quiz-card {
+  background: #fff;
+  border: 1px solid #e8e4dd;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #7a7a7a;
+  margin-bottom: 20px;
+}
+
+.quiz-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: #e8e4dd;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--primary, #35A865);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.quiz-question {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.quiz-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1.5px solid #e0dbd5;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 15px;
+  color: #2a2a2a;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: var(--primary, #35A865);
+  background: #f0faf3;
+}
+
+.quiz-option.correct {
+  border-color: var(--primary, #35A865);
+  background: #eef6ef;
+  color: #2d7a42;
+  font-weight: 600;
+}
+
+.quiz-option.wrong {
+  border-color: #e04040;
+  background: #fdf0f0;
+  color: #c04040;
+}
+
+.quiz-option-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f0ede8;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quiz-option.correct .quiz-option-label {
+  background: var(--primary, #35A865);
+  color: #fff;
+}
+
+.quiz-option.wrong .quiz-option-label {
+  background: #e04040;
+  color: #fff;
+}
+
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+}
+
+.quiz-feedback.correct {
+  background: #eef6ef;
+  border: 1px solid #c5dfc9;
+}
+
+.quiz-feedback.wrong {
+  background: #fdf0f0;
+  border: 1px solid #f0c0c0;
+}
+
+.quiz-feedback-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.quiz-explanation {
+  font-size: 14px;
+  color: #5a5a5a;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.quiz-next-btn {
+  padding: 10px 24px;
+  background: var(--primary, #35A865);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.quiz-next-btn:hover {
+  background: #2d9456;
+}
+
+.quiz-result {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.quiz-result-emoji {
+  font-size: 56px;
+  margin: 0 0 12px;
+}
+
+.quiz-result-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+}
+
+.quiz-result-score {
+  font-size: 16px;
+  color: #5a5a5a;
+  margin: 0 0 8px;
+}
+
+.quiz-result-tomorrow {
+  font-size: 14px;
+  color: #35A865;
+  margin: 8px 0 0;
+  font-weight: 500;
+}
+
+.quiz-restart-btn {
+  padding: 12px 32px;
+  background: var(--primary, #35A865);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.quiz-restart-btn:hover {
+  background: #2d9456;
+}
+
+/* ─── 공동구매 & 이벤트 ─── */
+.group-purchase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.gp-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1px solid var(--border-light);
+}
+
+.gp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.gp-card-badge-wrap {
+  padding: 12px 14px 0;
+}
+
+.gp-card-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.gp-card-badge.group { background: #e8f5e9; color: #2e7d32; }
+.gp-card-badge.subscription { background: #e3f2fd; color: #1565c0; }
+.gp-card-badge.event { background: #fff3e0; color: #e65100; }
+
+.gp-card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  padding: 10px;
+}
+
+.gp-card-emoji {
+  font-size: 56px;
+}
+
+.gp-card-body {
+  padding: 0 14px 16px;
+}
+
+.gp-card-seller {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.gp-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.gp-card-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.gp-card-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent, #e53935);
+}
+
+.gp-card-original {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.gp-card-rating {
+  font-size: 12px;
+  color: #FFB300;
+  margin-bottom: 8px;
+}
+
+.gp-card-rating span {
+  color: var(--text-light);
+  margin-left: 4px;
+}
+
+.gp-card-progress-wrap {
+  margin-top: 6px;
+}
+
+.gp-card-progress {
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.gp-card-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #2196F3);
+  border-radius: 3px;
+}
+
+.gp-card-progress-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-medium);
+}
+
+.gp-card-auto {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .group-purchase-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
