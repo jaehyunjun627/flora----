@@ -1,5 +1,7 @@
 package com.flora.backend.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -112,17 +114,20 @@ public class ForestApiService {
         List<Map<String, Object>> items = new ArrayList<>();
 
         try {
-            int total = 0;
-            if (json.contains("\"totalCount\"")) {
-                try { total = Integer.parseInt(extractJsonValue(json, "totalCount")); }
-                catch (Exception ignore) {}
-            }
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(json);
 
-            // {item} 블록 단위로 파싱
-            String[] parts = json.split("\\{");
-            for (String part : parts) {
-                if (part.contains("taxonId") || part.contains("korName")) {
-                    Map<String, Object> plant = buildPlantMap(part, false);
+            int total = 0;
+            JsonNode totalNode = root.path("totalCount");
+            if (!totalNode.isMissingNode()) total = totalNode.asInt();
+
+            JsonNode itemsNode = root.path("items");
+            if (itemsNode.isMissingNode()) itemsNode = root.path("item");
+            if (itemsNode.isMissingNode()) itemsNode = root;
+
+            if (itemsNode.isArray()) {
+                for (JsonNode node : itemsNode) {
+                    Map<String, Object> plant = buildPlantMapFromNode(node, false);
                     String korName = (String) plant.get("korName");
                     if (korName != null && !korName.isBlank()) items.add(plant);
                 }
@@ -144,28 +149,35 @@ public class ForestApiService {
     //  JSON 파싱 - 상세
     // ─────────────────────────────────────────────
     private Map<String, Object> parseJsonDetail(String json) {
-        return buildPlantMap(json, true);
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode node = mapper.readTree(json);
+            return buildPlantMapFromNode(node, true);
+        } catch (Exception e) {
+            log.error("JSON 상세 파싱 실패: {}", e.getMessage());
+            return new HashMap<>();
+        }
     }
 
     // ─────────────────────────────────────────────
-    //  공통 식물 Map 생성
+    //  공통 식물 Map 생성 (Jackson JsonNode 기반)
     // ─────────────────────────────────────────────
-    private Map<String, Object> buildPlantMap(String source, boolean isDetail) {
+    private Map<String, Object> buildPlantMapFromNode(JsonNode node, boolean isDetail) {
         Map<String, Object> p = new HashMap<>();
-        p.put("taxonId",         extractJsonValue(source, "taxonId"));
-        p.put("korName",          extractJsonValue(source, "korName"));
-        p.put("scientificName",   extractJsonValue(source, "scientificName"));
-        p.put("engName",          extractJsonValue(source, "engName"));
-        p.put("genusKorName",     extractJsonValue(source, "genusKorName"));
-        p.put("familyKorName",    extractJsonValue(source, "familyKorName"));
-        p.put("orderKorName",     extractJsonValue(source, "orderKorName"));
-        p.put("classKorName",     extractJsonValue(source, "classKorName"));
-        p.put("divisionKorName",  extractJsonValue(source, "divisionKorName"));
-        p.put("nameStatus",       extractJsonValue(source, "nameStatus"));
+        p.put("taxonId",        node.path("taxonId").asText(""));
+        p.put("korName",         node.path("korName").asText(""));
+        p.put("scientificName",  node.path("scientificName").asText(""));
+        p.put("engName",         node.path("engName").asText(""));
+        p.put("genusKorName",    node.path("genusKorName").asText(""));
+        p.put("familyKorName",   node.path("familyKorName").asText(""));
+        p.put("orderKorName",    node.path("orderKorName").asText(""));
+        p.put("classKorName",    node.path("classKorName").asText(""));
+        p.put("divisionKorName", node.path("divisionKorName").asText(""));
+        p.put("nameStatus",      node.path("nameStatus").asText(""));
         if (isDetail) {
-            p.put("description", extractJsonValue(source, "description"));
-            p.put("habitat",     extractJsonValue(source, "habitat"));
-            p.put("remark",      extractJsonValue(source, "remark"));
+            p.put("description", node.path("description").asText(""));
+            p.put("habitat",     node.path("habitat").asText(""));
+            p.put("remark",      node.path("remark").asText(""));
         }
         return p;
     }
@@ -369,31 +381,4 @@ public class ForestApiService {
         return xml.substring(start + open.length(), end).trim();
     }
 
-    // ─────────────────────────────────────────────
-    //  유틸: JSON 단일 값 추출
-    // ─────────────────────────────────────────────
-    private String extractJsonValue(String json, String key) {
-        String search = "\"" + key + "\"";
-        int idx = json.indexOf(search);
-        if (idx == -1) return "";
-        int colon = json.indexOf(":", idx + search.length());
-        if (colon == -1) return "";
-        int vs = colon + 1;
-        while (vs < json.length() && json.charAt(vs) == ' ') vs++;
-        if (vs >= json.length()) return "";
-
-        char first = json.charAt(vs);
-        if (first == '"') {
-            int end = json.indexOf("\"", vs + 1);
-            if (end == -1) return "";
-            return json.substring(vs + 1, end);
-        } else if (first == 'n') {
-            return "";
-        } else {
-            int end = vs;
-            while (end < json.length() && json.charAt(end) != ','
-                    && json.charAt(end) != '}' && json.charAt(end) != ']') end++;
-            return json.substring(vs, end).trim();
-        }
-    }
 }
