@@ -52,20 +52,33 @@ const PLANT_EXTRA = {
   '단풍나무': { season: '가을', flowerLang: '"아름다운 변화"', sunlight: '반양지', watering: '주 2회', soil: '비옥한 토양', petSafe: true },
   '대나무': { season: '사계절', flowerLang: '"절개"', sunlight: '반양지', watering: '주 2~3회', soil: '비옥한 토양', petSafe: true },
   '소철': { season: '사계절', flowerLang: '"영원한 젊음"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '배수 좋은 토양', petSafe: false },
-  '아카시아': { season: '봄', flowerLang: '"우정"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '일반 토양', petSafe: false },
-  '클로버': { season: '봄/여름', flowerLang: '"행운"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '일반 토양', petSafe: true },
+  // ── 새로 추가된 인기 식물 ──
+  '히아신스':    { season: '봄',          flowerLang: '"게임의 승리"',       sunlight: '밝은 햇빛', watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
+  '팬지':        { season: '봄',          flowerLang: '"나를 생각해줘"',     sunlight: '밝은 햇빛', watering: '주 2회',   soil: '비옥한 토양',    petSafe: true  },
+  '아마릴리스':  { season: '봄/여름',     flowerLang: '"찬란한 아름다움"',   sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
+  '글라디올러스': { season: '여름',       flowerLang: '"조심"',              sunlight: '직사광선',  watering: '주 2~3회', soil: '배수 좋은 토양', petSafe: false },
+  '거베라':      { season: '봄/여름',     flowerLang: '"희망"',              sunlight: '밝은 햇빛', watering: '주 2회',   soil: '배수 좋은 토양', petSafe: true  },
+  '피튜니아':    { season: '여름',        flowerLang: '"당신과 함께라면"',   sunlight: '직사광선',  watering: '주 2~3회', soil: '비옥한 토양',    petSafe: true  },
+  '베고니아':    { season: '봄/여름/가을',flowerLang: '"친절"',              sunlight: '반양지',    watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
+  '칼란코에':    { season: '봄/여름',     flowerLang: '"인기"',              sunlight: '밝은 햇빛', watering: '주 1회',   soil: '배수 좋은 토양', petSafe: false },
+  '시클라멘':    { season: '겨울/봄',     flowerLang: '"내성적인 아름다움"', sunlight: '반양지',    watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
+  '몬스테라':    { season: '사계절',      flowerLang: '"장수"',              sunlight: '간접광',    watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
+  '산세베리아':  { season: '사계절',      flowerLang: '"관용"',              sunlight: '간접광',    watering: '월 1~2회', soil: '배수 좋은 토양', petSafe: false },
+  '알로에베라':  { season: '사계절',      flowerLang: '"행운"',              sunlight: '밝은 햇빛', watering: '월 2~3회', soil: '배수 좋은 토양', petSafe: true  },
+  '고무나무':    { season: '사계절',      flowerLang: '"영원한 행복"',       sunlight: '간접광',    watering: '주 1회',   soil: '비옥한 토양',    petSafe: false },
+  '안스리움':    { season: '사계절',      flowerLang: '"열정"',              sunlight: '간접광',    watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
 };
 
 // Get current month and recommend plants for the season
 const getCurrentMonthPlants = () => {
   const month = new Date().getMonth() + 1;
   const seasonMap = {
-    3: { season: '봄', plants: '벚나무, 튤립, 라벤더' },
-    4: { season: '봄', plants: '튤립, 진달래, 개나리' },
+    3: { season: '봄', plants: '히아신스, 수선화, 튤립' },
+    4: { season: '봄', plants: '튤립, 진달래, 팬지' },
     5: { season: '봄/여름', plants: '장미, 카네이션, 작약' },
     6: { season: '여름', plants: '라벤더, 해바라기, 수국' },
-    7: { season: '여름', plants: '해바라기, 백합, 수련' },
-    8: { season: '여름/가을', plants: '무궁화, 칸나, 백일홍' },
+    7: { season: '여름', plants: '해바라기, 거베라, 피튜니아' },
+    8: { season: '여름/가을', plants: '무궁화, 글라디올러스, 백일홍' },
     9: { season: '가을', plants: '국화, 코스모스, 달리아' },
     10: { season: '가을', plants: '은행나무, 단풍나무, 코스모스' },
     11: { season: '겨울/봄', plants: '동백나무, 매화' },
@@ -123,10 +136,14 @@ export default function PlantEncyclopediaPage() {
       items = filterByCategory(items, filter);
       setPlants(items);
 
-      // Load images
+      // Load images — 같은 한글명이라도 학명이 다르면 다른 이미지
+      const seen = new Set();
       items.forEach(plant => {
-        const name = plant.korName || plant.scientificName;
-        if (name) loadPlantImage(name, plant.engName, plant.scientificName);
+        const key = plant.korName || plant.scientificName;
+        if (key && !seen.has(key)) {
+          seen.add(key);
+          loadPlantImage(key, plant.engName, plant.scientificName);
+        }
       });
     } catch (e) {
       console.error('식물 목록 로딩 실패:', e);
@@ -162,14 +179,50 @@ export default function PlantEncyclopediaPage() {
     });
   };
 
+  // 학명에서 검색 가능한 이름 추출 (변종/명명자 정보 제거)
+  const getSearchableNames = (sciName) => {
+    if (!sciName) return [];
+    // "Pseudostellaria palibiniana (Takeda) Ohwi var. gag..." → ["Pseudostellaria palibiniana", "Pseudostellaria"]
+    const cleaned = sciName.replace(/\(.*?\)/g, '').trim(); // 명명자 괄호 제거
+    const parts = cleaned.split(/\s+/);
+    const names = [];
+    if (parts.length >= 2) names.push(`${parts[0]} ${parts[1]}`); // 속명 + 종명
+    if (parts.length >= 1) names.push(parts[0]); // 속명만
+    return names;
+  };
+
   const loadPlantImage = useCallback(async (korName, engName, sciName) => {
     if (!korName || pixabayImages[korName]) return;
+
+    const searchNames = getSearchableNames(sciName);
+
+    // 1순위: Wikipedia API — 속명+종명 → 속명 순서로 시도
+    for (const name of searchNames) {
+      try {
+        const wikiTitle = encodeURIComponent(name.trim());
+        const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${wikiTitle}&prop=pageimages&format=json&pithumbsize=500&origin=*`;
+        const res = await fetch(wikiUrl);
+        const data = await res.json();
+        const pages = data.query?.pages;
+        if (pages) {
+          const page = Object.values(pages)[0];
+          if (page?.thumbnail?.source) {
+            setPixabayImages(prev => ({ ...prev, [korName]: page.thumbnail.source }));
+            return;
+          }
+        }
+      } catch (e) { /* 다음 시도 */ }
+    }
+
+    // 2순위: Pixabay — 속명 기반 검색
     try {
-      let searchTerm = korName;
+      let searchTerm = '';
       if (engName && engName.trim()) {
-        searchTerm = engName.split(' ')[0];
-      } else if (sciName && sciName.trim()) {
-        searchTerm = sciName.split(' ')[0];
+        searchTerm = engName.trim();
+      } else if (searchNames.length > 0) {
+        searchTerm = searchNames[0]; // 속명+종명
+      } else {
+        searchTerm = korName;
       }
       const query = encodeURIComponent(`${searchTerm} flower plant`);
       const url = `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${query}&image_type=photo&per_page=5&safesearch=true&category=nature`;
@@ -179,7 +232,7 @@ export default function PlantEncyclopediaPage() {
         setPixabayImages(prev => ({ ...prev, [korName]: data.hits[0].webformatURL }));
       }
     } catch (e) {
-      console.warn('Pixabay 이미지 로딩 실패:', korName, e.message);
+      console.warn('이미지 로딩 실패:', korName, e.message);
     }
   }, [pixabayImages]);
 
@@ -200,9 +253,16 @@ export default function PlantEncyclopediaPage() {
       setDetailLoading(true);
       try {
         const res = await api.get(`/api/external/plants/${plant.taxonId}`);
-        setDetailData(res.data);
+        // 에러 응답이 아닌 경우에만 상세 데이터 설정 (목록 데이터와 병합)
+        if (res.data && !res.data.error && res.data.korName) {
+          setDetailData({ ...plant, ...res.data });
+        } else {
+          // 상세 API 실패해도 목록 데이터는 유지
+          setDetailData(plant);
+        }
       } catch (e) {
         console.error('상세 정보 조회 실패', e);
+        setDetailData(plant); // 목록 데이터로 표시
       } finally {
         setDetailLoading(false);
       }
@@ -260,7 +320,10 @@ export default function PlantEncyclopediaPage() {
   };
 
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
-  const detail = detailData || selectedPlant;
+  // 상세 데이터와 선택된 식물 데이터를 병합 (상세 API가 실패해도 기본 정보 표시)
+  const detail = detailData
+    ? { ...selectedPlant, ...detailData }
+    : selectedPlant;
   const currentSeasonInfo = getCurrentMonthPlants();
 
   return (
@@ -366,19 +429,23 @@ export default function PlantEncyclopediaPage() {
                     <button
                       className={`plant-card-fav ${isFavorited ? 'active' : ''}`}
                       onClick={(e) => toggleFavorite(e, plant.taxonId)}
-                      title="즐겨찾기"
+                      title={isFavorited ? '즐겨찾기 해제' : '즐겨찾기'}
                     >
-                      ❤️
+                      {isFavorited ? '❤️' : '🤍'}
                     </button>
                   </div>
                 </div>
                 <div className="plant-card-body">
                   <h3 className="plant-card-kor">{korName}</h3>
                   {plant.scientificName && (
-                    <p className="plant-card-sci">{plant.scientificName}</p>
+                    <p className="plant-card-sci" title={plant.scientificName}>
+                      {plant.scientificName.length > 40
+                        ? plant.scientificName.substring(0, 37) + '...'
+                        : plant.scientificName}
+                    </p>
                   )}
-                  {extra.flowerLang && (
-                    <div className="plant-card-lang">{extra.flowerLang}</div>
+                  {plant.nameStatus && (
+                    <span className="plant-card-status">{plant.nameStatus}</span>
                   )}
                   <div className="plant-card-tags">
                     {plant.familyKorName && (
@@ -480,12 +547,15 @@ export default function PlantEncyclopediaPage() {
                       </span>
                     );
                   })()}
-                  <h2 className="modal-kor">{detail.korName || '미상'}</h2>
-                  {detail.scientificName && (
+                  <h2 className="modal-kor">{detail?.korName || '미상'}</h2>
+                  {detail?.scientificName && (
                     <p className="modal-sci">{detail.scientificName}</p>
                   )}
-                  {detail.engName && (
+                  {detail?.engName && (
                     <p className="modal-eng">{detail.engName}</p>
+                  )}
+                  {detail?.nameStatus && (
+                    <span className="modal-name-status">{detail.nameStatus}</span>
                   )}
                 </div>
 
@@ -496,8 +566,9 @@ export default function PlantEncyclopediaPage() {
                   </div>
                 ) : (
                   <div className="modal-details">
+                    {/* PLANT_EXTRA 정보 (46종만 해당) */}
                     {(() => {
-                      const extra = getPlantExtra(detail.korName);
+                      const extra = getPlantExtra(detail?.korName);
                       if (Object.keys(extra).length > 0) {
                         return (
                           <>
@@ -513,30 +584,13 @@ export default function PlantEncyclopediaPage() {
                                 <p>{extra.season}</p>
                               </div>
                             )}
-                            {extra.sunlight && (
-                              <div className="modal-description">
-                                <strong>햇빛</strong>
-                                <p>{extra.sunlight}</p>
-                              </div>
-                            )}
-                            {extra.watering && (
-                              <div className="modal-description">
-                                <strong>물주기</strong>
-                                <p>{extra.watering}</p>
-                              </div>
-                            )}
-                            {extra.soil && (
-                              <div className="modal-description">
-                                <strong>토양</strong>
-                                <p>{extra.soil}</p>
-                              </div>
-                            )}
                           </>
                         );
                       }
                       return null;
                     })()}
 
+                    {/* 분류 정보 — 항상 표시 */}
                     <div className="modal-detail-grid">
                       {detail.familyKorName && (
                         <div className="modal-detail-item">

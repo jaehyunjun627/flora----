@@ -38,13 +38,8 @@ public class PlantCalendarController {
         return ResponseEntity.ok(calendarService.wateringDone(id, userId));
     }
 
-    @GetMapping("/{id}/diaries")
-    public ResponseEntity<?> getDiaries(@PathVariable Long id,
-                                        @RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(calendarService.getDiaries(id));
-    }
-
-    @PostMapping("/{id}/diaries")
+    // GrowthDiary 통합 - 일기 저장
+    @PostMapping("/{id}/diary")
     public ResponseEntity<?> createDiary(@PathVariable Long id,
                                          @RequestBody Map<String, String> body,
                                          @RequestHeader("Authorization") String token) {

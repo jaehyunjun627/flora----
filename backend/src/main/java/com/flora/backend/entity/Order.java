@@ -8,8 +8,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
@@ -44,6 +42,30 @@ public class Order {
     @Column(name = "recipient_phone", length = 20)
     private String recipientPhone;
 
+    // === OrderItem 통합 (단일 상품 주문) ===
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    private Integer quantity;
+
+    @Column(name = "unit_price", precision = 10, scale = 2)
+    private BigDecimal unitPrice;
+
+    // === Payment 통합 ===
+    @Column(name = "pg_transaction_id", length = 100)
+    private String pgTransactionId;
+
+    @Column(name = "payment_method", length = 20)
+    private String paymentMethod;
+
+    @Column(name = "payment_status", length = 20)
+    @Builder.Default
+    private String paymentStatus = "PENDING";
+
+    @Column(name = "paid_at")
+    private LocalDateTime paidAt;
+
     @CreatedDate
     @Column(name = "ordered_at", updatable = false)
     private LocalDateTime orderedAt;
@@ -51,8 +73,4 @@ public class Order {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<OrderItem> orderItems = new ArrayList<>();
 }

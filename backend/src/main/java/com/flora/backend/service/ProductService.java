@@ -1,7 +1,6 @@
 package com.flora.backend.service;
 
-import com.flora.backend.dto.ProductRequest;
-import com.flora.backend.dto.ProductResponse;
+import com.flora.backend.dto.ProductDto;
 import com.flora.backend.entity.Product;
 import com.flora.backend.entity.User;
 import com.flora.backend.repository.jpa.ProductRepository;
@@ -25,8 +24,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    // 전체 상품 목록 (페이징)
-    public Page<ProductResponse> getProducts(int page, int size, String category) {
+    public Page<ProductDto> getProducts(int page, int size, String category) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Product> products;
         if (category != null && !category.isBlank()) {
@@ -34,25 +32,22 @@ public class ProductService {
         } else {
             products = productRepository.findByIsActiveTrue(pageable);
         }
-        return products.map(ProductResponse::from);
+        return products.map(ProductDto::from);
     }
 
-    // 상품 상세
-    public ProductResponse getProduct(Long id) {
+    public ProductDto getProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다: " + id));
-        return ProductResponse.from(product);
+        return ProductDto.from(product);
     }
 
-    // 공동구매 목록
-    public List<ProductResponse> getGroupBuyProducts() {
+    public List<ProductDto> getGroupBuyProducts() {
         return productRepository.findByIsGroupBuyTrueAndIsActiveTrue()
-                .stream().map(ProductResponse::from).collect(Collectors.toList());
+                .stream().map(ProductDto::from).collect(Collectors.toList());
     }
 
-    // 상품 등록 (판매자)
     @Transactional
-    public ProductResponse createProduct(ProductRequest req, Long sellerId) {
+    public ProductDto createProduct(ProductDto req, Long sellerId) {
         User seller = userRepository.findById(sellerId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
 
@@ -70,12 +65,11 @@ public class ProductService {
                 .isGroupBuy(req.getIsGroupBuy() != null ? req.getIsGroupBuy() : false)
                 .build();
 
-        return ProductResponse.from(productRepository.save(product));
+        return ProductDto.from(productRepository.save(product));
     }
 
-    // 상품 수정
     @Transactional
-    public ProductResponse updateProduct(Long id, ProductRequest req, Long userId) {
+    public ProductDto updateProduct(Long id, ProductDto req, Long userId) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다: " + id));
 
@@ -91,10 +85,9 @@ public class ProductService {
         product.setStockQuantity(req.getStockQuantity());
         product.setCategory(req.getCategory());
 
-        return ProductResponse.from(productRepository.save(product));
+        return ProductDto.from(productRepository.save(product));
     }
 
-    // 상품 삭제 (비활성화)
     @Transactional
     public void deleteProduct(Long id, Long userId) {
         Product product = productRepository.findById(id)

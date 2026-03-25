@@ -7,21 +7,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
     private final UserRepository userRepository;
-    private final UserBadgeRepository badgeRepository;
     private final OrderRepository orderRepository;
 
     public Map<String, Object> getMyPage(Long userId) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
-        List<UserBadge> badges = badgeRepository.findByUserId(userId);
 
         String grade = getGrade(user.getStreakDays(), orderRepository.countByUserId(userId));
+
+        // badges 문자열을 리스트로 변환
+        List<Map<String, Object>> badgeList = new ArrayList<>();
+        if (user.getBadges() != null && !user.getBadges().isBlank()) {
+            for (String badge : user.getBadges().split(",")) {
+                String trimmed = badge.trim();
+                Map<String, Object> bMap = new HashMap<>();
+                bMap.put("badgeCode", trimmed);
+                bMap.put("badgeName", getBadgeName(trimmed));
+                badgeList.add(bMap);
+            }
+        }
 
         Map<String, Object> result = new HashMap<>();
         result.put("id", user.getId());
@@ -34,11 +45,7 @@ public class MyPageService {
         result.put("streakDays", user.getStreakDays());
         result.put("lastCheckIn", user.getLastCheckIn());
         result.put("grade", grade);
-        result.put("badges", badges.stream().map(b -> Map.of(
-            "badgeCode", b.getBadgeCode(),
-            "badgeName", b.getBadgeName(),
-            "earnedAt", b.getEarnedAt()
-        )).toList());
+        result.put("badges", badgeList);
         result.put("createdAt", user.getCreatedAt());
         return result;
     }
@@ -51,17 +58,18 @@ public class MyPageService {
         if (today.equals(user.getLastCheckIn())) {
             return Map.of("message", "오늘 이미 출석했습니다", "alreadyCheckedIn", true, "streakDays", user.getStreakDays());
         }
-        // 연속 출석 체크
         if (user.getLastCheckIn() != null && user.getLastCheckIn().plusDays(1).equals(today)) {
             user.setStreakDays(user.getStreakDays() + 1);
         } else {
             user.setStreakDays(1);
         }
         user.setLastCheckIn(today);
-        user.setPoints(user.getPoints() + 5); // 출석 포인트
-        userRepository.save(user);
-        // 뱃지 체크
+        user.setPoints(user.getPoints() + 5);
+
+        // 뱃지 체크 (User.badges 필드에 저장)
         checkAndAwardBadge(user);
+        userRepository.save(user);
+
         return Map.of("message", "출석 완료! +5 포인트", "alreadyCheckedIn", false,
             "streakDays", user.getStreakDays(), "points", user.getPoints());
     }
@@ -79,15 +87,27 @@ public class MyPageService {
 
     private void checkAndAwardBadge(User user) {
         long orderCount = orderRepository.countByUserId(user.getId());
-        if (user.getStreakDays() >= 10 && orderCount >= 1 && !badgeRepository.existsByUserIdAndBadgeCode(user.getId(), "SPROUT")) {
-            badgeRepository.save(UserBadge.builder().user(user).badgeCode("SPROUT").badgeName("새싹").build());
+        String badges = user.getBadges() != null ? user.getBadges() : "";
+
+        if (user.getStreakDays() >= 10 && orderCount >= 1 && !badges.contains("SPROUT")) {
+            badges = badges.isEmpty() ? "SPROUT" : badges + ",SPROUT";
         }
-        if (user.getStreakDays() >= 30 && orderCount >= 5 && !badgeRepository.existsByUserIdAndBadgeCode(user.getId(), "BUD")) {
-            badgeRepository.save(UserBadge.builder().user(user).badgeCode("BUD").badgeName("꽃봉오리").build());
+        if (user.getStreakDays() >= 30 && orderCount >= 5 && !badges.contains("BUD")) {
+            badges = badges.isEmpty() ? "BUD" : badges + ",BUD";
         }
-        if (user.getStreakDays() >= 60 && orderCount >= 10 && !badgeRepository.existsByUserIdAndBadgeCode(user.getId(), "BLOOM")) {
-            badgeRepository.save(UserBadge.builder().user(user).badgeCode("BLOOM").badgeName("만개").build());
+        if (user.getStreakDays() >= 60 && orderCount >= 10 && !badges.contains("BLOOM")) {
+            badges = badges.isEmpty() ? "BLOOM" : badges + ",BLOOM";
         }
+        user.setBadges(badges);
+    }
+
+    private String getBadgeName(String code) {
+        return switch (code) {
+            case "SPROUT" -> "새싹";
+            case "BUD" -> "꽃봉오리";
+            case "BLOOM" -> "만개";
+            default -> code;
+        };
     }
 
     private String getGrade(int streakDays, long orderCount) {

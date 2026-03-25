@@ -67,6 +67,25 @@ public class User {
     @Column(name = "business_number", length = 20)
     private String businessNumber;
 
+    // === OauthAccount 통합 ===
+    @Column(name = "oauth_provider", length = 20)
+    private String oauthProvider;
+
+    @Column(name = "oauth_provider_user_id", length = 100)
+    private String oauthProviderUserId;
+
+    // === UserBadge 통합 (쉼표 구분 문자열) ===
+    @Column(name = "badges", length = 500)
+    private String badges;
+
+    // === Term/UserTermConsent 통합 ===
+    @Column(name = "terms_agreed")
+    @Builder.Default
+    private Boolean termsAgreed = false;
+
+    @Column(name = "terms_agreed_at")
+    private LocalDateTime termsAgreedAt;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

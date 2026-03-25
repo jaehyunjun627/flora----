@@ -1,29 +1,36 @@
 package com.flora.backend.dto;
 
 import com.flora.backend.entity.CartItem;
-import lombok.Builder;
-import lombok.Getter;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Builder
-public class CartItemResponse {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class CartItemDto {
     private Long id;
+
+    @NotNull
     private Long productId;
+
     private String productName;
     private BigDecimal productPrice;
     private String productCategory;
     private Integer stockQuantity;
-    private Integer quantity;
+
+    @Min(1)
+    @Builder.Default
+    private Integer quantity = 1;
+
     private BigDecimal subtotal;
     private LocalDateTime addedAt;
 
-    public static CartItemResponse from(CartItem c) {
-        BigDecimal subtotal = c.getProduct().getPrice()
+    public static CartItemDto from(CartItem c) {
+        BigDecimal sub = c.getProduct().getPrice()
                 .multiply(BigDecimal.valueOf(c.getQuantity()));
-        return CartItemResponse.builder()
+        return CartItemDto.builder()
                 .id(c.getId())
                 .productId(c.getProduct().getId())
                 .productName(c.getProduct().getName())
@@ -31,7 +38,7 @@ public class CartItemResponse {
                 .productCategory(c.getProduct().getCategory())
                 .stockQuantity(c.getProduct().getStockQuantity())
                 .quantity(c.getQuantity())
-                .subtotal(subtotal)
+                .subtotal(sub)
                 .addedAt(c.getAddedAt())
                 .build();
     }

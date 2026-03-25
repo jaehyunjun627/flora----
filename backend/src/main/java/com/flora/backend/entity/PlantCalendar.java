@@ -44,6 +44,16 @@ public class PlantCalendar {
     @Column(name = "fertilize_date")
     private LocalDate fertilizeDate;
 
+    // === GrowthDiary 통합 ===
+    @Column(name = "diary_memo", columnDefinition = "CLOB")
+    private String diaryMemo;
+
+    @Column(name = "diary_image_url")
+    private String diaryImageUrl;
+
+    @Column(name = "diary_recorded_date")
+    private LocalDate diaryRecordedDate;
+
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

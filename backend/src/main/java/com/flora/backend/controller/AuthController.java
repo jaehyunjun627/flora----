@@ -1,6 +1,6 @@
 package com.flora.backend.controller;
 
-import com.flora.backend.dto.*;
+import com.flora.backend.dto.UserDto;
 import com.flora.backend.entity.User;
 import com.flora.backend.service.AuthService;
 import jakarta.validation.Valid;
@@ -19,20 +19,20 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> signup(@Valid @RequestBody SignupRequest request) {
+    public ResponseEntity<UserDto> signup(@Valid @RequestBody UserDto request) {
         return ResponseEntity.ok(authService.signup(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<UserDto> login(@RequestBody UserDto request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserResponse> getMe(Authentication authentication) {
+    public ResponseEntity<UserDto> getMe(Authentication authentication) {
         Long userId = (Long) authentication.getPrincipal();
         User user = authService.getUserById(userId);
-        return ResponseEntity.ok(UserResponse.from(user));
+        return ResponseEntity.ok(UserDto.from(user));
     }
 
     @GetMapping("/check-email")

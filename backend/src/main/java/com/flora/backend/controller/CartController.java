@@ -1,8 +1,7 @@
 package com.flora.backend.controller;
 
 import com.flora.backend.config.JwtTokenProvider;
-import com.flora.backend.dto.CartItemRequest;
-import com.flora.backend.dto.CartItemResponse;
+import com.flora.backend.dto.CartItemDto;
 import com.flora.backend.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,24 +23,21 @@ public class CartController {
         return jwtTokenProvider.getUserId(token.replace("Bearer ", ""));
     }
 
-    // 장바구니 조회
     @GetMapping
-    public ResponseEntity<List<CartItemResponse>> getCart(
+    public ResponseEntity<List<CartItemDto>> getCart(
             @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(cartService.getCartItems(getUserId(token)));
     }
 
-    // 상품 추가
     @PostMapping
-    public ResponseEntity<CartItemResponse> addToCart(
-            @Valid @RequestBody CartItemRequest request,
+    public ResponseEntity<CartItemDto> addToCart(
+            @Valid @RequestBody CartItemDto request,
             @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(cartService.addToCart(request, getUserId(token)));
     }
 
-    // 수량 변경
     @PatchMapping("/{cartItemId}")
-    public ResponseEntity<CartItemResponse> updateQuantity(
+    public ResponseEntity<CartItemDto> updateQuantity(
             @PathVariable Long cartItemId,
             @RequestBody Map<String, Integer> body,
             @RequestHeader("Authorization") String token) {
@@ -52,7 +48,6 @@ public class CartController {
         return ResponseEntity.ok(cartService.updateQuantity(cartItemId, quantity, getUserId(token)));
     }
 
-    // 개별 삭제
     @DeleteMapping("/{cartItemId}")
     public ResponseEntity<Void> removeItem(
             @PathVariable Long cartItemId,
@@ -61,7 +56,6 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    // 전체 비우기
     @DeleteMapping
     public ResponseEntity<Void> clearCart(
             @RequestHeader("Authorization") String token) {

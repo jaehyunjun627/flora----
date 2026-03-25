@@ -1,26 +1,36 @@
 package com.flora.backend.dto;
 
 import com.flora.backend.entity.Product;
-import lombok.Builder;
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Builder
-public class ProductResponse {
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+public class ProductDto {
     private Long id;
     private Long sellerId;
     private String sellerNickname;
     private String plantId;
+
+    @NotBlank
     private String name;
+
     private String description;
     private String imageUrl;
+
+    @NotNull @Positive
     private BigDecimal price;
+
     private BigDecimal originalPrice;
     private Integer stockQuantity;
+
+    @NotBlank
     private String category;
+
     private String productType;
     private Boolean isGroupBuy;
     private Integer groupBuyCurrent;
@@ -29,8 +39,8 @@ public class ProductResponse {
     private Boolean isActive;
     private LocalDateTime createdAt;
 
-    public static ProductResponse from(Product p) {
-        return ProductResponse.builder()
+    public static ProductDto from(Product p) {
+        return ProductDto.builder()
                 .id(p.getId())
                 .sellerId(p.getSeller() != null ? p.getSeller().getId() : null)
                 .sellerNickname(p.getSeller() != null ? p.getSeller().getNickname() : null)

@@ -14,14 +14,13 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CommunityService {
 
-    private final CommunityPostRepository postRepository;
+    private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final LikeRepository likeRepository;
     private final UserRepository userRepository;
 
     public Page<Map<String, Object>> getPosts(String category, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<CommunityPost> posts = category == null || category.isBlank()
+        Page<Post> posts = category == null || category.isBlank()
             ? postRepository.findByIsActiveTrueOrderByCreatedAtDesc(pageable)
             : postRepository.findByCategoryAndIsActiveTrueOrderByCreatedAtDesc(category, pageable);
 
@@ -36,8 +35,10 @@ public class CommunityService {
             map.put("authorNickname", p.getUser().getNickname());
             map.put("authorRole", p.getUser().getRole());
             map.put("viewCount", p.getViewCount());
+            map.put("likeCount", p.getLikeCount());
+            map.put("isPinned", p.getIsPinned());
+            map.put("tag", p.getTag());
             map.put("createdAt", p.getCreatedAt());
-            map.put("likeCount", likeRepository.countByTargetTypeAndTargetId("POST", p.getId()));
             map.put("commentCount", commentRepository
                 .findByTargetTypeAndTargetIdAndIsActiveTrueOrderByCreatedAtAsc("POST", p.getId()).size());
             return map;
@@ -46,7 +47,7 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> getPost(Long id, Long userId) {
-        CommunityPost post = postRepository.findById(id)
+        Post post = postRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
         post.setViewCount(post.getViewCount() + 1);
         postRepository.save(post);
@@ -66,10 +67,6 @@ public class CommunityService {
             return cm;
         }).toList();
 
-        long likeCount = likeRepository.countByTargetTypeAndTargetId("POST", id);
-        boolean liked = userId != null && likeRepository
-            .findByTargetTypeAndTargetIdAndUserId("POST", id, userId).isPresent();
-
         Map<String, Object> result = new HashMap<>();
         result.put("id", post.getId());
         result.put("title", post.getTitle());
@@ -80,9 +77,9 @@ public class CommunityService {
         result.put("authorProfileEmoji", post.getUser().getProfileEmoji());
         result.put("authorRole", post.getUser().getRole());
         result.put("viewCount", post.getViewCount());
+        result.put("likeCount", post.getLikeCount());
+        result.put("isPinned", post.getIsPinned());
         result.put("createdAt", post.getCreatedAt());
-        result.put("likeCount", likeCount);
-        result.put("liked", liked);
         result.put("comments", commentList);
         return result;
     }
@@ -92,12 +89,11 @@ public class CommunityService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
 
-        // 공지사항은 ADMIN만 작성 가능
         if ("공지".equals(category) && !"ADMIN".equals(user.getRole())) {
             throw new RuntimeException("공지사항은 관리자만 작성할 수 있습니다");
         }
 
-        CommunityPost post = CommunityPost.builder()
+        Post post = Post.builder()
             .user(user).title(title).content(content).category(category).build();
         postRepository.save(post);
         return Map.of("id", post.getId(), "message", "게시글이 등록되었습니다");
@@ -105,7 +101,7 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> updatePost(Long postId, Long userId, String title, String content) {
-        CommunityPost post = postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
             .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
@@ -142,12 +138,11 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> deletePost(Long postId, Long userId) {
-        CommunityPost post = postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
             .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
 
-        // 작성자 또는 ADMIN만 삭제 가능
         boolean isAuthor = post.getUser().getId().equals(userId);
         boolean isAdmin = "ADMIN".equals(user.getRole());
         if (!isAuthor && !isAdmin) {
@@ -190,15 +185,39 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> toggleLike(Long postId, Long userId) {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
-        Optional<Like> existing = likeRepository.findByTargetTypeAndTargetIdAndUserId("POST", postId, userId);
-        if (existing.isPresent()) {
-            likeRepository.delete(existing.get());
-            return Map.of("liked", false, "likeCount", likeRepository.countByTargetTypeAndTargetId("POST", postId));
-        } else {
-            likeRepository.save(Like.builder().targetType("POST").targetId(postId).user(user).build());
-            return Map.of("liked", true, "likeCount", likeRepository.countByTargetTypeAndTargetId("POST", postId));
-        }
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
+
+        // 단순 카운터 방식 (Like 테이블 제거)
+        post.setLikeCount(post.getLikeCount() + 1);
+        postRepository.save(post);
+        return Map.of("liked", true, "likeCount", post.getLikeCount());
+    }
+
+    // === Notice 통합: 공지사항 조회 메서드 ===
+    public Page<Map<String, Object>> getNotices(int page, int size) {
+        return postRepository.findByIsActiveTrueOrderByIsPinnedDescCreatedAtDesc(PageRequest.of(page, size))
+            .map(p -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", p.getId());
+                map.put("title", p.getTitle());
+                map.put("tag", p.getTag());
+                map.put("isPinned", p.getIsPinned());
+                map.put("createdAt", p.getCreatedAt());
+                return map;
+            });
+    }
+
+    public List<Map<String, Object>> getRecentNotices() {
+        return postRepository.findTop5ByCategoryAndIsActiveTrueOrderByIsPinnedDescCreatedAtDesc("NOTICE")
+            .stream().map(p -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", p.getId());
+                map.put("title", p.getTitle());
+                map.put("tag", p.getTag());
+                map.put("isPinned", p.getIsPinned());
+                map.put("createdAt", p.getCreatedAt());
+                return map;
+            }).toList();
     }
 }

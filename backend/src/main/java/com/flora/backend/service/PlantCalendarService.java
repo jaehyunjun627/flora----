@@ -13,7 +13,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PlantCalendarService {
     private final PlantCalendarRepository calendarRepository;
-    private final GrowthDiaryRepository diaryRepository;
     private final UserRepository userRepository;
 
     public List<Map<String, Object>> getCalendars(Long userId) {
@@ -27,7 +26,9 @@ public class PlantCalendarService {
                 map.put("wateringIsDone", c.getWateringIsDone());
                 map.put("repotDate", c.getRepotDate());
                 map.put("fertilizeDate", c.getFertilizeDate());
-                map.put("diaryCount", diaryRepository.findByCalendarIdOrderByRecordedDateDesc(c.getId()).size());
+                map.put("diaryMemo", c.getDiaryMemo());
+                map.put("diaryImageUrl", c.getDiaryImageUrl());
+                map.put("diaryRecordedDate", c.getDiaryRecordedDate());
                 return map;
             }).toList();
     }
@@ -58,26 +59,15 @@ public class PlantCalendarService {
         return Map.of("message", "물주기 완료!", "nextWateringDate", calendar.getWateringNextDate());
     }
 
-    public List<Map<String, Object>> getDiaries(Long calendarId) {
-        return diaryRepository.findByCalendarIdOrderByRecordedDateDesc(calendarId).stream()
-            .map(d -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", d.getId());
-                map.put("recordedDate", d.getRecordedDate());
-                map.put("memo", d.getMemo());
-                map.put("imageUrl", d.getImageUrl());
-                return map;
-            }).toList();
-    }
-
+    // GrowthDiary 통합 - 일지를 PlantCalendar에 직접 저장
     @Transactional
     public Map<String, Object> createDiary(Long calendarId, String memo, String imageUrl) {
         PlantCalendar calendar = calendarRepository.findById(calendarId)
             .orElseThrow(() -> new RuntimeException("캘린더를 찾을 수 없습니다"));
-        GrowthDiary diary = GrowthDiary.builder()
-            .calendar(calendar).recordedDate(LocalDate.now())
-            .memo(memo).imageUrl(imageUrl).build();
-        diaryRepository.save(diary);
-        return Map.of("id", diary.getId(), "message", "일기가 저장되었습니다");
+        calendar.setDiaryMemo(memo);
+        calendar.setDiaryImageUrl(imageUrl);
+        calendar.setDiaryRecordedDate(LocalDate.now());
+        calendarRepository.save(calendar);
+        return Map.of("id", calendar.getId(), "message", "일기가 저장되었습니다");
     }
 }

@@ -6,20 +6,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class QuizService {
     private final QuizRepository quizRepository;
-    private final QuizAnswerRepository quizAnswerRepository;
     private final UserRepository userRepository;
 
     public Map<String, Object> getDailyQuiz(Long userId) {
         Quiz quiz = quizRepository.findRandomQuiz();
         if (quiz == null) {
-            // 퀴즈 없으면 기본 퀴즈 반환
             Map<String, Object> fallback = new HashMap<>();
             fallback.put("id", 0L);
             fallback.put("question", "장미의 꽃말은 무엇일까요?");
@@ -27,8 +24,6 @@ public class QuizService {
             fallback.put("alreadyAnswered", false);
             return fallback;
         }
-        boolean alreadyAnswered = userId != null && quizAnswerRepository
-            .existsByUserIdAndQuizIdAndAnsweredDate(userId, quiz.getId(), LocalDate.now());
 
         Map<String, Object> result = new HashMap<>();
         result.put("id", quiz.getId());
@@ -38,7 +33,7 @@ public class QuizService {
         if (quiz.getOption4() != null) options.add(quiz.getOption4());
         result.put("options", options);
         result.put("rewardPoints", quiz.getRewardPoints());
-        result.put("alreadyAnswered", alreadyAnswered);
+        result.put("alreadyAnswered", false);
         return result;
     }
 
@@ -49,15 +44,7 @@ public class QuizService {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
 
-        if (quizAnswerRepository.existsByUserIdAndQuizIdAndAnsweredDate(userId, quizId, LocalDate.now())) {
-            return Map.of("message", "오늘 이미 풀었습니다", "alreadyAnswered", true);
-        }
-
         boolean isCorrect = quiz.getAnswerIdx().equals(selectedIdx);
-        QuizAnswer answer = QuizAnswer.builder()
-            .user(user).quiz(quiz).selectedIdx(selectedIdx)
-            .isCorrect(isCorrect).answeredDate(LocalDate.now()).build();
-        quizAnswerRepository.save(answer);
 
         if (isCorrect) {
             user.setPoints(user.getPoints() + quiz.getRewardPoints());

@@ -35,6 +35,19 @@ public class Subscription {
     @Column(name = "delivery_address")
     private String deliveryAddress;
 
+    // === AnniversaryDelivery 통합 ===
+    @Column(name = "recipient_name", length = 30)
+    private String recipientName;
+
+    @Column(name = "anniversary_date")
+    private LocalDate anniversaryDate;
+
+    @Column(name = "handwritten_letter", columnDefinition = "CLOB")
+    private String handwrittenLetter;
+
+    @Column(name = "plant_id", length = 50)
+    private String plantId;  // MongoDB 참조
+
     @Column(name = "subscribed_at")
     private LocalDateTime subscribedAt;
 

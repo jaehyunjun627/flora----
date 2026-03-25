@@ -9,10 +9,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "COMMUNITY_POSTS")
+@Table(name = "POSTS")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class CommunityPost {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,7 @@ public class CommunityPost {
     @Column(columnDefinition = "CLOB")
     private String content;
 
+    // COMMUNITY, NOTICE, QNA 등
     @Column(length = 30)
     private String category;
 
@@ -37,6 +38,19 @@ public class CommunityPost {
     @Column(name = "view_count")
     @Builder.Default
     private Integer viewCount = 0;
+
+    // === Like 통합 (카운터) ===
+    @Column(name = "like_count")
+    @Builder.Default
+    private Integer likeCount = 0;
+
+    // === Notice 통합 ===
+    @Column(name = "is_pinned")
+    @Builder.Default
+    private Boolean isPinned = false;
+
+    @Column(length = 20)
+    private String tag;
 
     @Column(name = "is_active")
     @Builder.Default

@@ -1,7 +1,6 @@
 package com.flora.backend.service;
 
-import com.flora.backend.dto.CartItemRequest;
-import com.flora.backend.dto.CartItemResponse;
+import com.flora.backend.dto.CartItemDto;
 import com.flora.backend.entity.CartItem;
 import com.flora.backend.entity.Product;
 import com.flora.backend.entity.User;
@@ -25,15 +24,13 @@ public class CartService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    // 장바구니 조회
-    public List<CartItemResponse> getCartItems(Long userId) {
+    public List<CartItemDto> getCartItems(Long userId) {
         return cartItemRepository.findByUserIdOrderByAddedAtDesc(userId)
-                .stream().map(CartItemResponse::from).collect(Collectors.toList());
+                .stream().map(CartItemDto::from).collect(Collectors.toList());
     }
 
-    // 장바구니 추가
     @Transactional
-    public CartItemResponse addToCart(CartItemRequest req, Long userId) {
+    public CartItemDto addToCart(CartItemDto req, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다"));
         Product product = productRepository.findById(req.getProductId())
@@ -46,12 +43,11 @@ public class CartService {
             throw new IllegalArgumentException("재고가 부족합니다");
         }
 
-        // 이미 담긴 상품이면 수량 증가
         Optional<CartItem> existing = cartItemRepository.findByUserIdAndProductId(userId, req.getProductId());
         if (existing.isPresent()) {
             CartItem item = existing.get();
             item.setQuantity(item.getQuantity() + req.getQuantity());
-            return CartItemResponse.from(cartItemRepository.save(item));
+            return CartItemDto.from(cartItemRepository.save(item));
         }
 
         CartItem cartItem = CartItem.builder()
@@ -60,12 +56,11 @@ public class CartService {
                 .quantity(req.getQuantity())
                 .build();
 
-        return CartItemResponse.from(cartItemRepository.save(cartItem));
+        return CartItemDto.from(cartItemRepository.save(cartItem));
     }
 
-    // 수량 변경
     @Transactional
-    public CartItemResponse updateQuantity(Long cartItemId, Integer quantity, Long userId) {
+    public CartItemDto updateQuantity(Long cartItemId, Integer quantity, Long userId) {
         CartItem item = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("장바구니 항목을 찾을 수 없습니다"));
 
@@ -77,10 +72,9 @@ public class CartService {
         }
 
         item.setQuantity(quantity);
-        return CartItemResponse.from(cartItemRepository.save(item));
+        return CartItemDto.from(cartItemRepository.save(item));
     }
 
-    // 개별 삭제
     @Transactional
     public void removeItem(Long cartItemId, Long userId) {
         CartItem item = cartItemRepository.findById(cartItemId)
@@ -92,7 +86,6 @@ public class CartService {
         cartItemRepository.delete(item);
     }
 
-    // 전체 비우기
     @Transactional
     public void clearCart(Long userId) {
         cartItemRepository.deleteByUserId(userId);

@@ -1,6 +1,6 @@
 package com.flora.backend.controller;
 
-import com.flora.backend.service.NoticeService;
+import com.flora.backend.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/notices")
 @RequiredArgsConstructor
 public class NoticeController {
-    private final NoticeService noticeService;
+    private final CommunityService communityService;
 
     @GetMapping
     public ResponseEntity<?> getNotices(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(noticeService.getNotices(page, size));
+        return ResponseEntity.ok(communityService.getNotices(page, size));
     }
 
     @GetMapping("/recent")
     public ResponseEntity<?> getRecentNotices() {
-        return ResponseEntity.ok(noticeService.getRecentNotices());
+        return ResponseEntity.ok(communityService.getRecentNotices());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getNotice(@PathVariable Long id) {
-        return ResponseEntity.ok(noticeService.getNotice(id));
+        return ResponseEntity.ok(communityService.getPost(id, null));
     }
 }
