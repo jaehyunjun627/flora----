@@ -24,6 +24,7 @@ export default function ProductNewPage() {
   const [pixabayImages, setPixabayImages] = useState([]);
   const [pixabayLoading, setPixabayLoading] = useState(false);
   const [showImageSearch, setShowImageSearch] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -49,6 +50,34 @@ export default function ProductNewPage() {
   const selectImage = (url) => {
     setForm(prev => ({ ...prev, imageUrl: url }));
     setShowImageSearch(false);
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setError('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError('파일 크기는 5MB 이하여야 합니다.');
+      return;
+    }
+    setUploading(true);
+    setError('');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await api.post('/api/upload/image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setForm(prev => ({ ...prev, imageUrl: res.data.imageUrl }));
+      setShowImageSearch(false);
+    } catch (e) {
+      setError('이미지 업로드 실패: ' + (e.response?.data?.error || e.message));
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -128,15 +157,34 @@ export default function ProductNewPage() {
                 </div>
               )}
             </div>
-            {form.imageUrl && (
+            <div className="pnew-image-btns">
+              <label className="pnew-upload-btn">
+                {uploading ? '업로드 중...' : '📁 파일에서 업로드'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  style={{ display: 'none' }}
+                  disabled={uploading}
+                />
+              </label>
               <button
                 type="button"
-                className="pnew-image-change"
+                className="pnew-search-btn"
                 onClick={() => setShowImageSearch(true)}
               >
-                이미지 변경
+                🔍 이미지 검색
               </button>
-            )}
+              {form.imageUrl && (
+                <button
+                  type="button"
+                  className="pnew-image-remove"
+                  onClick={() => setForm(prev => ({ ...prev, imageUrl: '' }))}
+                >
+                  ✕ 이미지 제거
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Pixabay 검색 모달 */}

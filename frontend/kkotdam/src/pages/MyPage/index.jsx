@@ -6,11 +6,13 @@ import MyCalendar from '../../components/mypage/MyCalendar';
 import BadgeCollection, { ALL_BADGES } from '../../components/mypage/BadgeCollection';
 import PointLevel from '../../components/mypage/PointLevel';
 import PlantCard from '../../components/mypage/PlantCard';
+import PlantDiary from '../../components/mypage/PlantDiary';
 import TermsAgreement from '../../components/mypage/TermsAgreement';
 import './MyPage.css';
 
 const TABS = [
   { id: 'activity', label: '내 활동' },
+  { id: 'diary',    label: '식물일기' },
   { id: 'card',     label: '식물 명함' },
   { id: 'terms',    label: '약관 동의' },
 ];
@@ -148,7 +150,7 @@ export default function MyPage() {
             className={`mypage-tab${activeTab === tab.id ? ' active' : ''}`}
             onClick={() => setActiveTab(tab.id)}
           >
-            {tab.id === 'activity' ? '🌿 ' : tab.id === 'card' ? '🪪 ' : '📋 '}{tab.label}
+            {tab.id === 'activity' ? '🌿 ' : tab.id === 'diary' ? '📝 ' : tab.id === 'card' ? '🪪 ' : '📋 '}{tab.label}
           </button>
         ))}
       </div>
@@ -161,6 +163,12 @@ export default function MyPage() {
               <PointLevel points={userPoints} />
               <BadgeCollection selectedBadge={selectedBadge} onSelectBadge={setSelectedBadge} apiBadges={apiBadges} />
             </div>
+          </div>
+        )}
+
+        {activeTab === 'diary' && (
+          <div className="diary-tab">
+            <PlantDiary plants={plants} />
           </div>
         )}
 

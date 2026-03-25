@@ -50,6 +50,7 @@ function Layout({ children }) {
     { path: '/plants', label: '식물도감' },
     { path: '/local-trade', label: '지역거래' },
     { path: '/local-festival', label: '지역축제' },
+    { path: '/diagnosis', label: '병충해진단' },
   ];
 
   const subNavLinks = [
@@ -57,7 +58,7 @@ function Layout({ children }) {
     { path: '/products', label: '인기' },
     { path: '/products?category=꽃', label: '꽃' },
     { path: '/products?category=식물', label: '식물' },
-    { path: '/products?category=화분', label: '화분/소품' },
+    { path: '/products?category=화분/소품', label: '화분/소품' },
     { path: '/products?category=비료', label: '비료/토양' },
     { path: '/products?category=도구', label: '원예도구' },
   ];
@@ -168,6 +169,7 @@ function Layout({ children }) {
             <Link to="/plants">식물도감</Link>
             <Link to="/local-trade">지역거래</Link>
             <Link to="/local-festival">지역축제</Link>
+            <Link to="/diagnosis">병충해진단</Link>
           </div>
           <div className="footer-links">
             <h4>고객지원</h4>

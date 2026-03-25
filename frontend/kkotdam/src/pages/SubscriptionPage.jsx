@@ -6,51 +6,42 @@ import './SubscriptionPage.css';
 const PLANS = [
   {
     id: 'basic',
-    name: '베이직',
+    name: '베이직 플랜',
+    badge: '인기',
+    badgeColor: '#35A865',
     price: 19900,
     originalPrice: 25000,
-    period: '2주',
-    description: '계절 꽃 한 다발을 2주마다 받아보세요',
-    features: [
-      '제철 꽃 한 다발 (5~7송이)',
-      '무료 배송',
-      '꽃 관리 가이드 동봉',
-      '배송일 변경 가능',
-    ],
-    popular: false,
+    periodLabel: '/ 2주마다',
+    description: '계절 꽃 한 다발',
+    features: ['제철 꽃 한 다발', '무료 배송', '꽃 관리 가이드'],
+    color: '#35A865',
+    gradient: 'linear-gradient(135deg, #35A865 0%, #2d8a4e 100%)',
   },
   {
     id: 'premium',
-    name: '프리미엄',
+    name: '프리미엄 플랜',
+    badge: '추천',
+    badgeColor: '#E65100',
     price: 34900,
     originalPrice: 45000,
-    period: '2주',
-    description: '프리미엄 꽃다발과 시그니처 화병을 함께',
-    features: [
-      '프리미엄 꽃다발 (10~12송이)',
-      '첫 회 시그니처 화병 증정',
-      '무료 배송',
-      '전문 플로리스트 관리 팁',
-      '메시지 카드 무료 동봉',
-    ],
-    popular: true,
+    periodLabel: '/ 2주마다',
+    description: '프리미엄 꽃 + 화병',
+    features: ['프리미엄 꽃 다발', '시그니처 화병 포함', '무료 배송', '전문가 관리 팁'],
+    color: '#E65100',
+    gradient: 'linear-gradient(135deg, #E65100 0%, #FF8F00 100%)',
   },
   {
     id: 'season',
     name: '시즌 한정',
+    badge: '한정',
+    badgeColor: '#6A1B9A',
     price: 49900,
     originalPrice: 65000,
-    period: '월',
-    description: '매달 한정 수량의 특별한 꽃 컬렉션',
-    features: [
-      '시즌 한정 꽃 컬렉션',
-      '프리미엄 수입 화병',
-      '손편지 카드',
-      '무료 배송',
-      '1:1 플로리스트 상담',
-      '기념일 리마인더 서비스',
-    ],
-    popular: false,
+    periodLabel: '/ 월 1회',
+    description: '한정판 계절 컬렉션',
+    features: ['시즌 한정 꽃 컬렉션', '프리미엄 화병', '손편지 카드', '무료 배송', '1:1 플로리스트 상담'],
+    color: '#6A1B9A',
+    gradient: 'linear-gradient(135deg, #6A1B9A 0%, #9C27B0 100%)',
   },
 ];
 
@@ -75,7 +66,7 @@ export default function SubscriptionPage() {
       navigate('/login');
       return;
     }
-    alert(`'${currentPlan.name}' 플랜 구독이 신청되었습니다!\n매 ${currentPlan.period}마다 ${deliveryDay}에 배송됩니다.`);
+    alert(`'${currentPlan.name}' 플랜 구독이 신청되었습니다!\n${currentPlan.periodLabel} 주기로 ${deliveryDay}에 배송됩니다.`);
     navigate('/mypage');
   };
 
@@ -84,11 +75,11 @@ export default function SubscriptionPage() {
       {/* Hero */}
       <section className="sub-hero">
         <div className="sub-hero-inner">
-          <span className="sub-hero-badge">FLOWER SUBSCRIPTION</span>
+          <span className="sub-hero-badge">SUBSCRIPTION</span>
           <h1 className="sub-hero-title">꽃담 정기구독</h1>
           <p className="sub-hero-desc">
-            2주마다, 혹은 매달 한 번. 전문 플로리스트가 엄선한<br />
-            신선한 제철 꽃을 문 앞까지 배달해드립니다.
+            2주마다 신선한 제철 꽃을 문 앞까지 배달해드립니다.<br />
+            당신의 일상에 꽃을 더하세요.
           </p>
         </div>
       </section>
@@ -96,37 +87,40 @@ export default function SubscriptionPage() {
       {/* 플랜 선택 */}
       <section className="sub-plans-section">
         <div className="sub-section-inner">
-          <h2 className="sub-section-title">구독 플랜 선택</h2>
           <div className="sub-plans-grid">
             {PLANS.map(plan => (
-              <div
-                key={plan.id}
-                className={`sub-plan-card ${selectedPlan === plan.id ? 'selected' : ''} ${plan.popular ? 'popular' : ''}`}
-                onClick={() => setSelectedPlan(plan.id)}
-              >
-                {plan.popular && <div className="sub-plan-popular">추천</div>}
+              <div key={plan.id} className="sub-plan-card">
+                <div className="sub-plan-popular" style={{ background: plan.badgeColor }}>
+                  {plan.badge}
+                </div>
                 <div className="sub-plan-header">
                   <h3>{plan.name}</h3>
                   <p>{plan.description}</p>
                 </div>
                 <div className="sub-plan-price">
-                  <span className="sub-plan-original">{plan.originalPrice.toLocaleString()}원</span>
-                  <div className="sub-plan-current">
-                    <strong>{plan.price.toLocaleString()}</strong>
-                    <span>원 / {plan.period}</span>
+                  <div className="sub-plan-price-row">
+                    <span className="sub-plan-original">{plan.originalPrice.toLocaleString()}원</span>
+                    <strong className="sub-plan-amount">{plan.price.toLocaleString()}<span className="sub-plan-won">원</span></strong>
+                    <span className="sub-plan-period">{plan.periodLabel}</span>
                   </div>
-                  <span className="sub-plan-discount">
-                    {Math.round((1 - plan.price / plan.originalPrice) * 100)}% 할인
-                  </span>
+                  <div className="sub-plan-discount-wrap">
+                    <span className="sub-plan-discount">
+                      {Math.round((1 - plan.price / plan.originalPrice) * 100)}% 할인
+                    </span>
+                  </div>
                 </div>
                 <ul className="sub-plan-features">
                   {plan.features.map((f, i) => (
-                    <li key={i}>✓ {f}</li>
+                    <li key={i}>{f}</li>
                   ))}
                 </ul>
-                <div className="sub-plan-check">
-                  {selectedPlan === plan.id ? '● 선택됨' : '○ 선택하기'}
-                </div>
+                <button
+                  className="sub-plan-btn"
+                  style={{ background: plan.gradient || plan.color }}
+                  onClick={() => { setSelectedPlan(plan.id); handleSubscribe(); }}
+                >
+                  구독 시작하기
+                </button>
               </div>
             ))}
           </div>
@@ -233,7 +227,7 @@ export default function SubscriptionPage() {
             </div>
             <div className="sub-summary-row">
               <span>배송 주기</span>
-              <strong>{currentPlan?.period}마다</strong>
+              <strong>{currentPlan?.periodLabel}</strong>
             </div>
             <div className="sub-summary-row">
               <span>수령 요일</span>
@@ -254,7 +248,11 @@ export default function SubscriptionPage() {
               <span>결제 금액</span>
               <strong>{currentPlan?.price.toLocaleString()}원</strong>
             </div>
-            <button className="sub-subscribe-btn" onClick={handleSubscribe}>
+            <button
+              className="sub-subscribe-btn"
+              onClick={handleSubscribe}
+              style={{ background: currentPlan?.gradient || currentPlan?.color }}
+            >
               {user ? '구독 시작하기' : '로그인 후 구독하기'}
             </button>
             <p className="sub-summary-note">

@@ -98,9 +98,13 @@ export default function LocalTradePage() {
   const [likedIds, setLikedIds] = useState(new Set());
   const [form, setForm] = useState({
     title: '', description: '', price: '', category: '식물',
-    location: '', emoji: '🌿', status: 'SALE',
+    location: '', emoji: '🌿', status: 'SALE', imageUrl: '',
   });
   const [formErrors, setFormErrors] = useState({});
+  const [imageUploading, setImageUploading] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatInput, setChatInput] = useState('');
 
   useEffect(() => { loadPosts(); }, [page, category]);
 
@@ -184,7 +188,7 @@ export default function LocalTradePage() {
   };
 
   const resetForm = () => {
-    setForm({ title:'', description:'', price:'', category:'식물', location:'', emoji:'🌿', status:'SALE' });
+    setForm({ title:'', description:'', price:'', category:'식물', location:'', emoji:'🌿', status:'SALE', imageUrl:'' });
     setFormErrors({});
   };
 
@@ -202,6 +206,51 @@ export default function LocalTradePage() {
     try {
       await api.post(`/api/local-trade/posts/${post.id}/like`);
     } catch { /* 낙관적 업데이트 유지 */ }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    setImageUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await api.post('/api/upload/image', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setForm(f => ({ ...f, imageUrl: res.data.imageUrl }));
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => setForm(f => ({ ...f, imageUrl: reader.result }));
+      reader.readAsDataURL(file);
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  const openChat = (post) => {
+    const key = `flora-chat-${post.id}`;
+    try {
+      const saved = JSON.parse(localStorage.getItem(key)) || [];
+      setChatMessages(saved);
+    } catch { setChatMessages([]); }
+    setShowChat(true);
+  };
+
+  const sendChat = () => {
+    if (!chatInput.trim() || !selectedPost) return;
+    const msg = {
+      id: Date.now(),
+      text: chatInput.trim(),
+      sender: user?.nickname || '나',
+      time: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
+      isMine: true,
+    };
+    const updated = [...chatMessages, msg];
+    setChatMessages(updated);
+    setChatInput('');
+    localStorage.setItem(`flora-chat-${selectedPost.id}`, JSON.stringify(updated));
   };
 
   return (
@@ -280,7 +329,13 @@ export default function LocalTradePage() {
                     className={`lt-item ${post.status === 'DONE' ? 'done' : ''}`}
                     onClick={() => setSelectedPost(post)}
                   >
-                    <div className="lt-thumb">{post.emoji || '🌿'}</div>
+                    <div className="lt-thumb">
+                      {post.imageUrl ? (
+                        <img src={post.imageUrl} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                      ) : (
+                        post.emoji || '🌿'
+                      )}
+                    </div>
                     <div className="lt-info">
                       <div className="lt-item-top">
                         <span className={`lt-status ${st.cls}`}>{st.label}</span>
@@ -420,6 +475,22 @@ export default function LocalTradePage() {
                 {formErrors.location && <span className="lt-err">{formErrors.location}</span>}
               </div>
 
+              {/* 이미지 업로드 */}
+              <div className="lt-form-group">
+                <label className="lt-form-label">사진 (선택)</label>
+                {form.imageUrl ? (
+                  <div className="lt-form-image-preview">
+                    <img src={form.imageUrl} alt="미리보기" />
+                    <button type="button" onClick={() => setForm(f => ({ ...f, imageUrl: '' }))}>✕ 제거</button>
+                  </div>
+                ) : (
+                  <label className="lt-form-upload-area">
+                    {imageUploading ? '업로드 중...' : '📷 클릭하여 사진 추가'}
+                    <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} disabled={imageUploading} />
+                  </label>
+                )}
+              </div>
+
               <div className="modal-actions">
                 <button
                   type="button"
@@ -444,7 +515,13 @@ export default function LocalTradePage() {
               <button onClick={() => setSelectedPost(null)}>&times;</button>
             </div>
             <div className="lt-detail-body">
-              <div className="lt-detail-hero">{selectedPost.emoji || '🌿'}</div>
+              {selectedPost.imageUrl ? (
+                <div className="lt-detail-hero-img">
+                  <img src={selectedPost.imageUrl} alt={selectedPost.title} />
+                </div>
+              ) : (
+                <div className="lt-detail-hero">{selectedPost.emoji || '🌿'}</div>
+              )}
               <div className="lt-detail-content">
                 <div className="lt-item-top" style={{ marginBottom: 10 }}>
                   <span className={`lt-status ${(STATUS_MAP[selectedPost.status]||STATUS_MAP.SALE).cls}`}>
@@ -467,6 +544,17 @@ export default function LocalTradePage() {
                   </div>
                 </div>
                 <pre className="lt-detail-desc">{selectedPost.description}</pre>
+
+                {/* 네이버 지도 링크 */}
+                {selectedPost.location && (
+                  <button
+                    className="lt-map-link"
+                    onClick={() => window.open(`https://map.naver.com/p/search/${encodeURIComponent(selectedPost.location)}`, '_blank')}
+                  >
+                    🗺️ 네이버 지도에서 위치 보기
+                  </button>
+                )}
+
                 <div className="lt-detail-bottom">
                   <span className="lt-meta">{formatDate(selectedPost.createdAt)}</span>
                   <button
@@ -480,7 +568,7 @@ export default function LocalTradePage() {
                   <button
                     className="modal-submit"
                     style={{ width: '100%', marginTop: 16, padding: '14px' }}
-                    onClick={() => alert('채팅 기능은 준비 중이에요 🌿')}
+                    onClick={() => openChat(selectedPost)}
                   >
                     💬 채팅으로 거래하기
                   </button>
@@ -490,6 +578,48 @@ export default function LocalTradePage() {
                   </button>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── 채팅 모달 ── */}
+      {showChat && selectedPost && (
+        <div className="modal-overlay" onClick={() => setShowChat(false)}>
+          <div className="lt-chat-modal" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>💬 {selectedPost.authorNickname}님과 채팅</h3>
+              <button onClick={() => setShowChat(false)}>&times;</button>
+            </div>
+            <div className="lt-chat-product-bar">
+              <span>{selectedPost.emoji}</span>
+              <span className="lt-chat-product-name">{selectedPost.title}</span>
+              <span className="lt-chat-product-price">{formatPrice(selectedPost.price)}</span>
+            </div>
+            <div className="lt-chat-body">
+              {chatMessages.length === 0 && (
+                <div className="lt-chat-empty">
+                  <p>아직 대화가 없습니다</p>
+                  <p>인사를 건네 보세요!</p>
+                </div>
+              )}
+              {chatMessages.map(msg => (
+                <div key={msg.id} className={`lt-chat-msg ${msg.isMine ? 'mine' : 'other'}`}>
+                  {!msg.isMine && <span className="lt-chat-sender">{msg.sender}</span>}
+                  <div className="lt-chat-bubble">{msg.text}</div>
+                  <span className="lt-chat-time">{msg.time}</span>
+                </div>
+              ))}
+            </div>
+            <div className="lt-chat-input-bar">
+              <input
+                type="text"
+                placeholder="메시지를 입력하세요..."
+                value={chatInput}
+                onChange={e => setChatInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && sendChat()}
+              />
+              <button onClick={sendChat} disabled={!chatInput.trim()}>전송</button>
             </div>
           </div>
         </div>

@@ -378,6 +378,13 @@
   margin-bottom: 16px;
 }
 
+.fest-map-embed {
+  margin-bottom: 12px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+
 .fest-map-btn {
   width: 100%;
   padding: 14px;

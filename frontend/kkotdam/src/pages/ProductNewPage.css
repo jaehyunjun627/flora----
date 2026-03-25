@@ -152,6 +152,48 @@
   font-size: 14px;
 }
 
+.pnew-image-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pnew-upload-btn,
+.pnew-search-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-light);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: var(--sans);
+}
+
+.pnew-upload-btn:hover,
+.pnew-search-btn:hover {
+  background: #D4EDDA;
+}
+
+.pnew-image-remove {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--error);
+  background: var(--accent-light);
+  border: 1px solid var(--error);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: var(--sans);
+}
+
+.pnew-image-remove:hover {
+  background: #ffe0e0;
+}
+
 .pnew-image-change {
   align-self: flex-start;
   padding: 8px 16px;

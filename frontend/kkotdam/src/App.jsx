@@ -20,6 +20,7 @@ import SubscriptionPage from './pages/SubscriptionPage';
 import NoticePage from './pages/NoticePage';
 import LocalTradePage from './pages/LocalTradePage';
 import LocalFestivalPage from './pages/LocalFestivalPage';
+import PlantDiagnosisPage from './pages/PlantDiagnosisPage';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/local-trade" element={<LocalTradePage />} />
             <Route path="/local-festival" element={<LocalFestivalPage />} />
+            <Route path="/diagnosis" element={<PlantDiagnosisPage />} />
           </Routes>
         </Layout>
         <ChatBot />

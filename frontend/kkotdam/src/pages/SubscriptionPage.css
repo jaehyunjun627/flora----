@@ -5,8 +5,8 @@
 
 /* Hero */
 .sub-hero {
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  padding: 72px 24px;
+  background: #faf8f2;
+  padding: 64px 24px 0;
   text-align: center;
 }
 
@@ -17,25 +17,28 @@
 
 .sub-hero-badge {
   display: inline-block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 2px;
-  color: #FFD600;
-  margin-bottom: 16px;
+  color: var(--primary);
+  background: rgba(53, 168, 101, 0.12);
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-bottom: 20px;
 }
 
 .sub-hero-title {
   font-size: 36px;
   font-weight: 900;
-  color: #fff;
+  color: var(--text-dark);
   margin-bottom: 16px;
   letter-spacing: -1px;
 }
 
 .sub-hero-desc {
-  font-size: 16px;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.7;
+  font-size: 15px;
+  color: var(--text-medium);
+  line-height: 1.8;
 }
 
 /* Section common */
@@ -53,131 +56,176 @@
   letter-spacing: -0.5px;
 }
 
-/* Plans */
+/* ─── Plans ─── */
 .sub-plans-section {
-  padding: 56px 0;
+  padding: 48px 0 64px;
+  background: #faf8f2;
 }
 
 .sub-plans-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .sub-plan-card {
   background: #fff;
-  border: 2px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  cursor: pointer;
-  transition: all 0.2s;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 40px 28px 28px;
   position: relative;
+  text-align: center;
+  transition: all 0.25s;
 }
 
 .sub-plan-card:hover {
-  border-color: var(--border);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
 }
 
-.sub-plan-card.selected {
-  border-color: var(--text-dark);
-  box-shadow: var(--shadow-md);
-}
-
-.sub-plan-card.popular {
-  border-color: var(--text-dark);
-}
-
+/* 상단 뱃지 */
 .sub-plan-popular {
   position: absolute;
-  top: -12px;
+  top: -13px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--text-dark);
   color: #fff;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  padding: 4px 16px;
-  border-radius: 12px;
+  padding: 4px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* 플랜 헤더 */
+.sub-plan-header {
+  margin-bottom: 24px;
 }
 
 .sub-plan-header h3 {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 4px;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
 }
 
 .sub-plan-header p {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-light);
-  margin-bottom: 20px;
 }
 
+/* 가격 영역 */
 .sub-plan-price {
   margin-bottom: 16px;
+}
+
+.sub-plan-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .sub-plan-original {
   font-size: 14px;
   color: var(--text-muted);
   text-decoration: line-through;
-  display: block;
-  margin-bottom: 2px;
 }
 
-.sub-plan-current {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-}
-
-.sub-plan-current strong {
-  font-size: 28px;
+.sub-plan-amount {
+  font-size: 32px;
   font-weight: 900;
   color: var(--text-dark);
+  letter-spacing: -1px;
+  line-height: 1;
 }
 
-.sub-plan-current span {
+.sub-plan-won {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.sub-plan-period {
   font-size: 14px;
   color: var(--text-medium);
+  font-weight: 500;
+}
+
+/* 할인 배지 */
+.sub-plan-discount-wrap {
+  text-align: center;
 }
 
 .sub-plan-discount {
   display: inline-block;
-  background: #FFF0F0;
-  color: var(--accent);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 10px;
-  margin-top: 4px;
+  padding: 6px 0;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #e53935;
+  width: 100%;
+  text-align: center;
 }
 
+/* 기능 리스트 */
 .sub-plan-features {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 20px 0 28px;
+  text-align: left;
 }
 
 .sub-plan-features li {
   font-size: 14px;
   color: var(--text-medium);
-  padding: 5px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.sub-plan-check {
-  text-align: center;
-  font-size: 14px;
+.sub-plan-features li:last-child {
+  border-bottom: none;
+}
+
+.sub-plan-features li::before {
+  content: '✓';
   font-weight: 700;
-  color: var(--text-light);
-  padding-top: 12px;
-  border-top: 1px solid var(--border-light);
+  color: var(--text-medium);
+  flex-shrink: 0;
 }
 
-.sub-plan-card.selected .sub-plan-check {
-  color: var(--primary);
+/* 구독 버튼 */
+.sub-plan-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sans);
+  text-align: center;
+  margin-top: auto;
 }
 
-/* Delivery */
+.sub-plan-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* 기존 check 숨김 */
+.sub-plan-check { display: none; }
+
+/* ─── Delivery ─── */
 .sub-delivery-section {
   padding: 56px 0;
   background: var(--bg-secondary);
@@ -223,6 +271,7 @@
   color: var(--text-medium);
   border: 1px solid var(--border);
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .sub-day-btn.active {
@@ -255,6 +304,7 @@
   color: var(--text-medium);
   border: 1px solid var(--border);
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .sub-recipient-btn.active {
@@ -303,7 +353,7 @@
   resize: vertical;
 }
 
-/* Summary */
+/* ─── Summary ─── */
 .sub-summary-section {
   padding: 56px 0;
 }
@@ -331,21 +381,11 @@
   font-size: 14px;
 }
 
-.sub-summary-row span {
-  color: var(--text-light);
-}
+.sub-summary-row span { color: var(--text-light); }
+.sub-summary-row strong { color: var(--text-dark); }
 
-.sub-summary-row strong {
-  color: var(--text-dark);
-}
-
-.sub-summary-row.total {
-  font-size: 18px;
-}
-
-.sub-summary-row.total strong {
-  font-weight: 900;
-}
+.sub-summary-row.total { font-size: 18px; }
+.sub-summary-row.total strong { font-weight: 900; }
 
 .sub-summary-divider {
   height: 1px;
@@ -357,17 +397,18 @@
   width: 100%;
   padding: 16px;
   margin-top: 24px;
-  background: var(--text-dark);
   color: #fff;
   font-size: 16px;
   font-weight: 700;
   border-radius: 28px;
   transition: all 0.2s;
   border: none;
+  cursor: pointer;
 }
 
 .sub-subscribe-btn:hover {
-  background: #000;
+  opacity: 0.9;
+  filter: brightness(1.1);
 }
 
 .sub-summary-note {
@@ -377,7 +418,7 @@
   margin-top: 12px;
 }
 
-/* FAQ */
+/* ─── FAQ ─── */
 .sub-faq-section {
   padding: 56px 0;
   background: var(--bg-secondary);
@@ -403,9 +444,7 @@
   list-style: none;
 }
 
-.sub-faq-item summary::-webkit-details-marker {
-  display: none;
-}
+.sub-faq-item summary::-webkit-details-marker { display: none; }
 
 .sub-faq-item summary::before {
   content: 'Q. ';
@@ -420,7 +459,7 @@
   line-height: 1.6;
 }
 
-/* Responsive */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .sub-plans-grid,
   .sub-delivery-grid {

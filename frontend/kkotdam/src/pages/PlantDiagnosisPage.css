@@ -1,0 +1,421 @@
+.diag-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.diag-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.diag-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.diag-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.diag-header p {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* 사진 업로드 */
+.diag-photo-section {
+  margin-bottom: 28px;
+}
+
+.diag-photo-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.diag-photo-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.diag-photo-upload:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.diag-photo-preview {
+  position: relative;
+  display: inline-block;
+}
+
+.diag-photo-preview img {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 1px solid var(--border-light);
+}
+
+.diag-photo-preview button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 증상 선택 */
+.diag-section {
+  margin-bottom: 28px;
+}
+
+.diag-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.diag-symptom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.diag-symptom-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sans);
+}
+
+.diag-symptom-btn:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.diag-symptom-btn.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(53, 168, 101, 0.25);
+}
+
+.diag-symptom-emoji {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.diag-symptom-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* 진단 버튼 */
+.diag-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.diag-submit-btn {
+  flex: 1;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: background 0.15s;
+}
+
+.diag-submit-btn:hover { background: var(--primary-hover); }
+
+.diag-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.diag-reset-btn {
+  padding: 14px 24px;
+  background: #fff;
+  color: var(--text-medium);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.15s;
+}
+
+.diag-reset-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 결과 */
+.diag-results {
+  margin-top: 8px;
+}
+
+.diag-results h3 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.diag-no-result {
+  text-align: center;
+  padding: 48px 24px;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+}
+
+.diag-no-result span {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.diag-no-result p {
+  color: var(--text-light);
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+/* 결과 카드 */
+.diag-result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diag-result-card {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+
+.diag-result-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.diag-result-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.diag-result-emoji {
+  font-size: 36px;
+  flex-shrink: 0;
+}
+
+.diag-result-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.diag-severity {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.diag-severity-high { background: #ffebee; color: #c62828; }
+.diag-severity-mid  { background: #fff8e1; color: #e65100; }
+.diag-severity-low  { background: #e8f5e9; color: #2e7d32; }
+
+.diag-match-score {
+  margin-left: auto;
+  padding: 4px 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.diag-result-desc {
+  font-size: 14px;
+  color: var(--text-medium);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.diag-result-section {
+  padding: 12px 14px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.diag-result-section:last-child {
+  margin-bottom: 0;
+}
+
+.diag-result-section strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.diag-result-section p {
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ─── Terms Agreement ─── */
+.diag-terms {
+  max-width: 520px;
+  margin: 48px auto;
+  text-align: center;
+}
+
+.diag-terms-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.diag-terms-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #2d6a46;
+  margin-bottom: 10px;
+}
+
+.diag-terms-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+.diag-terms-box {
+  background: #f9f5f0;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.diag-terms-highlight {
+  font-size: 14px;
+  color: var(--text-dark);
+  margin-bottom: 14px;
+}
+
+.diag-terms-list {
+  list-style: disc;
+  padding-left: 20px;
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 2;
+}
+
+.diag-terms-check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--text-dark);
+  cursor: pointer;
+  text-align: left;
+}
+
+.diag-terms-check input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.diag-terms-btn {
+  width: 100%;
+  padding: 16px;
+  background: #d5c8b8;
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: var(--sans);
+}
+
+.diag-terms-btn:not(:disabled) {
+  background: #8b7355;
+}
+
+.diag-terms-btn:not(:disabled):hover {
+  background: #7a6548;
+}
+
+.diag-terms-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .diag-symptom-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .diag-result-header {
+    flex-wrap: wrap;
+  }
+
+  .diag-match-score {
+    margin-left: 0;
+  }
+}

@@ -313,11 +313,24 @@ export default function LocalFestivalPage() {
                   ))}
                 </div>
 
+                {/* 네이버 지도 임베드 */}
+                {selected.lat && selected.lng && (
+                  <div className="fest-map-embed">
+                    <iframe
+                      title="축제 위치"
+                      src={`https://map.naver.com/p/search/${encodeURIComponent(selected.name + ' ' + selected.location)}?c=${selected.lng},${selected.lat},15,0,0,0,dh`}
+                      width="100%"
+                      height="250"
+                      style={{ border: 'none', borderRadius: '12px' }}
+                      allowFullScreen
+                    />
+                  </div>
+                )}
                 <button
                   className="fest-map-btn"
-                  onClick={() => alert('지도 연동 기능은 준비 중이에요 🗺️')}
+                  onClick={() => window.open(`https://map.naver.com/p/search/${encodeURIComponent(selected.name + ' ' + selected.location)}`, '_blank')}
                 >
-                  🗺️ 지도에서 보기
+                  🗺️ 네이버 지도에서 보기
                 </button>
               </div>
             </div>

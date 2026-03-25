@@ -19,39 +19,38 @@ function getTodayQuiz(quizArr) {
   return quizArr[seed % quizArr.length];
 }
 
-const SUBSCRIPTION_PLANS = [
+const GROUP_PURCHASE_DATA = [
   {
-    id: 'basic',
-    name: '베이직 플랜',
-    price: 19900,
-    originalPrice: 25000,
-    period: '2주마다',
-    desc: '계절 꽃 한 다발',
-    badge: '인기',
-    features: ['제철 꽃 한 다발', '무료 배송', '꽃 관리 가이드'],
-    color: '#35A865',
+    id: 1, type: 'group', badgeText: '공동구매', emoji: '🌹',
+    seller: '🌿 장미농장', name: '장미 모종 공동구매',
+    price: '3,500원', originalPrice: '7,000원',
+    rating: 4.9, reviewCount: 12,
+    progress: 77, participants: '23/30명 참여',
+    autoDelivery: null,
   },
   {
-    id: 'premium',
-    name: '프리미엄 플랜',
-    price: 34900,
-    originalPrice: 45000,
-    period: '2주마다',
-    desc: '프리미엄 꽃 + 화병',
-    badge: '추천',
-    features: ['프리미엄 꽃 다발', '시그니처 화병 포함', '무료 배송', '전문가 관리 팁'],
-    color: '#E65100',
+    id: 2, type: 'subscription', badgeText: '구독', emoji: '💉🌱',
+    seller: '🪴 흙사랑', name: '유기농 비료 정기배송',
+    price: '월 9,900원', originalPrice: null,
+    rating: 4.7, reviewCount: 44,
+    progress: null, participants: null,
+    autoDelivery: '매월 자동 배송',
   },
   {
-    id: 'season',
-    name: '시즌 한정',
-    price: 49900,
-    originalPrice: 65000,
-    period: '월 1회',
-    desc: '한정판 계절 컬렉션',
-    badge: '한정',
-    features: ['시즌 한정 꽃 컬렉션', '프리미엄 화병', '손편지 카드', '무료 배송', '1:1 플로리스트 상담'],
-    color: '#6A1B9A',
+    id: 3, type: 'group', badgeText: '공동구매', emoji: '🌿',
+    seller: '🌱 그린팜', name: '몬스테라 대형 화분 공구',
+    price: '15,000원', originalPrice: '28,000원',
+    rating: 4.8, reviewCount: 31,
+    progress: 60, participants: '18/30명 참여',
+    autoDelivery: null,
+  },
+  {
+    id: 4, type: 'event', badgeText: '이벤트', emoji: '🌸',
+    seller: '🏪 꽃담스토어', name: '봄맞이 꽃다발 특가',
+    price: '12,900원', originalPrice: '25,000원',
+    rating: 4.6, reviewCount: 89,
+    progress: null, participants: null,
+    autoDelivery: null,
   },
 ];
 
@@ -163,11 +162,6 @@ export default function HomePage() {
                 <button className="birth-flower-cta-outline" onClick={() => navigate('/products')}>
                   선물하기
                 </button>
-                <button className="birth-flower-cta-sub" onClick={() => {
-                  document.getElementById('subscription')?.scrollIntoView({ behavior: 'smooth' });
-                }}>
-                  🌸 정기 구독하기
-                </button>
               </div>
             </div>
             {birthFlowerImg && (
@@ -185,15 +179,21 @@ export default function HomePage() {
           {[
             { label: '🌸 봄맞이 꽃', path: '/products?category=꽃' },
             { label: '🌿 인기 식물', path: '/products?category=식물' },
-            { label: '🪴 감성 화분', path: '/products?category=화분' },
+            { label: '🪴 감성 화분', path: '/products?category=화분/소품' },
             { label: '📖 식물도감', path: '/plants' },
             { label: '💬 커뮤니티', path: '/community' },
-            { label: '🎁 이벤트', path: '/' },
+            { label: '🎁 이벤트', path: '#group-purchase' },
           ].map((tag, i) => (
             <button
               key={i}
               className={`category-tag ${i === 0 ? 'active' : ''}`}
-              onClick={() => navigate(tag.path)}
+              onClick={() => {
+                if (tag.path.startsWith('#')) {
+                  document.getElementById(tag.path.slice(1))?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  navigate(tag.path);
+                }
+              }}
             >
               {tag.label}
             </button>
@@ -229,6 +229,9 @@ export default function HomePage() {
                   </div>
                   <div className="home-product-info">
                     <p className="home-product-name">{product.name}</p>
+                    {product.description && (
+                      <p className="home-product-desc">{product.description}</p>
+                    )}
                     <p className="home-product-price">
                       {product.price?.toLocaleString()}원
                     </p>
@@ -252,55 +255,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 정기구독 섹션 (kukka 스타일) */}
-      <section className="subscription-section" id="subscription">
+      {/* 공동구매 & 이벤트 */}
+      <section className="section" id="group-purchase">
         <div className="section-inner">
-          <div className="subscription-header">
-            <span className="subscription-badge-top">SUBSCRIPTION</span>
-            <h2 className="subscription-title">꽃담 정기구독</h2>
-            <p className="subscription-subtitle">
-              2주마다 신선한 제철 꽃을 문 앞까지 배달해드립니다.<br />
-              당신의 일상에 꽃을 더하세요.
-            </p>
+          <div className="section-header">
+            <h2 className="section-title">공동구매 & 이벤트</h2>
+            <button className="section-more" onClick={() => navigate('/products')}>
+              더보기 &gt;
+            </button>
           </div>
-          <div className="subscription-grid">
-            {SUBSCRIPTION_PLANS.map(plan => (
-              <div key={plan.id} className="subscription-card">
-                <div className="subscription-card-badge" style={{ background: plan.color }}>
-                  {plan.badge}
+          <div className="group-purchase-grid">
+            {GROUP_PURCHASE_DATA.map(item => (
+              <div key={item.id} className="gp-card" onClick={() => navigate('/products')}>
+                <div className="gp-card-badge-wrap">
+                  <span className={`gp-card-badge ${item.type}`}>{item.badgeText}</span>
                 </div>
-                <h3 className="subscription-card-name">{plan.name}</h3>
-                <p className="subscription-card-desc">{plan.desc}</p>
-                <div className="subscription-card-pricing">
-                  <span className="subscription-card-original">
-                    {plan.originalPrice.toLocaleString()}원
-                  </span>
-                  <span className="subscription-card-price">
-                    {plan.price.toLocaleString()}원
-                  </span>
-                  <span className="subscription-card-period">/ {plan.period}</span>
+                <div className="gp-card-img">
+                  <span className="gp-card-emoji">{item.emoji}</span>
                 </div>
-                <div className="subscription-card-discount">
-                  {Math.round((1 - plan.price / plan.originalPrice) * 100)}% 할인
+                <div className="gp-card-body">
+                  <p className="gp-card-seller">{item.seller}</p>
+                  <h3 className="gp-card-name">{item.name}</h3>
+                  <div className="gp-card-pricing">
+                    <span className="gp-card-price">{item.price}</span>
+                    {item.originalPrice && <span className="gp-card-original">{item.originalPrice}</span>}
+                  </div>
+                  <div className="gp-card-rating">
+                    {'★'.repeat(Math.floor(item.rating))}{'☆'.repeat(5 - Math.floor(item.rating))}
+                    <span>{item.rating} ({item.reviewCount})</span>
+                  </div>
+                  {item.progress && (
+                    <div className="gp-card-progress-wrap">
+                      <div className="gp-card-progress">
+                        <div className="gp-card-progress-bar" style={{ width: `${item.progress}%` }} />
+                      </div>
+                      <span className="gp-card-progress-text">👥 {item.participants}</span>
+                    </div>
+                  )}
+                  {item.autoDelivery && (
+                    <p className="gp-card-auto">📦 {item.autoDelivery}</p>
+                  )}
                 </div>
-                <ul className="subscription-card-features">
-                  {plan.features.map((f, i) => (
-                    <li key={i}>✓ {f}</li>
-                  ))}
-                </ul>
-                <button
-                  className="subscription-card-btn"
-                  style={{ background: plan.color }}
-                  onClick={() => navigate('/subscription')}
-                >
-                  구독 시작하기
-                </button>
               </div>
             ))}
-          </div>
-          <div className="subscription-notice">
-            <p>* 구독은 언제든 해지할 수 있으며, 배송일 3일 전까지 변경/취소 가능합니다.</p>
-            <p>* 첫 구독 시 15% 추가 할인 쿠폰을 드립니다.</p>
           </div>
         </div>
       </section>
