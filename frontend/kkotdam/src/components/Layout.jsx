@@ -50,7 +50,6 @@ function Layout({ children }) {
     { path: '/plants', label: '식물도감' },
     { path: '/local-trade', label: '지역거래' },
     { path: '/local-festival', label: '지역축제' },
-    { path: '/diagnosis', label: '병충해진단' },
   ];
 
   const subNavLinks = [
@@ -169,7 +168,6 @@ function Layout({ children }) {
             <Link to="/plants">식물도감</Link>
             <Link to="/local-trade">지역거래</Link>
             <Link to="/local-festival">지역축제</Link>
-            <Link to="/diagnosis">병충해진단</Link>
           </div>
           <div className="footer-links">
             <h4>고객지원</h4>

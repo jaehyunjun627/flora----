@@ -95,7 +95,7 @@ export default function PlantEncyclopediaPage() {
       return items.filter(p => favorites.includes(String(p.taxonId)));
     }
     if (category === '반려동물안전') {
-      return items.filter(p => p.isToxicToPets === false);
+      return items.filter(p => p.isToxicToPets === true);
     }
     // Season filtering
     const seasonMap = {
