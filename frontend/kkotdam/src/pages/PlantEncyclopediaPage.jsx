@@ -5,70 +5,6 @@ import './PlantEncyclopediaPage.css';
 const PAGE_SIZE = 20;
 const PIXABAY_KEY = '3956381-8a0f2a1805bed555538d1bfe8';
 
-// Plant extra data mapping
-const PLANT_EXTRA = {
-  '장미': { season: '봄/여름', flowerLang: '"사랑과 아름다움"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: true },
-  '튤립': { season: '봄', flowerLang: '"사랑의 고백"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '국화': { season: '가을', flowerLang: '"고결한 지조"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '비옥한 토양', petSafe: true },
-  '진달래': { season: '봄', flowerLang: '"사랑의 즐거움"', sunlight: '반양지', watering: '주 1~2회', soil: '산성 토양', petSafe: true },
-  '개나리': { season: '봄', flowerLang: '"희망"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '일반 토양', petSafe: true },
-  '벚나무': { season: '봄', flowerLang: '"순결한 아름다움"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: false },
-  '라벤더': { season: '여름', flowerLang: '"침묵의 사랑"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '배수 좋은 토양', petSafe: true },
-  '해바라기': { season: '여름', flowerLang: '"당신만 바라봐요"', sunlight: '직사광선', watering: '주 3회', soil: '비옥한 토양', petSafe: true },
-  '연꽃': { season: '여름', flowerLang: '"순수한 마음"', sunlight: '밝은 햇빛', watering: '항상 습하게', soil: '수생', petSafe: true },
-  '민들레': { season: '봄', flowerLang: '"행복"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '일반 토양', petSafe: true },
-  '무궁화': { season: '여름/가을', flowerLang: '"일편단심"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '일반 토양', petSafe: true },
-  '은행나무': { season: '가을', flowerLang: '"장수"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '일반 토양', petSafe: false },
-  '수선화': { season: '봄', flowerLang: '"자기애"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '카네이션': { season: '봄', flowerLang: '"감사와 사랑"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: true },
-  '백합': { season: '여름', flowerLang: '"순결"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: false },
-  '목련': { season: '봄', flowerLang: '"고귀함"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '비옥한 토양', petSafe: true },
-  '철쭉': { season: '봄', flowerLang: '"사랑의 기쁨"', sunlight: '반양지', watering: '주 2회', soil: '산성 토양', petSafe: false },
-  '동백나무': { season: '겨울/봄', flowerLang: '"기다림의 사랑"', sunlight: '반양지', watering: '주 2회', soil: '산성 토양', petSafe: true },
-  '매화': { season: '겨울/봄', flowerLang: '"고결한 마음"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '작약': { season: '봄/여름', flowerLang: '"수줍음"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '비옥한 토양', petSafe: true },
-  '코스모스': { season: '가을', flowerLang: '"순정"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '일반 토양', petSafe: true },
-  '수국': { season: '여름', flowerLang: '"진심"', sunlight: '반양지', watering: '주 3회', soil: '산성 토양', petSafe: false },
-  '봉선화': { season: '여름', flowerLang: '"나를 건드리지 마세요"', sunlight: '반양지', watering: '주 2회', soil: '일반 토양', petSafe: true },
-  '나팔꽃': { season: '여름', flowerLang: '"덧없는 사랑"', sunlight: '밝은 햇빛', watering: '주 2~3회', soil: '일반 토양', petSafe: false },
-  '패랭이꽃': { season: '봄/여름', flowerLang: '"순수한 사랑"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: true },
-  '수련': { season: '여름', flowerLang: '"청순한 마음"', sunlight: '밝은 햇빛', watering: '항상 습하게', soil: '수생', petSafe: true },
-  '제비꽃': { season: '봄', flowerLang: '"겸양"', sunlight: '반양지', watering: '주 2회', soil: '배수 좋은 토양', petSafe: true },
-  '칸나': { season: '여름/가을', flowerLang: '"영원한 행복"', sunlight: '밝은 햇빛', watering: '주 3회', soil: '비옥한 토양', petSafe: true },
-  '백일홍': { season: '여름/가을', flowerLang: '"떠나간 님을 그리워하며"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '일반 토양', petSafe: true },
-  '금잔화': { season: '봄/여름', flowerLang: '"이별의 슬픔"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '일반 토양', petSafe: true },
-  '아이리스': { season: '봄', flowerLang: '"좋은 소식"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '습한 토양', petSafe: false },
-  '프리지아': { season: '봄', flowerLang: '"순결"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: true },
-  '안개꽃': { season: '봄/여름', flowerLang: '"영원한 사랑"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: true },
-  '클레마티스': { season: '봄/여름', flowerLang: '"아름다운 마음"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '비옥한 토양', petSafe: false },
-  '데이지': { season: '봄', flowerLang: '"희망"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '일반 토양', petSafe: true },
-  '달리아': { season: '여름/가을', flowerLang: '"감사"', sunlight: '밝은 햇빛', watering: '주 2~3회', soil: '비옥한 토양', petSafe: true },
-  '허브제라늄': { season: '봄/여름', flowerLang: '"결심"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '자스민': { season: '여름', flowerLang: '"사랑스러움"', sunlight: '밝은 햇빛', watering: '주 2회', soil: '배수 좋은 토양', petSafe: true },
-  '란타나': { season: '봄/여름/가을', flowerLang: '"엄격함"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '일반 토양', petSafe: false },
-  '스타티스': { season: '여름', flowerLang: '"변하지 않는 마음"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '배수 좋은 토양', petSafe: true },
-  '산수유': { season: '봄', flowerLang: '"지속"', sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '비옥한 토양', petSafe: true },
-  '소나무': { season: '사계절', flowerLang: '"불변의 마음"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '배수 좋은 토양', petSafe: true },
-  '단풍나무': { season: '가을', flowerLang: '"아름다운 변화"', sunlight: '반양지', watering: '주 2회', soil: '비옥한 토양', petSafe: true },
-  '대나무': { season: '사계절', flowerLang: '"절개"', sunlight: '반양지', watering: '주 2~3회', soil: '비옥한 토양', petSafe: true },
-  '소철': { season: '사계절', flowerLang: '"영원한 젊음"', sunlight: '밝은 햇빛', watering: '주 1회', soil: '배수 좋은 토양', petSafe: false },
-  // ── 새로 추가된 인기 식물 ──
-  '히아신스':    { season: '봄',          flowerLang: '"게임의 승리"',       sunlight: '밝은 햇빛', watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
-  '팬지':        { season: '봄',          flowerLang: '"나를 생각해줘"',     sunlight: '밝은 햇빛', watering: '주 2회',   soil: '비옥한 토양',    petSafe: true  },
-  '아마릴리스':  { season: '봄/여름',     flowerLang: '"찬란한 아름다움"',   sunlight: '밝은 햇빛', watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '글라디올러스': { season: '여름',       flowerLang: '"조심"',              sunlight: '직사광선',  watering: '주 2~3회', soil: '배수 좋은 토양', petSafe: false },
-  '거베라':      { season: '봄/여름',     flowerLang: '"희망"',              sunlight: '밝은 햇빛', watering: '주 2회',   soil: '배수 좋은 토양', petSafe: true  },
-  '피튜니아':    { season: '여름',        flowerLang: '"당신과 함께라면"',   sunlight: '직사광선',  watering: '주 2~3회', soil: '비옥한 토양',    petSafe: true  },
-  '베고니아':    { season: '봄/여름/가을',flowerLang: '"친절"',              sunlight: '반양지',    watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
-  '칼란코에':    { season: '봄/여름',     flowerLang: '"인기"',              sunlight: '밝은 햇빛', watering: '주 1회',   soil: '배수 좋은 토양', petSafe: false },
-  '시클라멘':    { season: '겨울/봄',     flowerLang: '"내성적인 아름다움"', sunlight: '반양지',    watering: '주 2회',   soil: '배수 좋은 토양', petSafe: false },
-  '몬스테라':    { season: '사계절',      flowerLang: '"장수"',              sunlight: '간접광',    watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '산세베리아':  { season: '사계절',      flowerLang: '"관용"',              sunlight: '간접광',    watering: '월 1~2회', soil: '배수 좋은 토양', petSafe: false },
-  '알로에베라':  { season: '사계절',      flowerLang: '"행운"',              sunlight: '밝은 햇빛', watering: '월 2~3회', soil: '배수 좋은 토양', petSafe: true  },
-  '고무나무':    { season: '사계절',      flowerLang: '"영원한 행복"',       sunlight: '간접광',    watering: '주 1회',   soil: '비옥한 토양',    petSafe: false },
-  '안스리움':    { season: '사계절',      flowerLang: '"열정"',              sunlight: '간접광',    watering: '주 1~2회', soil: '배수 좋은 토양', petSafe: false },
-};
-
 // Get current month and recommend plants for the season
 const getCurrentMonthPlants = () => {
   const month = new Date().getMonth() + 1;
@@ -159,10 +95,7 @@ export default function PlantEncyclopediaPage() {
       return items.filter(p => favorites.includes(String(p.taxonId)));
     }
     if (category === '반려동물안전') {
-      return items.filter(p => {
-        const extra = PLANT_EXTRA[p.korName];
-        return extra && extra.petSafe;
-      });
+      return items.filter(p => p.isToxicToPets === false);
     }
     // Season filtering
     const seasonMap = {
@@ -173,9 +106,8 @@ export default function PlantEncyclopediaPage() {
     };
     const targetSeasons = seasonMap[category] || [];
     return items.filter(p => {
-      const extra = PLANT_EXTRA[p.korName];
-      if (!extra || !extra.season) return false;
-      return targetSeasons.some(s => extra.season.includes(s));
+      if (!p.season) return false;
+      return targetSeasons.some(s => p.season.includes(s));
     });
   };
 
@@ -311,7 +243,18 @@ export default function PlantEncyclopediaPage() {
     setSeasonFilter('반려동물안전');
   };
 
-  const getPlantExtra = (korName) => PLANT_EXTRA[korName] || {};
+  // API 응답에서 직접 extra 정보를 추출 (MongoDB에서 오는 필드)
+  const getPlantExtra = (plant) => {
+    if (!plant) return {};
+    return {
+      season: plant.season || '',
+      flowerLang: plant.flowerLanguage || '',
+      sunlight: plant.sunlight || '',
+      watering: plant.watering || '',
+      soil: plant.soil || '',
+      petSafe: plant.isToxicToPets === false,
+    };
+  };
   const getSafetyBadge = (plant) => {
     if (plant.toxicity && plant.toxicity.startsWith('있음')) {
       return { icon: '⚠', label: '독성', type: 'toxic' };
@@ -393,7 +336,7 @@ export default function PlantEncyclopediaPage() {
           {plants.map((plant, i) => {
             const korName = plant.korName || '미상';
             const imgUrl  = pixabayImages[korName];
-            const extra = getPlantExtra(korName);
+            const extra = getPlantExtra(plant);
             const safety = getSafetyBadge(plant);
             const isFavorited = favorites.includes(String(plant.taxonId));
             const isInCompare = compareList.some(p => p.taxonId === plant.taxonId);
@@ -566,9 +509,9 @@ export default function PlantEncyclopediaPage() {
                   </div>
                 ) : (
                   <div className="modal-details">
-                    {/* PLANT_EXTRA 정보 (46종만 해당) */}
+                    {/* 꽃말/계절 정보 */}
                     {(() => {
-                      const extra = getPlantExtra(detail?.korName);
+                      const extra = getPlantExtra(detail);
                       if (Object.keys(extra).length > 0) {
                         return (
                           <>
@@ -674,7 +617,7 @@ export default function PlantEncyclopediaPage() {
 
             <div className="compare-cards">
               {compareList.map((plant, idx) => {
-                const extra = getPlantExtra(plant.korName);
+                const extra = getPlantExtra(plant);
                 const safety = getSafetyBadge(plant);
                 const imgUrl = pixabayImages[plant.korName];
 

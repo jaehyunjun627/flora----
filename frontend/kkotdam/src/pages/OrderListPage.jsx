@@ -14,22 +14,23 @@ const STATUS_MAP = {
 
 export default function OrderListPage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) return; // 인증 정보 로딩 중이면 대기
     if (!user) {
       navigate("/login");
       return;
     }
     fetchOrders();
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchOrders = async () => {
     try {
       const res = await api.get("/api/orders");
-      setOrders(res.data);
+      setOrders(Array.isArray(res.data) ? res.data : []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -93,7 +94,7 @@ export default function OrderListPage() {
                   </div>
 
                   <div className="order-items">
-                    {order.items.map((item) => (
+                    {(order.items || []).map((item) => (
                       <div key={item.id} className="order-item">
                         <span className="item-name">
                           {item.productName} × {item.quantity}
