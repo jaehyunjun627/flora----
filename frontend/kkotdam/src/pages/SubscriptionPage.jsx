@@ -47,6 +47,49 @@ const PLANS = [
 
 const DELIVERY_DAYS = ['월요일', '화요일', '수요일', '목요일', '금요일'];
 
+const BIRTH_FLOWERS = {
+  '1': { name: '카네이션', emoji: '🌷' },
+  '2': { name: '매화', emoji: '🌸' },
+  '3': { name: '벚꽃', emoji: '🌸' },
+  '4': { name: '튤립', emoji: '🌷' },
+  '5': { name: '장미', emoji: '🌹' },
+  '6': { name: '수국', emoji: '💐' },
+  '7': { name: '해바라기', emoji: '🌻' },
+  '8': { name: '백합', emoji: '🤍' },
+  '9': { name: '코스모스', emoji: '🌼' },
+  '10': { name: '국화', emoji: '🏵️' },
+  '11': { name: '동백', emoji: '🌺' },
+  '12': { name: '포인세티아', emoji: '❄️' },
+};
+
+const FLOWER_OPTIONS = [
+  { id: 'rose', name: '장미', emoji: '🌹', desc: '사랑과 열정' },
+  { id: 'tulip', name: '튤립', emoji: '🌷', desc: '영원한 사랑' },
+  { id: 'sunflower', name: '해바라기', emoji: '🌻', desc: '동경과 기다림' },
+  { id: 'lily', name: '백합', emoji: '🤍', desc: '순수와 희망' },
+  { id: 'carnation', name: '카네이션', emoji: '💐', desc: '감사와 존경' },
+  { id: 'hydrangea', name: '수국', emoji: '💜', desc: '진심과 감사' },
+  { id: 'peony', name: '작약', emoji: '🩷', desc: '부귀와 행복' },
+  { id: 'daisy', name: '데이지', emoji: '🌼', desc: '희망과 평화' },
+  { id: 'lavender', name: '라벤더', emoji: '💜', desc: '기다리는 사랑' },
+  { id: 'orchid', name: '난초', emoji: '🪻', desc: '고급과 우아' },
+];
+
+const ANNIVERSARY_TYPES = [
+  { id: 'wedding', label: '결혼기념일', emoji: '💍' },
+  { id: 'birthday', label: '생일', emoji: '🎂' },
+  { id: 'first_meet', label: '처음 만난 날', emoji: '💕' },
+  { id: 'parents_day', label: '어버이날', emoji: '🌹' },
+  { id: 'valentines', label: '발렌타인데이', emoji: '💝' },
+  { id: 'custom', label: '직접 입력', emoji: '📝' },
+];
+
+function getBirthFlower(dateStr) {
+  if (!dateStr) return null;
+  const month = String(new Date(dateStr).getMonth() + 1);
+  return BIRTH_FLOWERS[month] || null;
+}
+
 export default function SubscriptionPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -58,6 +101,57 @@ export default function SubscriptionPage() {
   const [giftPhone, setGiftPhone] = useState('');
   const [giftAddress, setGiftAddress] = useState('');
   const [message, setMessage] = useState('');
+
+  // 가족 탄생일
+  const [familyMembers, setFamilyMembers] = useState([
+    { id: 1, label: '나', birthday: '', editable: false },
+    { id: 2, label: '배우자/파트너', birthday: '', editable: false },
+  ]);
+  const [nextFamilyId, setNextFamilyId] = useState(3);
+
+  // 기념일
+  const [anniversaries, setAnniversaries] = useState([
+    { id: 1, type: 'wedding', customLabel: '', date: '' },
+  ]);
+  const [nextAnniId, setNextAnniId] = useState(2);
+
+  // 꽃 선택 (최대 5개)
+  const [selectedFlowers, setSelectedFlowers] = useState([]);
+
+  const addFamilyMember = () => {
+    const childCount = familyMembers.filter(m => m.label.startsWith('자녀')).length;
+    setFamilyMembers([...familyMembers, { id: nextFamilyId, label: `자녀 ${childCount + 1}`, birthday: '', editable: false }]);
+    setNextFamilyId(nextFamilyId + 1);
+  };
+
+  const removeFamilyMember = (id) => {
+    setFamilyMembers(familyMembers.filter(m => m.id !== id));
+  };
+
+  const updateFamilyBirthday = (id, date) => {
+    setFamilyMembers(familyMembers.map(m => m.id === id ? { ...m, birthday: date } : m));
+  };
+
+  const addAnniversary = () => {
+    setAnniversaries([...anniversaries, { id: nextAnniId, type: 'birthday', customLabel: '', date: '' }]);
+    setNextAnniId(nextAnniId + 1);
+  };
+
+  const removeAnniversary = (id) => {
+    setAnniversaries(anniversaries.filter(a => a.id !== id));
+  };
+
+  const updateAnniversary = (id, field, value) => {
+    setAnniversaries(anniversaries.map(a => a.id === id ? { ...a, [field]: value } : a));
+  };
+
+  const toggleFlower = (flowerId) => {
+    if (selectedFlowers.includes(flowerId)) {
+      setSelectedFlowers(selectedFlowers.filter(f => f !== flowerId));
+    } else if (selectedFlowers.length < 5) {
+      setSelectedFlowers([...selectedFlowers, flowerId]);
+    }
+  };
 
   const currentPlan = PLANS.find(p => p.id === selectedPlan);
 
@@ -123,6 +217,113 @@ export default function SubscriptionPage() {
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 가족 탄생일 등록 */}
+      <section className="sub-family-section">
+        <div className="sub-section-inner">
+          <h2 className="sub-section-title"><span className="section-icon">👨‍👩‍👧‍👦</span> 가족 탄생일 등록</h2>
+          <div className="sub-family-grid">
+            {familyMembers.map(member => {
+              const flower = getBirthFlower(member.birthday);
+              return (
+                <div key={member.id} className="sub-family-card">
+                  <div className="sub-family-card-header">
+                    <span className="sub-family-label">{member.label}</span>
+                    {member.id > 2 && (
+                      <button className="sub-family-remove" onClick={() => removeFamilyMember(member.id)}>✕</button>
+                    )}
+                  </div>
+                  <input
+                    type="date"
+                    className="sub-date-input"
+                    value={member.birthday}
+                    onChange={e => updateFamilyBirthday(member.id, e.target.value)}
+                    placeholder="생년월일 선택..."
+                  />
+                  {flower && (
+                    <p className="sub-family-flower">탄생화: {flower.name} {flower.emoji}</p>
+                  )}
+                  {!flower && (
+                    <p className="sub-family-flower placeholder">탄생화: 생년월일을 선택해주세요</p>
+                  )}
+                </div>
+              );
+            })}
+            <div className="sub-family-card add-card" onClick={addFamilyMember}>
+              <div className="sub-family-add-icon">+</div>
+              <p>가족 추가</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 기념일 등록 */}
+      <section className="sub-anniversary-section">
+        <div className="sub-section-inner">
+          <h2 className="sub-section-title"><span className="section-icon">📅</span> 기념일 등록</h2>
+          <p className="sub-section-desc">기념일에 맞춰 특별한 꽃을 보내드려요</p>
+          <div className="sub-anni-list">
+            {anniversaries.map(anni => (
+              <div key={anni.id} className="sub-anni-row">
+                <select
+                  className="sub-anni-select"
+                  value={anni.type}
+                  onChange={e => updateAnniversary(anni.id, 'type', e.target.value)}
+                >
+                  {ANNIVERSARY_TYPES.map(t => (
+                    <option key={t.id} value={t.id}>{t.emoji} {t.label}</option>
+                  ))}
+                </select>
+                {anni.type === 'custom' && (
+                  <input
+                    type="text"
+                    className="sub-anni-custom"
+                    placeholder="기념일 이름"
+                    value={anni.customLabel}
+                    onChange={e => updateAnniversary(anni.id, 'customLabel', e.target.value)}
+                  />
+                )}
+                <input
+                  type="date"
+                  className="sub-date-input"
+                  value={anni.date}
+                  onChange={e => updateAnniversary(anni.id, 'date', e.target.value)}
+                />
+                {anniversaries.length > 1 && (
+                  <button className="sub-anni-remove" onClick={() => removeAnniversary(anni.id)}>✕</button>
+                )}
+              </div>
+            ))}
+          </div>
+          <button className="sub-anni-add-btn" onClick={addAnniversary}>+ 기념일 추가</button>
+        </div>
+      </section>
+
+      {/* 선호 꽃 선택 (최대 5종) */}
+      <section className="sub-flower-section">
+        <div className="sub-section-inner">
+          <h2 className="sub-section-title"><span className="section-icon">💐</span> 보내고 싶은 꽃 선택</h2>
+          <p className="sub-section-desc">최대 5종류까지 선택할 수 있어요 ({selectedFlowers.length}/5)</p>
+          <div className="sub-flower-grid">
+            {FLOWER_OPTIONS.map(flower => {
+              const isSelected = selectedFlowers.includes(flower.id);
+              const isDisabled = !isSelected && selectedFlowers.length >= 5;
+              return (
+                <div
+                  key={flower.id}
+                  className={`sub-flower-card ${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`}
+                  onClick={() => !isDisabled && toggleFlower(flower.id)}
+                >
+                  <span className="sub-flower-emoji">{flower.emoji}</span>
+                  <span className="sub-flower-name">{flower.name}</span>
+                  <span className="sub-flower-desc">{flower.desc}</span>
+                  {isSelected && <span className="sub-flower-check">✓</span>}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -243,6 +444,18 @@ export default function SubscriptionPage() {
               <span>받는 분</span>
               <strong>{recipient === 'self' ? '본인' : giftName || '선물'}</strong>
             </div>
+            {selectedFlowers.length > 0 && (
+              <div className="sub-summary-row">
+                <span>선호 꽃</span>
+                <strong>{selectedFlowers.map(fid => FLOWER_OPTIONS.find(f => f.id === fid)?.name).join(', ')}</strong>
+              </div>
+            )}
+            {anniversaries.filter(a => a.date).length > 0 && (
+              <div className="sub-summary-row">
+                <span>기념일</span>
+                <strong>{anniversaries.filter(a => a.date).length}건 등록</strong>
+              </div>
+            )}
             <div className="sub-summary-divider" />
             <div className="sub-summary-row total">
               <span>결제 금액</span>
