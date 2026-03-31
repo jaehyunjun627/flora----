@@ -59,6 +59,19 @@
   color: var(--error);
 }
 
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-PENDING { background: #FFF3E0; color: #E65100; }
+.status-PREPARING { background: #E3F2FD; color: #1565C0; }
+.status-SHIPPING { background: #FFF8E1; color: #F57F17; }
+.status-DELIVERED { background: #E8F5E9; color: #2E7D32; }
+.status-CANCELLED { background: #F5F5F5; color: #9E9E9E; }
+
 .order-items {
   display: flex;
   flex-direction: column;

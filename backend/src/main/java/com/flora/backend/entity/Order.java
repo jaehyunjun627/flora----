@@ -66,6 +66,22 @@ public class Order {
     @Column(name = "paid_at")
     private LocalDateTime paidAt;
 
+    // === 배송 정보 ===
+    @Column(name = "courier_name", length = 30)
+    private String courierName;
+
+    @Column(name = "tracking_number", length = 50)
+    private String trackingNumber;
+
+    @Column(name = "shipped_at")
+    private LocalDateTime shippedAt;
+
+    @Column(name = "delivered_at")
+    private LocalDateTime deliveredAt;
+
+    @Column(name = "delivery_memo")
+    private String deliveryMemo;
+
     @CreatedDate
     @Column(name = "ordered_at", updatable = false)
     private LocalDateTime orderedAt;

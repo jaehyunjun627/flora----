@@ -5,10 +5,10 @@ import { useAuth } from "../contexts/AuthContext";
 import "./OrderListPage.css";
 
 const STATUS_MAP = {
-  PENDING: { label: "결제 대기" },
-  PAID: { label: "결제 완료" },
-  SHIPPING: { label: "배송 중" },
-  DELIVERED: { label: "배송 완료" },
+  PENDING: { label: "주문접수" },
+  PREPARING: { label: "배송준비중" },
+  SHIPPING: { label: "배송중" },
+  DELIVERED: { label: "배송완료" },
   CANCELLED: { label: "취소됨" },
 };
 
@@ -94,21 +94,21 @@ export default function OrderListPage() {
                   </div>
 
                   <div className="order-items">
-                    {(order.items || []).map((item) => (
-                      <div key={item.id} className="order-item">
+                    {order.productName && (
+                      <div className="order-item">
                         <span className="item-name">
-                          {item.productName} × {item.quantity}
+                          {order.productName} × {order.quantity || 1}
                         </span>
                         <span className="item-price">
-                          {item.subtotal.toLocaleString()}원
+                          {Number(order.unitPrice || 0).toLocaleString()}원
                         </span>
                       </div>
-                    ))}
+                    )}
                   </div>
 
                   <div className="order-footer">
                     <span className="order-total">
-                      총 {order.totalPrice.toLocaleString()}원
+                      총 {Number(order.totalPrice || 0).toLocaleString()}원
                     </span>
                     {order.status === "PENDING" && (
                       <button
@@ -121,7 +121,13 @@ export default function OrderListPage() {
                   </div>
 
                   {order.deliveryAddress && (
-                    <p className="delivery-info">🚚 {order.deliveryAddress}</p>
+                    <p className="delivery-info">📍 {order.deliveryAddress}</p>
+                  )}
+                  {order.courierName && order.trackingNumber && (
+                    <p className="delivery-info">🚚 {order.courierName} | 송장번호: {order.trackingNumber}</p>
+                  )}
+                  {order.status === "DELIVERED" && order.deliveredAt && (
+                    <p className="delivery-info">✅ {new Date(order.deliveredAt).toLocaleDateString('ko-KR')} 배송완료</p>
                   )}
                 </div>
               );

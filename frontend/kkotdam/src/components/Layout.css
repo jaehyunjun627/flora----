@@ -134,6 +134,18 @@
   height: 20px;
 }
 
+.header-seller-btn {
+  background: #f0faf4;
+  border: 1px solid #35a865;
+  color: #35a865;
+  border-radius: 8px;
+}
+
+.header-seller-btn:hover {
+  background: #35a865;
+  color: #fff;
+}
+
 .header-cart-count {
   position: absolute;
   top: 2px;

@@ -8,23 +8,22 @@
 
 /* 챗봇 아이콘 버튼 */
 .chatbot-icon-btn {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--primary, #35a865);
+  background: transparent;
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   padding: 0;
 }
 
 .chatbot-icon-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 4px 16px rgba(53, 168, 101, 0.3);
 }
 
 .chatbot-icon-btn:active {
@@ -36,6 +35,13 @@
   height: 100%;
   object-fit: contain;
   pointer-events: none;
+}
+
+.chatbot-icon-emoji {
+  font-size: 28px;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* 채팅 창 */
@@ -574,7 +580,7 @@
   }
 
   .chatbot-icon-btn {
-    width: 56px;
-    height: 56px;
+    width: 70px;
+    height: 70px;
   }
 }

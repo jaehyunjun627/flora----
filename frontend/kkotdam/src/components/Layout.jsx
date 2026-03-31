@@ -107,13 +107,21 @@ function Layout({ children }) {
                 >
                   &#128230;<span>주문내역</span>
                 </button>
-                {user.role === 'SELLER' && (
-                  <button
-                    className="header-icon-btn"
-                    onClick={() => navigate('/products/new')}
-                  >
-                    &#10133;<span>상품등록</span>
-                  </button>
+                {(user.role === 'SELLER' || user.role === 'ADMIN') && (
+                  <>
+                    <button
+                      className="header-icon-btn header-seller-btn"
+                      onClick={() => navigate('/seller')}
+                    >
+                      &#128202;<span>스토어관리</span>
+                    </button>
+                    <button
+                      className="header-icon-btn"
+                      onClick={() => navigate('/products/new')}
+                    >
+                      &#10133;<span>상품등록</span>
+                    </button>
+                  </>
                 )}
                 <div className="header-divider" />
                 <button className="header-icon-btn" onClick={() => navigate('/mypage')}>

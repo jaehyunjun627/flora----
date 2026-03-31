@@ -348,7 +348,7 @@ export default function ChatBot() {
       >
         <img
           src="/src/assets/Group 11 1.png"
-          alt="ChatBot Icon"
+          alt="AI 상담"
           className="chatbot-icon"
         />
       </button>
