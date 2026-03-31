@@ -37,7 +37,7 @@ public class CommunityService {
             map.put("authorNickname", p.getUser().getNickname());
             map.put("authorRole", p.getUser().getRole());
             map.put("viewCount", p.getViewCount());
-            map.put("likeCount", p.getLikeCount());
+            map.put("likeCount", (int) postLikeRepository.countByPostId(p.getId()));
             map.put("isPinned", p.getIsPinned());
             map.put("tag", p.getTag());
             map.put("createdAt", p.getCreatedAt());
@@ -190,7 +190,7 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> toggleLike(Long postId, Long userId) {
-        postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
             .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
@@ -202,6 +202,9 @@ public class CommunityService {
             postLikeRepository.save(PostLike.builder().postId(postId).user(user).build());
         }
         long likeCount = postLikeRepository.countByPostId(postId);
+        // Post entity의 likeCount 필드도 PostLike 테이블과 동기화
+        post.setLikeCount((int) likeCount);
+        postRepository.save(post);
         return Map.of("liked", !alreadyLiked, "likeCount", (int) likeCount);
     }
 
