@@ -21,6 +21,7 @@ public class SellerService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     // ===== 대시보드 통계 =====
     public Map<String, Object> getDashboardStats(Long sellerId) {
@@ -78,7 +79,12 @@ public class SellerService {
         order.setStatus("PREPARING");
         order.setPaymentStatus("PAID");
         order.setPaidAt(LocalDateTime.now());
-        return OrderDto.from(orderRepository.save(order));
+        Order saved = orderRepository.save(order);
+        // 구매자에게 알림
+        notificationService.create(order.getUser(), "ORDER_STATUS",
+            "주문 '" + order.getProduct().getName() + "'이 배송준비중입니다",
+            order.getId(), "ORDER");
+        return OrderDto.from(saved);
     }
 
     // 배송 시작 (PREPARING → SHIPPING)
@@ -98,7 +104,12 @@ public class SellerService {
         order.setCourierName(courierName);
         order.setTrackingNumber(trackingNumber);
         order.setShippedAt(LocalDateTime.now());
-        return OrderDto.from(orderRepository.save(order));
+        Order saved = orderRepository.save(order);
+        // 구매자에게 알림
+        notificationService.create(order.getUser(), "ORDER_STATUS",
+            "주문 '" + order.getProduct().getName() + "'이 배송중입니다. [" + courierName + "] 송장번호: " + trackingNumber,
+            order.getId(), "ORDER");
+        return OrderDto.from(saved);
     }
 
     // 배송 완료 (SHIPPING → DELIVERED)
@@ -110,7 +121,12 @@ public class SellerService {
         }
         order.setStatus("DELIVERED");
         order.setDeliveredAt(LocalDateTime.now());
-        return OrderDto.from(orderRepository.save(order));
+        Order saved = orderRepository.save(order);
+        // 구매자에게 알림
+        notificationService.create(order.getUser(), "ORDER_STATUS",
+            "주문 '" + order.getProduct().getName() + "'이 배송완료되었습니다",
+            order.getId(), "ORDER");
+        return OrderDto.from(saved);
     }
 
     // ===== 상품 관리 =====

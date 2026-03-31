@@ -19,6 +19,7 @@ public class CommunityService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
     private final PostLikeRepository postLikeRepository;
+    private final NotificationService notificationService;
 
     public Page<Map<String, Object>> getPosts(String category, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -185,6 +186,19 @@ public class CommunityService {
             .targetType("POST").targetId(postId)
             .user(user).content(content).parentCommentId(parentId).build();
         commentRepository.save(comment);
+
+        // 게시글 작성자에게 댓글 알림 (본인 제외)
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post != null && !post.getUser().getId().equals(userId)) {
+            notificationService.create(
+                post.getUser(),
+                "COMMENT",
+                user.getNickname() + "님이 댓글을 달았습니다: " + (content.length() > 30 ? content.substring(0, 30) + "..." : content),
+                postId,
+                "POST"
+            );
+        }
+
         return Map.of("id", comment.getId(), "message", "댓글이 등록되었습니다");
     }
 
@@ -200,6 +214,16 @@ public class CommunityService {
             postLikeRepository.deleteByPostIdAndUserId(postId, userId);
         } else {
             postLikeRepository.save(PostLike.builder().postId(postId).user(user).build());
+            // 게시글 작성자에게 좋아요 알림 (본인 제외)
+            if (!post.getUser().getId().equals(userId)) {
+                notificationService.create(
+                    post.getUser(),
+                    "LIKE",
+                    user.getNickname() + "님이 '" + (post.getTitle().length() > 20 ? post.getTitle().substring(0, 20) + "..." : post.getTitle()) + "' 글에 좋아요를 눌렀습니다",
+                    postId,
+                    "POST"
+                );
+            }
         }
         long likeCount = postLikeRepository.countByPostId(postId);
         // Post entity의 likeCount 필드도 PostLike 테이블과 동기화

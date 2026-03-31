@@ -23,6 +23,7 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final NotificationService notificationService;
 
     public List<OrderDto> getMyOrders(Long userId) {
         return orderRepository.findByUserIdOrderByOrderedAtDesc(userId)
@@ -78,6 +79,17 @@ public class OrderService {
                 .build();
 
         Order savedOrder = orderRepository.save(order);
+
+        // 판매자에게 새 주문 알림
+        if (firstItem.getProduct().getSeller() != null) {
+            notificationService.create(
+                firstItem.getProduct().getSeller(),
+                "NEW_ORDER",
+                user.getNickname() + "님이 '" + firstItem.getProduct().getName() + "' 상품을 주문했습니다",
+                savedOrder.getId(),
+                "ORDER"
+            );
+        }
 
         // 재고 차감
         for (CartItem item : cartItems) {

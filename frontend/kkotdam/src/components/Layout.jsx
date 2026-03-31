@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import NotificationBell from './NotificationBell';
 import './Layout.css';
 
 function Layout({ children }) {
@@ -124,6 +125,7 @@ function Layout({ children }) {
                   </>
                 )}
                 <div className="header-divider" />
+                <NotificationBell />
                 <button className="header-icon-btn" onClick={() => navigate('/mypage')}>
                   &#128100;<span>{user.nickname}님</span>
                 </button>
