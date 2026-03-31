@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import api from '../api';
 import './ProductNewPage.css';
 
 const CATEGORIES = ['식물', '꽃', '화분', '비료', '도구'];

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import api from "../api";
+import { useAuth } from "../contexts/AuthContext";
 import "./ProductDetailPage.css";
 
 export default function ProductDetailPage() {

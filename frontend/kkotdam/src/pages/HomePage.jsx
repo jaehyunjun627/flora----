@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { getTodayBirthFlower } from '../data/birthFlowers';
 import quizData from '../data/quizData';
-import api from '../services/api';
+import api from '../api';
 import './HomePage.css';
 
 // 날짜 기반으로 오늘의 퀴즈 1문제 선택

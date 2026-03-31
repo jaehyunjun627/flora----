@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
+import api from '../../api';
 import './PlantDiary.css';
 
 const STORAGE_KEY = 'flora-plant-diary';

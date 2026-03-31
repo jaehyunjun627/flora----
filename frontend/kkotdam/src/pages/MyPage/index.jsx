@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import api from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
+import api from '../../api';
 import MyCalendar from '../../components/mypage/MyCalendar';
 import BadgeCollection, { ALL_BADGES } from '../../components/mypage/BadgeCollection';
 import PointLevel from '../../components/mypage/PointLevel';

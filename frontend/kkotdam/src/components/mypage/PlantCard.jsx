@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const CARD_COLORS = [
   { name: '세이지 그린', bg: '#eef6ef', accent: '#35A865', text: '#2a2a2a' },

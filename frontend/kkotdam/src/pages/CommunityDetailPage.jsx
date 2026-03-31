@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
+import api from '../api';
 import './CommunityDetailPage.css';
 
 const CAT_COLORS = {

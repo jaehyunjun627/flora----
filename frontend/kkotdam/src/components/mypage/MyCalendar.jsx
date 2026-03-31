@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../services/api';
+import api from '../../api';
 import './MyCalendar.css';
 
 function generateScheduleFromAi(plant, aiResult) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
+import api from '../api';
 import './LocalFestivalPage.css';
 
 const CATEGORIES = ['전체', '꽃축제', '수목원', '마켓', '체험'];

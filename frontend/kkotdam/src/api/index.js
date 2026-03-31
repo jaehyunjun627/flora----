@@ -26,7 +26,10 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      // 로그인 페이지로 리다이렉트 등
+      delete api.defaults.headers.common['Authorization'];
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
