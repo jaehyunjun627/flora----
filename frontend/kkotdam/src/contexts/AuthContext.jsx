@@ -31,19 +31,19 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await api.post('/api/auth/login', { email, password });
-    const { token, userId, nickname, role } = res.data;
+    const { token, id, nickname, role } = res.data;
     localStorage.setItem('token', token);
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setUser({ id: userId, email, nickname, role });
+    setUser({ id, email, nickname, role });
     return res.data;
   };
 
   const signup = async (email, password, nickname, phone, role, businessName, businessNumber) => {
     const res = await api.post('/api/auth/signup', { email, password, nickname, phone, role, businessName, businessNumber });
-    const { token, userId, role: userRole } = res.data;
+    const { token, id, role: userRole } = res.data;
     localStorage.setItem('token', token);
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    setUser({ id: userId, email, nickname, role: userRole });
+    setUser({ id, email, nickname, role: userRole });
     return res.data;
   };
 
