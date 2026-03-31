@@ -185,6 +185,7 @@ export default function CheckoutPage() {
                   { value: 'bank', label: '무통장입금', icon: '🏦' },
                   { value: 'kakao', label: '카카오페이', icon: '💛' },
                   { value: 'naver', label: '네이버페이', icon: '💚' },
+                  { value: 'deferred', label: '후불결제 (테스트)', icon: '🧪' },
                 ].map(m => (
                   <button
                     key={m.value}
