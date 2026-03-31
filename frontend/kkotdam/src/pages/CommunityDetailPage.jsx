@@ -21,6 +21,11 @@ export default function CommunityDetailPage() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
 
+  // 좋아요 라커 모달
+  const [showLikers, setShowLikers] = useState(false);
+  const [likers, setLikers] = useState([]);
+  const [loadingLikers, setLoadingLikers] = useState(false);
+
   // 댓글 입력
   const [comment, setComment] = useState('');
   const [replyTo, setReplyTo] = useState(null); // { id, nickname }
@@ -49,13 +54,28 @@ export default function CommunityDetailPage() {
     finally { setLoading(false); }
   };
 
-  /* ── 좋아요 ── */
+  /* ── 좋아요 토글 ── */
   const handleLike = async () => {
     if (!user) { navigate('/login'); return; }
     try {
       const res = await api.post(`/api/community/posts/${id}/like`);
       setPost(p => ({ ...p, liked: res.data.liked, likeCount: res.data.likeCount }));
     } catch (e) { alert('좋아요 실패'); }
+  };
+
+  /* ── 라커 목록 조회 ── */
+  const handleShowLikers = async () => {
+    if ((post?.likeCount || 0) === 0) return;
+    setLoadingLikers(true);
+    setShowLikers(true);
+    try {
+      const res = await api.get(`/api/community/posts/${id}/likes`);
+      setLikers(Array.isArray(res.data) ? res.data : []);
+    } catch (e) {
+      setLikers([]);
+    } finally {
+      setLoadingLikers(false);
+    }
   };
 
   /* ── 게시글 수정 ── */
@@ -268,8 +288,13 @@ export default function CommunityDetailPage() {
                 className={`cd-like-btn${post.liked ? ' liked' : ''}`}
                 onClick={handleLike}
               >
-                {post.liked ? '❤️' : '🤍'} 좋아요 {post.likeCount > 0 ? post.likeCount : ''}
+                {post.liked ? '❤️' : '🤍'} 좋아요
               </button>
+              {post.likeCount > 0 && (
+                <button className="cd-like-count-btn" onClick={handleShowLikers}>
+                  {post.likeCount}명
+                </button>
+              )}
               <button className="cd-share-btn" onClick={() => {
                 navigator.clipboard?.writeText(window.location.href)
                   .then(() => alert('링크가 복사되었습니다!'))
@@ -482,6 +507,34 @@ export default function CommunityDetailPage() {
           </div>
         )}
       </section>
+
+      {/* 좋아요 누른 사람 모달 */}
+      {showLikers && (
+        <div className="cd-likers-overlay" onClick={() => setShowLikers(false)}>
+          <div className="cd-likers-modal" onClick={e => e.stopPropagation()}>
+            <div className="cd-likers-header">
+              <h3>❤️ 좋아요 누른 사람</h3>
+              <button className="cd-likers-close" onClick={() => setShowLikers(false)}>✕</button>
+            </div>
+            <div className="cd-likers-body">
+              {loadingLikers ? (
+                <div className="cd-likers-loading">불러오는 중...</div>
+              ) : likers.length === 0 ? (
+                <div className="cd-likers-empty">아직 좋아요를 누른 사람이 없어요</div>
+              ) : (
+                <ul className="cd-likers-list">
+                  {likers.map((liker, i) => (
+                    <li key={i} className="cd-liker-item">
+                      <span className="cd-liker-emoji">{liker.profileEmoji || '🌿'}</span>
+                      <span className="cd-liker-nickname">{liker.nickname}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

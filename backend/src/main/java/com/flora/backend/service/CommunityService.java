@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class CommunityService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public Page<Map<String, Object>> getPosts(String category, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
@@ -77,7 +79,10 @@ public class CommunityService {
         result.put("authorProfileEmoji", post.getUser().getProfileEmoji());
         result.put("authorRole", post.getUser().getRole());
         result.put("viewCount", post.getViewCount());
-        result.put("likeCount", post.getLikeCount());
+        long likeCount = postLikeRepository.countByPostId(id);
+        boolean liked = userId != null && postLikeRepository.existsByPostIdAndUserId(id, userId);
+        result.put("likeCount", (int) likeCount);
+        result.put("liked", liked);
         result.put("isPinned", post.getIsPinned());
         result.put("createdAt", post.getCreatedAt());
         result.put("comments", commentList);
@@ -185,13 +190,32 @@ public class CommunityService {
 
     @Transactional
     public Map<String, Object> toggleLike(Long postId, Long userId) {
-        Post post = postRepository.findById(postId)
+        postRepository.findById(postId)
             .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다"));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
 
-        // 단순 카운터 방식 (Like 테이블 제거)
-        post.setLikeCount(post.getLikeCount() + 1);
-        postRepository.save(post);
-        return Map.of("liked", true, "likeCount", post.getLikeCount());
+        boolean alreadyLiked = postLikeRepository.existsByPostIdAndUserId(postId, userId);
+        if (alreadyLiked) {
+            postLikeRepository.deleteByPostIdAndUserId(postId, userId);
+        } else {
+            postLikeRepository.save(PostLike.builder().postId(postId).user(user).build());
+        }
+        long likeCount = postLikeRepository.countByPostId(postId);
+        return Map.of("liked", !alreadyLiked, "likeCount", (int) likeCount);
+    }
+
+    public List<Map<String, Object>> getLikers(Long postId) {
+        return postLikeRepository.findByPostId(postId).stream()
+            .map(pl -> {
+                Map<String, Object> m = new HashMap<>();
+                m.put("userId", pl.getUser().getId());
+                m.put("nickname", pl.getUser().getNickname());
+                m.put("profileEmoji", pl.getUser().getProfileEmoji());
+                m.put("likedAt", pl.getCreatedAt());
+                return m;
+            })
+            .collect(Collectors.toList());
     }
 
     // === Notice 통합: 공지사항 조회 메서드 ===

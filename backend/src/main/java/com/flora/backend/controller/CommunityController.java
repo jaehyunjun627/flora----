@@ -56,6 +56,11 @@ public class CommunityController {
         return ResponseEntity.ok(communityService.toggleLike(id, userId));
     }
 
+    @GetMapping("/posts/{id}/likes")
+    public ResponseEntity<?> getLikers(@PathVariable Long id) {
+        return ResponseEntity.ok(communityService.getLikers(id));
+    }
+
     @PutMapping("/posts/{id}")
     public ResponseEntity<?> updatePost(@PathVariable Long id,
                                         @RequestBody Map<String, String> body,
