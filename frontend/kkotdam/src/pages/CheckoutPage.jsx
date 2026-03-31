@@ -65,11 +65,9 @@ export default function CheckoutPage() {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       const res = await api.post('/api/orders', {
-        items: cartItems.map(item => ({
-          productId: item.productId,
-          quantity: item.quantity,
-        })),
-        deliveryAddress: `${deliveryInfo.address} ${deliveryInfo.addressDetail}`,
+        recipientName: deliveryInfo.name,
+        recipientPhone: deliveryInfo.phone,
+        deliveryAddress: `${deliveryInfo.address} ${deliveryInfo.addressDetail}`.trim(),
         deliveryMemo: deliveryInfo.memo === '직접 입력' ? deliveryInfo.memoCustom : deliveryInfo.memo,
         paymentMethod: paymentMethod,
         totalAmount: finalPrice,
