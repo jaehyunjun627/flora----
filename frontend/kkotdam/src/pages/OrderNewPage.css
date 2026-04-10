@@ -1,0 +1,75 @@
+/* ===== Order New Page ===== */
+.order-new-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.order-new-container {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  border: 1px solid var(--border-light);
+}
+
+.order-new-container h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-medium);
+  margin-bottom: 6px;
+}
+
+.order-field input,
+.order-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.order-field input:focus,
+.order-field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(53,168,101,0.1);
+}
+
+.order-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+
+.order-submit-btn:hover {
+  background: var(--primary-hover);
+}
+
+.order-error {
+  padding: 12px;
+  background: var(--accent-light);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}

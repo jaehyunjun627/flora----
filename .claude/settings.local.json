@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /c/GABIA/flora*/)",
+      "Bash(find /c/GABIA/flora*\\\\\\(일단\\\\\\)/backend/src -type f \\\\\\( -name \"*.java\" -o -name \"*.yml\" -o -name \"*.yaml\" -o -name \"*.properties\" -o -name \"*.sql\" \\\\\\))",
+      "Bash(ls -la /c/GABIA/flora*\\\\\\(일단\\\\\\)/frontend/)",
+      "Bash(find /c/GABIA/flora*\\\\\\(일단\\\\\\)/frontend/src -type f \\\\\\( -name \"*.js\" -o -name \"*.jsx\" -o -name \"*.ts\" -o -name \"*.tsx\" -o -name \"*.vue\" \\\\\\))",
+      "Bash(tree -L 3 /c/GABIA/flora*\\\\\\(일단\\\\\\)/backend/src)",
+      "Bash(find /c/GABIA/flora*\\\\\\(일단\\\\\\)/backend/src -type d)"
+    ]
+  }
+}

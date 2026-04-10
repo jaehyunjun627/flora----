@@ -1,0 +1,413 @@
+.fest-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.fest-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.fest-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.fest-header p {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* 위치 버튼 */
+.fest-loc-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-medium);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: var(--sans);
+}
+
+.fest-loc-btn:hover,
+.fest-loc-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.fest-loc-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.fest-spinner {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: festSpin 0.8s linear infinite;
+}
+
+@keyframes festSpin { to { transform: rotate(360deg); } }
+
+/* 카테고리 탭 */
+.fest-cat-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.fest-cat-tab {
+  padding: 8px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-medium);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sans);
+}
+
+.fest-cat-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.fest-cat-tab.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(53, 168, 101, 0.3);
+}
+
+/* 위치 안내 */
+.fest-loc-note {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  padding: 8px 12px;
+  background: var(--primary-bg);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+  margin-bottom: 16px;
+}
+
+/* 로딩 / 빈 상태 */
+.fest-loading {
+  text-align: center;
+  padding: 60px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.fest-empty {
+  text-align: center;
+  padding: 64px;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+}
+
+.fest-empty span {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.fest-empty p {
+  color: var(--text-light);
+  font-size: 15px;
+}
+
+/* 축제 목록 */
+.fest-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  gap: 16px;
+}
+
+/* 축제 카드 */
+.fest-card {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+  align-items: flex-start;
+}
+
+.fest-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.fest-emoji-box {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+.fest-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fest-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+/* 상태 뱃지 */
+.fest-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fest-ongoing  { background: #e8f5e9; color: #2e7d32; }
+.fest-upcoming { background: #e3f2fd; color: #1565c0; }
+.fest-ended    { background: #f0f0f0; color: #999; }
+
+.fest-cat-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fest-dday {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #fff8e1;
+  color: #e65100;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fest-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.fest-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.fest-dist {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.fest-date-row {
+  margin-bottom: 8px;
+}
+
+.fest-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff8e1;
+  color: #e65100;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.fest-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #f3e5f5;
+  color: #6a1b9a;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── 모달 ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+.fest-detail-modal {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.modal-header h3 {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text-light);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.fest-detail-body { padding-bottom: 24px; }
+
+.fest-detail-hero {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  margin: 16px 24px;
+  border-radius: var(--radius-md);
+}
+
+.fest-detail-content {
+  padding: 0 24px;
+}
+
+.fest-detail-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.fest-detail-title {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 16px;
+}
+
+/* 정보 영역 */
+.fest-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.fest-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+.fest-info-icon {
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.fest-detail-desc {
+  font-size: 14px;
+  color: var(--text-medium);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.fest-map-embed {
+  margin-bottom: 12px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+
+.fest-map-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: background 0.15s;
+}
+
+.fest-map-btn:hover { background: var(--primary-hover); }
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .fest-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .fest-header { flex-direction: column; align-items: flex-start; }
+  .fest-card { flex-direction: column; }
+  .fest-emoji-box { width: 60px; height: 60px; font-size: 30px; }
+}
