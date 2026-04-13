@@ -56,16 +56,173 @@
   letter-spacing: -0.5px;
 }
 
+/* ─── How It Works ─── */
+.sub-howto-section {
+  padding: 72px 0;
+  background: #fff;
+}
+
+.sub-howto-header,
+.sub-benefits-header,
+.sub-plans-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.sub-section-chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #2196F3;
+  background: rgba(33, 150, 243, 0.1);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.sub-section-chip--pink {
+  color: #e91e63;
+  background: rgba(233, 30, 99, 0.08);
+}
+
+.sub-section-chip--green {
+  color: #35A865;
+  background: rgba(53, 168, 101, 0.1);
+}
+
+.sub-howto-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-dark);
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
+}
+
+.sub-howto-subtitle {
+  font-size: 15px;
+  color: var(--text-medium);
+}
+
+.sub-howto-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.sub-howto-card {
+  text-align: center;
+  padding: 32px 20px;
+  background: #faf8f2;
+  border-radius: 20px;
+  position: relative;
+}
+
+.sub-howto-step {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.sub-howto-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.sub-howto-card h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.sub-howto-card p {
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 1.7;
+}
+
+/* ─── Benefits ─── */
+.sub-benefits-section {
+  padding: 72px 0;
+  background: #faf8f2;
+}
+
+.sub-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.sub-benefit-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-light);
+  transition: box-shadow 0.2s;
+}
+
+.sub-benefit-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.sub-benefit-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.sub-benefit-card strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.sub-benefit-card p {
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 1.6;
+  margin: 0;
+}
+
 /* ─── Plans ─── */
 .sub-plans-section {
-  padding: 48px 0 64px;
-  background: #faf8f2;
+  padding: 72px 0 80px;
+  background: #fff;
 }
 
 .sub-plans-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Single purchase card accent */
+.sub-plan-card--single {
+  border: 2px solid #2196F3 !important;
+  background: linear-gradient(180deg, rgba(33,150,243,0.03) 0%, #fff 100%);
+}
+
+.sub-plan-single-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 0;
+  border-radius: 8px;
+  background: #e3f2fd;
+  color: #1565C0;
+  width: 100%;
+  text-align: center;
 }
 
 .sub-plan-card {
@@ -760,38 +917,69 @@
 }
 
 /* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .sub-plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sub-howto-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
-  .sub-plans-grid,
-  .sub-delivery-grid {
+  .sub-plans-grid {
     grid-template-columns: 1fr;
   }
   .sub-hero-title {
     font-size: 28px;
   }
-  .sub-gift-fields {
-    grid-template-columns: 1fr;
-  }
-  .sub-family-grid {
+  .sub-howto-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .sub-flower-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .sub-anni-row {
-    flex-wrap: wrap;
-  }
-  .sub-anni-select,
-  .sub-anni-custom {
-    min-width: unset;
-    flex: 1;
+  .sub-benefits-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
-  .sub-family-grid {
+  .sub-howto-grid {
     grid-template-columns: 1fr;
   }
-  .sub-flower-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .sub-plans-grid {
+    grid-template-columns: 1fr;
   }
+}
+
+/* 현재 구독 중인 플랜 카드 */
+.sub-plan-card--current {
+  border: 2px solid #35A865 !important;
+  box-shadow: 0 0 0 4px rgba(53, 168, 101, 0.12) !important;
+  position: relative;
+}
+
+.sub-plan-current-badge {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #35A865;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 0 0 10px 10px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  z-index: 2;
+}
+
+/* 현재 구독 중 버튼 - 그레이 아웃 스타일 */
+.sub-plan-btn--current {
+  background: #f0f0f0 !important;
+  color: #888 !important;
+  cursor: default !important;
+}
+.sub-plan-btn--current:hover {
+  opacity: 1 !important;
+  transform: none !important;
 }

@@ -979,3 +979,272 @@
 .terms-close-content:hover {
   background: #e8e4dd;
 }
+
+/* ================================
+   구독 관리 탭
+   ================================ */
+.subscription-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sub-tab-header { margin-bottom: 4px; }
+.sub-tab-title {
+  font-size: 18px !important;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 4px !important;
+}
+.sub-tab-desc {
+  font-size: 13px;
+  color: #8a8a8a;
+  margin: 0;
+}
+
+/* 빈 상태 */
+.sub-tab-empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: #fafafa;
+  border-radius: 16px;
+  border: 1px dashed #ddd;
+}
+.sub-tab-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.sub-tab-empty p { color: #888; font-size: 14px; margin: 0 0 18px; }
+
+/* 구독 이동 버튼 */
+.sub-tab-go-btn {
+  padding: 10px 22px;
+  background: var(--primary, #35A865);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sub-tab-go-btn:hover { background: #2d9057; }
+
+/* 구독 카드 목록 */
+.sub-tab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 구독 카드 */
+.sub-tab-card {
+  border-radius: 16px;
+  border: 1.5px solid #e8e8e8;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.15s;
+}
+.sub-tab-card.active { border-color: #c8e6d4; }
+.sub-tab-card.cancelled { border-color: #eee; opacity: 0.7; }
+.sub-tab-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+/* 카드 상단 */
+.sub-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #f8fdf9;
+  border-bottom: 1px solid #eee;
+}
+.sub-tab-card.cancelled .sub-card-top { background: #f8f8f8; }
+
+.sub-card-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sub-card-info { flex: 1; }
+.sub-card-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.sub-card-period {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* 상태 뱃지 */
+.sub-card-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.badge-active {
+  background: #eaf6ed;
+  color: #27ae60;
+}
+.badge-cancelled {
+  background: #f5f5f5;
+  color: #999;
+}
+
+/* 카드 상세 */
+.sub-card-details {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sub-card-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+}
+.sub-card-label {
+  width: 90px;
+  flex-shrink: 0;
+  color: #999;
+}
+.sub-card-value {
+  color: #333;
+  font-weight: 500;
+  word-break: break-all;
+}
+
+/* 카드 액션 */
+.sub-card-actions {
+  padding: 12px 20px 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.sub-cancel-btn {
+  padding: 8px 18px;
+  background: #fff;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sub-cancel-btn:hover {
+  background: #fdf0ee;
+}
+
+/* 취소 확인 UI */
+.sub-cancel-confirm {
+  background: #fff5f5;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.sub-cancel-confirm p {
+  font-size: 13px;
+  color: #c0392b;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.sub-cancel-confirm small {
+  color: #e67e73;
+  font-size: 12px;
+}
+
+.sub-cancel-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-cancel-confirm {
+  padding: 8px 16px;
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-cancel-confirm:hover { background: #c0392b; }
+
+.btn-cancel-abort {
+  padding: 8px 16px;
+  background: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-cancel-abort:hover { background: #e0e0e0; }
+
+/* 하단 푸터 */
+.sub-tab-footer {
+  padding-top: 8px;
+  text-align: center;
+}
+
+/* 구독 카드 액션 버튼 그룹 */
+.sub-action-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.sub-change-btn {
+  padding: 8px 18px;
+  background: #fff;
+  color: var(--primary, #35A865);
+  border: 1.5px solid var(--primary, #35A865);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sub-change-btn:hover {
+  background: #eaf6ed;
+}
+
+/* 이전 구독 내역 구분선 */
+.sub-history-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 4px;
+}
+.sub-history-divider::before,
+.sub-history-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e8e8e8;
+}
+.sub-history-divider span {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* 활성 구독 없을 때 안내 */
+.sub-tab-no-active {
+  text-align: center;
+  padding: 28px 16px;
+  background: #fafafa;
+  border-radius: 12px;
+  border: 1px dashed #ddd;
+  margin-bottom: 4px;
+}
+.sub-tab-no-active p {
+  color: #888;
+  font-size: 14px;
+  margin: 0 0 14px;
+}

@@ -8,6 +8,7 @@ const TYPE_ICON = {
   COMMENT: '💬',
   ORDER_STATUS: '📦',
   NEW_ORDER: '🛒',
+  SUBSCRIPTION: '🌸',
 };
 
 const TYPE_LABEL = {
@@ -15,6 +16,7 @@ const TYPE_LABEL = {
   COMMENT: '댓글',
   ORDER_STATUS: '배송알림',
   NEW_ORDER: '새 주문',
+  SUBSCRIPTION: '정기구독',
 };
 
 function timeAgo(dateStr) {
@@ -27,6 +29,15 @@ function timeAgo(dateStr) {
   if (h < 24) return `${h}시간 전`;
   const d = Math.floor(h / 24);
   return `${d}일 전`;
+}
+
+// localStorage 로컬 알림 헬퍼
+function getLocalNotifs() {
+  try { return JSON.parse(localStorage.getItem('flora-local-notifications') || '[]'); }
+  catch { return []; }
+}
+function saveLocalNotifs(list) {
+  localStorage.setItem('flora-local-notifications', JSON.stringify(list));
 }
 
 export default function NotificationBell() {
@@ -58,9 +69,14 @@ export default function NotificationBell() {
   const fetchUnreadCount = async () => {
     try {
       const res = await notificationApi.getUnreadCount();
-      setUnreadCount(res.data.count || 0);
+      const serverCount = res.data.count || 0;
+      // 로컬 알림 미읽음 수 합산
+      const localUnread = getLocalNotifs().filter(n => !n.isRead).length;
+      setUnreadCount(serverCount + localUnread);
     } catch {
-      // 미로그인 시 무시
+      // 미로그인 시에도 로컬 알림 수 표시
+      const localUnread = getLocalNotifs().filter(n => !n.isRead).length;
+      setUnreadCount(localUnread);
     }
   };
 
@@ -73,9 +89,13 @@ export default function NotificationBell() {
     setLoading(true);
     try {
       const res = await notificationApi.getAll();
-      setNotifications(res.data || []);
+      const serverNotifs = res.data || [];
+      // 로컬 알림 + 서버 알림 합산 (로컬 먼저)
+      const localNotifs = getLocalNotifs();
+      setNotifications([...localNotifs, ...serverNotifs]);
     } catch {
-      setNotifications([]);
+      // 서버 오류 시 로컬 알림만 표시
+      setNotifications(getLocalNotifs());
     } finally {
       setLoading(false);
     }
@@ -84,13 +104,34 @@ export default function NotificationBell() {
   const handleMarkAllRead = async () => {
     try {
       await notificationApi.markAllAsRead();
-      setUnreadCount(0);
-      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch {}
+    // 로컬 알림도 전부 읽음 처리
+    const updated = getLocalNotifs().map(n => ({ ...n, isRead: true }));
+    saveLocalNotifs(updated);
+    setUnreadCount(0);
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
   };
 
   const handleClickNotification = async (n) => {
-    // 읽음 처리
+    // 로컬 알림이면 localStorage에서 읽음 처리
+    if (String(n.id).startsWith('LN-')) {
+      if (!n.isRead) {
+        const updated = getLocalNotifs().map(item =>
+          item.id === n.id ? { ...item, isRead: true } : item
+        );
+        saveLocalNotifs(updated);
+        setNotifications(prev => prev.map(item =>
+          item.id === n.id ? { ...item, isRead: true } : item
+        ));
+        setUnreadCount(prev => Math.max(0, prev - 1));
+      }
+      if (n.relatedType === 'SUBSCRIPTION') {
+        navigate('/mypage');
+      }
+      setOpen(false);
+      return;
+    }
+    // 서버 알림 읽음 처리
     if (!n.isRead) {
       try {
         await notificationApi.markAsRead(n.id);

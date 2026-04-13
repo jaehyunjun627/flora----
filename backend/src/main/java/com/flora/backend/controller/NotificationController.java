@@ -1,6 +1,8 @@
 package com.flora.backend.controller;
 
 import com.flora.backend.config.JwtTokenProvider;
+import com.flora.backend.entity.User;
+import com.flora.backend.repository.jpa.UserRepository;
 import com.flora.backend.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
 
     private Long getUserId(String token) {
         return jwtTokenProvider.getUserId(token.replace("Bearer ", ""));
@@ -50,6 +53,25 @@ public class NotificationController {
     public ResponseEntity<Void> markAllAsRead(
             @RequestHeader("Authorization") String token) {
         notificationService.markAllAsRead(getUserId(token));
+        return ResponseEntity.ok().build();
+    }
+
+    // 알림 생성 (프론트에서 직접 호출)
+    @PostMapping
+    public ResponseEntity<Void> createNotification(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Map<String, String> body) {
+        Long userId = getUserId(token);
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return ResponseEntity.badRequest().build();
+
+        String type = body.getOrDefault("type", "SUBSCRIPTION");
+        String message = body.getOrDefault("message", "");
+        String relatedType = body.getOrDefault("relatedType", "SUBSCRIPTION");
+        Long relatedId = null;
+        try { relatedId = Long.parseLong(body.getOrDefault("relatedId", "0")); } catch (Exception ignored) {}
+
+        notificationService.create(user, type, message, relatedId, relatedType);
         return ResponseEntity.ok().build();
     }
 }

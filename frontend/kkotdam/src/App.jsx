@@ -17,6 +17,8 @@ import CommunityDetailPage from './pages/CommunityDetailPage';
 import MyPage from './pages/MyPage/index';
 import PlantEncyclopediaPage from './pages/PlantEncyclopediaPage';
 import SubscriptionPage from './pages/SubscriptionPage';
+import SubscriptionOptionsPage from './pages/SubscriptionOptionsPage';
+import SubscriptionCheckoutPage from './pages/SubscriptionCheckoutPage';
 import NoticePage from './pages/NoticePage';
 // LocalTradePage removed - 지역거래 is now a community category
 import LocalFestivalPage from './pages/LocalFestivalPage';
@@ -44,6 +46,8 @@ function App() {
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/plants" element={<PlantEncyclopediaPage />} />
             <Route path="/subscription" element={<SubscriptionPage />} />
+            <Route path="/subscription/options" element={<SubscriptionOptionsPage />} />
+            <Route path="/subscription/checkout" element={<SubscriptionCheckoutPage />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/local-trade" element={<Navigate to="/community" replace />} />
             <Route path="/local-festival" element={<LocalFestivalPage />} />
