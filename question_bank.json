@@ -1,0 +1,282 @@
+{
+  "metadata": {
+    "totalQuestions": 10,
+    "lastStudyDate": "2026-03-27",
+    "studyStreak": 1,
+    "createdAt": "2026-03-27",
+    "exam": "Oracle Java SE 17 Silver (1Z0-825)",
+    "targetDate": null
+  },
+  "chapters": {
+    "1": {"name": "Java 개요 및 기본 프로그램", "total": 2, "mastered": 0},
+    "2": {"name": "기본 데이터 타입과 문자열", "total": 2, "mastered": 0},
+    "3": {"name": "연산자와 조건 분기", "total": 2, "mastered": 0},
+    "4": {"name": "배열과 반복문", "total": 1, "mastered": 0},
+    "5": {"name": "클래스 설계", "total": 1, "mastered": 0},
+    "6": {"name": "상속과 인터페이스", "total": 1, "mastered": 0},
+    "7": {"name": "예외 처리", "total": 1, "mastered": 0},
+    "8": {"name": "API 활용", "total": 0, "mastered": 0}
+  },
+  "questions": [
+    {
+      "id": "q001",
+      "chapter": 1,
+      "topic": "main 메서드 시그니처",
+      "keywords": ["main", "public static void", "String[]"],
+      "difficulty": 1,
+      "question": "다음 중 Java 프로그램의 진입점(entry point)으로 올바른 main 메서드 시그니처는?",
+      "code": null,
+      "options": [
+        "public static void main(String args)",
+        "public static void main(String[] args)",
+        "public void main(String[] args)",
+        "static public main(String[] args)"
+      ],
+      "answer": 1,
+      "explanation": "Java의 main 메서드는 반드시 'public static void main(String[] args)' 형태여야 합니다.\n- 1번: String[]가 아닌 String이므로 배열이 아님 → 틀림\n- 2번: 올바른 시그니처 ✅\n- 3번: static이 빠짐 → JVM이 인스턴스 없이 호출 불가 → 틀림\n- 4번: 반환 타입(void)이 빠짐 → 컴파일 에러",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q002",
+      "chapter": 1,
+      "topic": "JDK/JRE/JVM 차이",
+      "keywords": ["JDK", "JRE", "JVM", "컴파일러"],
+      "difficulty": 1,
+      "question": "다음 중 JDK에 대한 설명으로 올바른 것은?",
+      "code": null,
+      "options": [
+        "JDK는 Java 프로그램을 실행만 할 수 있는 환경이다",
+        "JDK에는 JRE와 컴파일러(javac) 등 개발 도구가 포함된다",
+        "JDK는 JVM의 일부이다",
+        "JDK 없이도 javac 명령어를 사용할 수 있다"
+      ],
+      "answer": 1,
+      "explanation": "JDK(Java Development Kit)는 개발 도구 모음으로, JRE + javac(컴파일러) + 디버거 등을 포함합니다.\n- JRE(Runtime Environment): 실행 환경 (JVM + 라이브러리)\n- JVM(Virtual Machine): 바이트코드를 실행하는 가상 머신\n- 포함 관계: JDK ⊃ JRE ⊃ JVM",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q003",
+      "chapter": 2,
+      "topic": "기본 데이터 타입 크기",
+      "keywords": ["byte", "short", "int", "long", "크기", "범위"],
+      "difficulty": 2,
+      "question": "다음 코드의 컴파일/실행 결과는?",
+      "code": "byte b = 128;\nSystem.out.println(b);",
+      "options": [
+        "128 출력",
+        "-128 출력",
+        "컴파일 에러",
+        "런타임 에러"
+      ],
+      "answer": 2,
+      "explanation": "byte의 범위는 -128 ~ 127입니다. 128은 범위를 초과하므로 컴파일 에러가 발생합니다.\n⚠️ 함정: '오버플로우로 -128이 된다'고 생각하기 쉽지만, Java는 컴파일 시점에 리터럴 범위를 체크합니다.\n\n각 정수형 범위:\n- byte: -128 ~ 127 (8비트)\n- short: -32,768 ~ 32,767 (16비트)\n- int: 약 -21억 ~ 21억 (32비트)\n- long: 약 -922경 ~ 922경 (64비트)",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q004",
+      "chapter": 2,
+      "topic": "var 타입 추론 [SE17]",
+      "keywords": ["var", "타입추론", "지역변수", "SE17"],
+      "difficulty": 2,
+      "question": "[SE17 신규] 다음 중 var 사용이 올바른 것은?",
+      "code": null,
+      "options": [
+        "var x;  // 나중에 값 할당",
+        "var list = new ArrayList<>();",
+        "public var getName() { return name; }",
+        "var x = null;"
+      ],
+      "answer": 1,
+      "explanation": "var는 지역변수에서만 사용 가능하며, 반드시 초기화해야 합니다.\n- 1번: 초기화 없이 선언 → 타입 추론 불가 → 컴파일 에러\n- 2번: new ArrayList<>()로부터 ArrayList<Object> 추론 가능 ✅\n- 3번: 메서드 반환타입에 var 사용 불가 → 컴파일 에러\n- 4번: null로는 타입 추론 불가 → 컴파일 에러\n\n⚠️ var 사용 가능: 지역변수, for-each, try-with-resources\n❌ var 사용 불가: 필드, 메서드 매개변수/반환타입, 생성자 매개변수",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q005",
+      "chapter": 3,
+      "topic": "switch expression [SE17]",
+      "keywords": ["switch", "expression", "yield", "arrow", "SE17"],
+      "difficulty": 2,
+      "question": "[SE17 신규] 다음 switch 식의 실행 결과는?",
+      "code": "int day = 3;\nString result = switch(day) {\n    case 1, 7 -> \"weekend\";\n    case 2, 3, 4, 5, 6 -> \"weekday\";\n    default -> \"unknown\";\n};\nSystem.out.println(result);",
+      "options": [
+        "weekend",
+        "weekday",
+        "unknown",
+        "컴파일 에러"
+      ],
+      "answer": 1,
+      "explanation": "SE17의 switch 식(expression)은 화살표(->)를 사용하며, 값을 반환할 수 있습니다.\nday=3이므로 case 2,3,4,5,6에 매칭되어 \"weekday\"를 반환합니다.\n\n🔑 SE17 switch 새 기능:\n1. 화살표 문법 (->): fall-through 없음, break 불필요\n2. 다중 case: case 1, 7 -> (쉼표로 구분)\n3. switch 식: 값을 반환 가능 (변수에 할당)\n4. yield: 블록 내에서 값 반환 시 사용",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q006",
+      "chapter": 3,
+      "topic": "연산자 우선순위",
+      "keywords": ["연산자", "우선순위", "증감", "대입"],
+      "difficulty": 3,
+      "question": "다음 코드의 실행 결과는?",
+      "code": "int a = 5;\nint b = a++ + ++a;\nSystem.out.println(\"a=\" + a + \", b=\" + b);",
+      "options": [
+        "a=6, b=12",
+        "a=7, b=12",
+        "a=7, b=11",
+        "a=6, b=11"
+      ],
+      "answer": 1,
+      "explanation": "후위(a++)는 현재값 사용 후 증가, 전위(++a)는 증가 후 사용합니다.\n\n단계별 실행:\n1. a++ → 현재 a=5를 사용, 이후 a=6\n2. ++a → 먼저 a=7로 증가, 7을 사용\n3. b = 5 + 7 = 12\n4. 최종: a=7, b=12\n\n⚠️ 시험 단골 함정!\n- 후위(x++): 식에서는 원래값, 다음 줄부터 증가값\n- 전위(++x): 즉시 증가값 적용",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q007",
+      "chapter": 4,
+      "topic": "배열 초기화",
+      "keywords": ["배열", "초기화", "length", "인덱스"],
+      "difficulty": 2,
+      "question": "다음 중 배열 선언/초기화가 올바른 것을 모두 고르시오.",
+      "code": "A: int[] arr1 = new int[3];\nB: int arr2[] = {1, 2, 3};\nC: int[] arr3 = new int[]{1, 2, 3};\nD: int[] arr4 = new int[3]{1, 2, 3};",
+      "options": [
+        "A, B만",
+        "A, B, C만",
+        "A, B, C, D 모두",
+        "A, C만"
+      ],
+      "answer": 1,
+      "explanation": "A: ✅ new int[3] → 크기 지정, 기본값 0으로 초기화\nB: ✅ {1,2,3} → 리터럴 초기화 (선언과 동시에만 가능)\nC: ✅ new int[]{1,2,3} → 익명 배열 (크기 자동 결정)\nD: ❌ new int[3]{1,2,3} → 크기와 초기값 동시 지정 불가! 컴파일 에러\n\n⚠️ 함정: D처럼 크기와 초기화를 동시에 하는 것은 불가합니다!",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q008",
+      "chapter": 5,
+      "topic": "record 클래스 [SE17]",
+      "keywords": ["record", "불변", "getter", "SE17"],
+      "difficulty": 2,
+      "question": "[SE17 신규] 다음 record 클래스에 대한 설명으로 틀린 것은?",
+      "code": "record Point(int x, int y) {}",
+      "options": [
+        "Point는 자동으로 x(), y() 접근자 메서드를 가진다",
+        "Point는 불변(immutable) 클래스이다",
+        "Point에 새로운 인스턴스 필드를 추가할 수 있다",
+        "Point는 자동으로 equals(), hashCode(), toString()을 가진다"
+      ],
+      "answer": 2,
+      "explanation": "record 클래스는 불변 데이터 클래스를 간편하게 만드는 SE16+ 기능입니다.\n\n자동 생성되는 것:\n✅ 생성자 (canonical constructor)\n✅ 접근자: x(), y() (getX가 아님!)\n✅ equals(), hashCode(), toString()\n✅ 모든 필드는 private final\n\n❌ 제한사항:\n- 새로운 인스턴스 필드 추가 불가 (3번이 틀림)\n- 다른 클래스 상속 불가 (암묵적으로 Record 상속)\n- static 필드/메서드는 추가 가능\n- 인터페이스 구현은 가능",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q009",
+      "chapter": 6,
+      "topic": "인터페이스 default 메서드",
+      "keywords": ["interface", "default", "다중상속", "충돌"],
+      "difficulty": 3,
+      "question": "다음 코드의 실행 결과는?",
+      "code": "interface A { default void hello() { System.out.println(\"A\"); } }\ninterface B { default void hello() { System.out.println(\"B\"); } }\nclass C implements A, B {\n    // hello() 오버라이드 없음\n}\npublic class Main {\n    public static void main(String[] args) {\n        new C().hello();\n    }\n}",
+      "options": [
+        "A 출력",
+        "B 출력",
+        "컴파일 에러",
+        "런타임 에러"
+      ],
+      "answer": 2,
+      "explanation": "두 인터페이스의 default 메서드가 충돌할 때, 구현 클래스에서 반드시 오버라이드해야 합니다.\n오버라이드하지 않으면 → 컴파일 에러!\n\n해결 방법:\nclass C implements A, B {\n    @Override\n    public void hello() {\n        A.super.hello(); // A의 hello 호출\n        // 또는 B.super.hello();\n        // 또는 자체 구현\n    }\n}",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    },
+    {
+      "id": "q010",
+      "chapter": 7,
+      "topic": "try-with-resources",
+      "keywords": ["try", "resources", "AutoCloseable", "close"],
+      "difficulty": 2,
+      "question": "try-with-resources 문에서 사용할 수 있는 리소스의 조건은?",
+      "code": null,
+      "options": [
+        "Serializable 인터페이스를 구현한 객체",
+        "AutoCloseable 인터페이스를 구현한 객체",
+        "Closeable 인터페이스만 구현한 객체",
+        "모든 객체 사용 가능"
+      ],
+      "answer": 1,
+      "explanation": "try-with-resources는 AutoCloseable 인터페이스를 구현한 객체만 사용 가능합니다.\n\n계층 구조:\nAutoCloseable (java.lang)\n  └── Closeable (java.io) - AutoCloseable의 하위\n\ntry (var br = new BufferedReader(new FileReader(\"f.txt\"))) {\n    // 사용\n} // 자동으로 br.close() 호출\n\n🔑 핵심:\n- close()는 try 블록 종료 시 자동 호출\n- 여러 리소스는 세미콜론으로 구분\n- 닫히는 순서: 선언의 역순\n- SE9+: 이미 선언된 변수도 사용 가능 (effectively final이면)",
+      "source": "seed",
+      "sm2": {
+        "repetitions": 0,
+        "easeFactor": 2.5,
+        "interval": 1,
+        "nextReview": "2026-03-28",
+        "lastReview": "2026-03-27",
+        "history": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,742 @@
+/* ===== Home Page - 아카라이브 스타일 ===== */
+.home {
+  background: #f4f4f4;
+}
+
+/* ===== 탄생화 Hero (컴팩트) ===== */
+.birth-hero {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.birth-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.birth-hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+  filter: blur(2px);
+}
+
+.birth-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+}
+
+.birth-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.birth-hero-content {
+  flex: 1;
+  max-width: 520px;
+}
+
+.birth-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.birth-hero-today {
+  background: #FFD600;
+  color: #1a1a1a;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+.birth-hero-date {
+  color: rgba(255,255,255,0.8);
+  font-size: 13px;
+}
+
+.birth-hero-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 6px;
+}
+
+.birth-hero-name {
+  font-size: 34px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.birth-hero-meaning {
+  font-size: 16px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+.birth-hero-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.birth-hero-cta {
+  padding: 10px 22px;
+  background: #FFD600;
+  color: #1a1a1a;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.birth-hero-cta:hover { background: #FFC400; }
+
+.birth-hero-cta-out {
+  padding: 10px 22px;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.birth-hero-cta-out:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+.birth-hero-img-wrap {
+  flex-shrink: 0;
+  width: 240px;
+  height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.birth-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== 메인 2열 레이아웃 ===== */
+.home-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 20px 40px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.home-left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ===== 게시판 보드 (왼쪽) ===== */
+.home-board {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.home-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 2px solid #35a865;
+  background: #fff;
+}
+
+.home-board-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.home-board-more {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #35a865;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.home-board-more:hover { text-decoration: underline; }
+
+.home-board-list {
+  max-height: none;
+}
+
+.home-board-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+}
+
+.home-board-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.08s;
+}
+
+.home-board-row:last-child { border-bottom: none; }
+.home-board-row:hover { background: #f9f9f9; }
+
+.home-board-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.home-board-badge.notice {
+  background: #fdeaea;
+  color: #c04040;
+}
+
+.home-board-cat {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.home-board-title {
+  flex: 1;
+  font-size: 13px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.home-board-row:hover .home-board-title {
+  text-decoration: underline;
+}
+
+.home-board-comment {
+  font-size: 11px;
+  font-weight: 700;
+  color: #35a865;
+  flex-shrink: 0;
+}
+
+.home-board-new {
+  font-size: 9px;
+  font-weight: 800;
+  color: #fff;
+  background: #e53935;
+  padding: 1px 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.home-board-author {
+  font-size: 11px;
+  color: #888;
+  flex-shrink: 0;
+  width: 70px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-board-date {
+  font-size: 11px;
+  color: #aaa;
+  flex-shrink: 0;
+  width: 45px;
+  text-align: right;
+}
+
+/* ===== 사이드바 로그인 ===== */
+.sidebar-login {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sidebar-login-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #35a865;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.sidebar-login-icon { font-size: 18px; }
+
+.sidebar-login-form {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-login-input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+}
+
+.sidebar-login-input:focus {
+  border-color: #35a865;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(53,168,101,0.1);
+}
+
+.sidebar-login-error {
+  font-size: 11px;
+  color: #e53935;
+  margin: 0;
+}
+
+.sidebar-login-btn {
+  padding: 9px;
+  background: #35a865;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sidebar-login-btn:hover { background: #2d9456; }
+.sidebar-login-btn:disabled { opacity: 0.6; cursor: default; }
+
+.sidebar-login-links {
+  padding: 10px 14px;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.sidebar-login-links a {
+  font-size: 12px;
+  color: #666;
+  text-decoration: none;
+}
+
+.sidebar-login-links a:hover { color: #35a865; text-decoration: underline; }
+
+/* ===== 사이드바 유저 (로그인 시) ===== */
+.sidebar-user {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sidebar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.sidebar-user-emoji {
+  font-size: 28px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sidebar-user-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-user-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #222;
+}
+
+.sidebar-user-role {
+  font-size: 11px;
+  color: #35a865;
+  font-weight: 600;
+}
+
+.sidebar-user-links {
+  display: flex;
+  gap: 0;
+}
+
+.sidebar-user-links button {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-right: 1px solid #eee;
+  font-size: 12px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.sidebar-user-links button:last-child { border-right: none; }
+.sidebar-user-links button:hover { background: #f5f5f5; color: #35a865; }
+
+/* ===== 사이드바 게시판 ===== */
+.sidebar-board {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sidebar-board-header {
+  padding: 10px 14px;
+  border-bottom: 2px solid #35a865;
+}
+
+.sidebar-board-header h4 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.sidebar-board-list {
+  padding: 4px 0;
+}
+
+.sidebar-board-empty {
+  padding: 20px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
+
+.sidebar-board-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.08s;
+}
+
+.sidebar-board-row:hover { background: #f9f9f9; }
+
+.sidebar-board-rank {
+  font-size: 12px;
+  font-weight: 800;
+  color: #35a865;
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.sidebar-board-row:nth-child(1) .sidebar-board-rank { color: #e53935; }
+.sidebar-board-row:nth-child(2) .sidebar-board-rank { color: #e65100; }
+.sidebar-board-row:nth-child(3) .sidebar-board-rank { color: #f57f17; }
+
+.sidebar-board-title {
+  flex: 1;
+  font-size: 12px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-board-row:hover .sidebar-board-title { text-decoration: underline; }
+
+.sidebar-board-likes {
+  font-size: 11px;
+  color: #e04060;
+  flex-shrink: 0;
+}
+
+/* ===== 사이드바 바로가기 ===== */
+.sidebar-shortcuts {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sidebar-shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.sidebar-shortcut-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  background: none;
+  border: none;
+  border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 11px;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.sidebar-shortcut-grid button:nth-child(3n) { border-right: none; }
+.sidebar-shortcut-grid button:nth-child(n+4) { border-bottom: none; }
+.sidebar-shortcut-grid button:hover { background: #f5f5f5; color: #35a865; }
+.sidebar-shortcut-grid button span { font-size: 20px; }
+
+/* ===== 퀴즈 (홈 보드 내) ===== */
+.home-quiz-board .home-board-header {
+  border-bottom-color: #e6a817;
+}
+
+.home-quiz-date {
+  font-size: 11px;
+  color: #999;
+}
+
+.home-quiz-body {
+  padding: 20px 16px;
+}
+
+.quiz-question {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.quiz-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quiz-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.quiz-option:hover:not(:disabled) {
+  border-color: #35a865;
+  background: #f0faf3;
+}
+
+.quiz-option.correct {
+  border-color: #35a865;
+  background: #eef6ef;
+  color: #2d7a42;
+  font-weight: 600;
+}
+
+.quiz-option.wrong {
+  border-color: #e04040;
+  background: #fdf0f0;
+  color: #c04040;
+}
+
+.quiz-option-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quiz-option.correct .quiz-option-label { background: #35a865; color: #fff; }
+.quiz-option.wrong .quiz-option-label { background: #e04040; color: #fff; }
+
+.quiz-feedback {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 4px;
+}
+
+.quiz-feedback.correct { background: #eef6ef; border: 1px solid #c5dfc9; }
+.quiz-feedback.wrong { background: #fdf0f0; border: 1px solid #f0c0c0; }
+
+.quiz-feedback-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.quiz-explanation {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0 0 10px;
+}
+
+.quiz-next-btn {
+  padding: 8px 20px;
+  background: #35a865;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quiz-next-btn:hover { background: #2d9456; }
+
+.quiz-result {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.quiz-result-emoji { font-size: 48px; margin: 0 0 10px; }
+.quiz-result-title { font-size: 18px; font-weight: 800; color: #222; margin: 0 0 6px; }
+.quiz-result-score { font-size: 14px; color: #555; margin: 0 0 6px; }
+.quiz-result-tomorrow { font-size: 13px; color: #35a865; margin: 6px 0 0; }
+
+/* ===== 반응형 ===== */
+@media (max-width: 900px) {
+  .home-main {
+    flex-direction: column;
+  }
+
+  .home-sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .sidebar-login,
+  .sidebar-user {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .sidebar-board,
+  .sidebar-shortcuts {
+    flex: 1;
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .birth-hero-inner {
+    flex-direction: column;
+    padding: 30px 16px;
+    text-align: center;
+  }
+
+  .birth-hero-name { font-size: 26px; }
+  .birth-hero-actions { justify-content: center; }
+  .birth-hero-img-wrap { width: 180px; height: 180px; }
+  .birth-hero-badge { justify-content: center; }
+
+  .home-main { padding: 12px 12px 32px; }
+
+  .home-sidebar {
+    flex-direction: column;
+  }
+
+  .sidebar-login,
+  .sidebar-user,
+  .sidebar-board,
+  .sidebar-shortcuts {
+    min-width: 0;
+  }
+
+  .home-board-author { display: none; }
+}
+
+@media (max-width: 480px) {
+  .birth-hero { min-height: 260px; }
+  .birth-hero-name { font-size: 22px; }
+  .birth-hero-meaning { font-size: 14px; }
+  .birth-hero-actions { flex-direction: column; align-items: center; }
+}
