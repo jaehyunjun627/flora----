@@ -1,0 +1,392 @@
+/* ===== 관리자 식물 승인 페이지 ===== */
+.adm-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+
+.adm-loading {
+  text-align: center;
+  padding: 80px;
+  color: #888;
+  font-size: 15px;
+}
+
+/* 헤더 */
+.adm-header {
+  margin-bottom: 28px;
+}
+.adm-header h1 {
+  font-size: 26px;
+  font-weight: 900;
+  color: #1a3a2a;
+  margin-bottom: 6px;
+}
+.adm-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* 탭 */
+.adm-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e8e8e8;
+  padding-bottom: 0;
+}
+.adm-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: #888;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.adm-tab.active {
+  color: #35A865;
+  border-bottom-color: #35A865;
+}
+.adm-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.adm-tab.active .adm-tab-count {
+  background: #35A865;
+  color: #fff;
+}
+
+/* 빈 상태 */
+.adm-empty {
+  text-align: center;
+  padding: 60px;
+  color: #bbb;
+  font-size: 15px;
+}
+
+/* 카드 목록 */
+.adm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.adm-card {
+  display: flex;
+  gap: 16px;
+  background: #fff;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 14px;
+  padding: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.adm-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border-color: #b2dfdb;
+}
+
+/* 썸네일 */
+.adm-card-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f5f5f5;
+}
+.adm-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.adm-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #ccc;
+}
+
+/* 카드 정보 */
+.adm-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.adm-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.adm-card-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a3a2a;
+}
+.adm-card-sci {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+}
+.adm-card-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: #666;
+}
+.adm-card-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.adm-card-submitter {
+  font-size: 12px;
+  color: #999;
+}
+.adm-card-date {
+  font-size: 12px;
+  color: #bbb;
+}
+.adm-reject-reason {
+  font-size: 12px;
+  color: #c04040;
+  background: #fff3f3;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin-top: 2px;
+}
+
+/* 상태 배지 */
+.adm-status-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.adm-status-badge.pending  { background: #fff3cd; color: #856404; }
+.adm-status-badge.approved { background: #eef6ef; color: #2e7d32; }
+.adm-status-badge.rejected { background: #fdeaea; color: #c04040; }
+
+/* 카드 액션 버튼 */
+.adm-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.adm-approve-btn {
+  padding: 8px 16px;
+  background: #35A865;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.adm-approve-btn:hover { background: #2d9057; }
+.adm-approve-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.adm-reject-btn {
+  padding: 8px 16px;
+  background: #fff;
+  color: #e53935;
+  border: 1.5px solid #e53935;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.adm-reject-btn:hover { background: #fdeaea; }
+.adm-reject-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.adm-approve-btn.large,
+.adm-reject-btn.large {
+  padding: 12px 24px;
+  font-size: 15px;
+}
+
+/* 상세 모달 */
+.adm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.adm-modal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+.adm-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  z-index: 1;
+}
+.adm-modal-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+.adm-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.adm-modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.adm-modal-title-row h2 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1a3a2a;
+}
+.adm-modal-sci {
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+}
+.adm-modal-eng {
+  font-size: 13px;
+  color: #aaa;
+}
+.adm-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 14px;
+}
+.adm-modal-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.adm-modal-grid strong {
+  font-size: 11px;
+  color: #999;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.adm-modal-grid span {
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+.adm-modal-desc strong {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 4px;
+}
+.adm-modal-desc p {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+}
+.adm-modal-submitter {
+  font-size: 12px;
+  color: #aaa;
+}
+.adm-modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* 반려 사유 모달 */
+.adm-reject-modal {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.adm-reject-modal h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a3a2a;
+}
+.adm-reject-modal textarea {
+  width: 100%;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+}
+.adm-reject-modal textarea:focus {
+  border-color: #35A865;
+}
+.adm-reject-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.adm-reject-modal-actions button:first-child {
+  padding: 9px 18px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}

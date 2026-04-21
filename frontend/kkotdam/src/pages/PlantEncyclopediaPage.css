@@ -1,0 +1,1556 @@
+/* ===== 식물 도감 페이지 ===== */
+.encyclopedia-page {
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* ─── 헤더 ─── */
+.encyclopedia-header {
+  background: linear-gradient(135deg, #1a3a2a 0%, #2d6a46 50%, #35A865 100%);
+  padding: 48px 24px;
+}
+
+.encyclopedia-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.encyclopedia-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}
+
+.encyclopedia-header-text h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.encyclopedia-header-text p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 검색 */
+.encyclopedia-search {
+  display: flex;
+  gap: 8px;
+  min-width: 360px;
+}
+
+.encyclopedia-search-input {
+  flex: 1;
+  padding: 12px 18px;
+  border-radius: 28px;
+  border: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.95);
+  color: var(--text-dark);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.encyclopedia-search-input:focus {
+  outline: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.encyclopedia-search-btn {
+  padding: 12px 24px;
+  background: #fff;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 28px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.encyclopedia-search-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* ─── 계절 추천 배너 ─── */
+.enc-season-banner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(93, 124, 79, 0.1) 0%, rgba(53, 168, 101, 0.1) 100%);
+  border-left: 4px solid #5d7c4f;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #5d7c4f;
+  font-weight: 600;
+}
+
+/* ─── 필터 탭 ─── */
+.enc-filter-tabs {
+  max-width: 1100px;
+  margin: 20px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.enc-filter-btn {
+  padding: 8px 18px;
+  background: transparent;
+  color: var(--text-medium);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.enc-filter-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(53, 168, 101, 0.05);
+}
+
+.enc-filter-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ─── 결과 정보 ─── */
+.encyclopedia-result-info {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  font-size: 14px;
+  color: var(--text-medium);
+}
+
+/* ─── 로딩 ─── */
+.encyclopedia-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 16px;
+  color: var(--text-light);
+}
+
+.enc-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.enc-spinner.small {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── 빈 상태 ─── */
+.encyclopedia-empty {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.encyclopedia-empty span {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.encyclopedia-empty p {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 20px;
+}
+
+.encyclopedia-empty button {
+  padding: 10px 24px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+/* ─── 식물 카드 그리드 ─── */
+.encyclopedia-grid {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.plant-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: 1px solid var(--border-light);
+}
+
+.plant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.plant-card.comparing {
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 0 3px rgba(53, 168, 101, 0.1);
+}
+
+/* 카드 이미지 */
+.plant-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.plant-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.plant-card:hover .plant-card-img img {
+  transform: scale(1.06);
+}
+
+.plant-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background: linear-gradient(135deg, #f0faf4, #e8f5e9);
+}
+
+/* 안전/독성 뱃지 (top-left) */
+.plant-card-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+.plant-name-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.plant-name-badge.safe {
+  background: #5d7c4f;
+  color: #fff;
+}
+
+.plant-name-badge.toxic {
+  background: #e53935;
+  color: #fff;
+}
+
+.plant-name-badge.user-plant-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+/* 계절 배지 (top-right) */
+.plant-card-season {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 12px;
+}
+
+/* 액션 버튼 (bottom) */
+.plant-card-actions {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.plant-card-compare,
+.plant-card-fav {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.plant-card-compare:hover,
+.plant-card-fav:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.plant-card-compare.active {
+  background: var(--primary);
+}
+
+/* 즐겨찾기 버튼: 기본(빈 하트) vs 활성(채워진 하트) */
+.plant-card-fav {
+  font-size: 16px;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.plant-card-fav:hover {
+  opacity: 1;
+  transform: scale(1.2) !important;
+}
+
+.plant-card-fav.active {
+  opacity: 1;
+  transform: scale(1.1);
+  animation: heartPop 0.3s ease;
+}
+
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.4); }
+  100% { transform: scale(1.1); }
+}
+
+.toxicity-warning {
+  color: #e53935;
+  font-weight: 600;
+}
+
+.toxicity-safe {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* 카드 본문 */
+.plant-card-body {
+  padding: 14px;
+}
+
+.plant-card-kor {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 3px;
+}
+
+.plant-card-sci {
+  font-size: 12px;
+  color: var(--text-light);
+  font-style: italic;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.plant-card-status {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #f0f7f3;
+  color: var(--primary, #35A865);
+  margin-bottom: 6px;
+}
+
+/* 꽃말 상자 */
+.plant-card-lang {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  padding: 6px 8px;
+  background: rgba(53, 168, 101, 0.08);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.plant-card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.plant-tag {
+  font-size: 11px;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.plant-card-eng {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ─── 비교 플로팅 바 ─── */
+.compare-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border-radius: 28px;
+  padding: 12px 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 100;
+  max-width: 500px;
+  border: 1px solid var(--border-light);
+}
+
+.compare-bar-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.compare-bar-plants {
+  display: flex;
+  gap: 8px;
+}
+
+.compare-bar-item {
+  background: var(--bg-secondary);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.compare-bar-item button {
+  background: none;
+  border: none;
+  color: var(--text-medium);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  line-height: 1;
+}
+
+.compare-bar-btn {
+  padding: 8px 18px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.compare-bar-btn:hover:not(:disabled) {
+  background: #2d8f53;
+}
+
+.compare-bar-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── 페이지네이션 ─── */
+.encyclopedia-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 36px 0;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  color: var(--text-medium);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.page-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── 상세 모달 ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(3px);
+}
+
+.plant-detail-modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  max-width: 780px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-medium);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn:hover {
+  background: var(--border);
+  color: var(--text-dark);
+}
+
+/* 모달 내부: 이미지 상단 배너 + 정보 하단 (세로 배치) */
+.modal-inner {
+  display: block;
+}
+
+/* 모달 이미지: 상단 배너 (고정 높이) */
+.modal-img-wrap {
+  width: 100%;
+  height: 320px;
+  background: #f0f4f0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  overflow: hidden;
+}
+
+.modal-img-wrap img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+.modal-img-placeholder {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 72px;
+  background: linear-gradient(135deg, #f0faf4, #e8f5e9);
+}
+
+/* 모달 정보 영역 */
+.modal-info {
+  padding: 28px 32px 32px;
+}
+
+.modal-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.modal-badge.safe {
+  background: #5d7c4f;
+  color: #fff;
+}
+
+.modal-badge.toxic {
+  background: #e53935;
+  color: #fff;
+}
+
+.modal-kor {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+
+.modal-sci {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-medium);
+  margin-bottom: 2px;
+}
+
+.modal-eng {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.modal-name-status {
+  display: inline-block;
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: #e8f5e9;
+  color: var(--primary, #35A865);
+  margin-top: 6px;
+}
+
+/* 로딩 */
+.modal-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* 상세 그리드 */
+.modal-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.modal-detail-item {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.modal-detail-item strong {
+  display: block;
+  font-size: 11px;
+  color: var(--text-light);
+  margin-bottom: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-detail-item span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* 설명/서식지 */
+.modal-description {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.modal-description strong {
+  display: block;
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-description p {
+  font-size: 13px;
+  color: var(--text-medium);
+  line-height: 1.6;
+}
+
+/* 출처 */
+.modal-source {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── 비교 모달 ─── */
+.compare-modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  max-width: 900px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+.compare-modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.compare-modal-header h2 {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.compare-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 32px;
+}
+
+.compare-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.compare-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.compare-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.compare-card-img .plant-name-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.compare-card-info {
+  flex: 1;
+}
+
+.compare-card-info h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.compare-card-info .sci {
+  font-size: 13px;
+  color: var(--text-medium);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.compare-row {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.compare-row:last-child {
+  border-bottom: none;
+}
+
+.compare-row strong {
+  flex-shrink: 0;
+  width: 70px;
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.compare-row span {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* ─── 반려동물 안전 약관 모달 ─── */
+.pet-terms-modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  max-width: 500px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+}
+
+.pet-terms-content {
+  padding: 40px 32px;
+  text-align: center;
+}
+
+.pet-terms-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.pet-terms-modal h2 {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.pet-terms-desc {
+  font-size: 14px;
+  color: var(--text-medium);
+  margin-bottom: 24px;
+}
+
+.pet-terms-box {
+  background: linear-gradient(135deg, rgba(93, 124, 79, 0.08) 0%, rgba(53, 168, 101, 0.08) 100%);
+  border-left: 4px solid #5d7c4f;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.pet-terms-box p {
+  font-size: 13px;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.pet-terms-box strong {
+  color: #5d7c4f;
+  font-weight: 700;
+}
+
+.pet-terms-list {
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-medium);
+  margin: 0 0 24px 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.pet-terms-list li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.pet-terms-list li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #5d7c4f;
+  font-weight: 700;
+}
+
+.pet-terms-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-dark);
+  margin-bottom: 24px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pet-terms-agree input[type="checkbox"] {
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.pet-terms-btn {
+  width: 100%;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pet-terms-btn:hover:not(:disabled) {
+  background: #2d8f53;
+}
+
+.pet-terms-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── 반응형 ─── */
+@media (max-width: 1024px) {
+  .encyclopedia-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .compare-cards {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .encyclopedia-header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .encyclopedia-search {
+    width: 100%;
+    min-width: unset;
+  }
+  .encyclopedia-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .enc-filter-tabs {
+    padding: 0 24px 8px 24px;
+  }
+  .modal-img-wrap,
+  .modal-img-wrap img {
+    height: 200px;
+  }
+  .modal-detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .compare-cards {
+    grid-template-columns: 1fr;
+  }
+  .compare-bar {
+    width: calc(100% - 48px);
+    flex-direction: column;
+    gap: 12px;
+  }
+  .compare-bar-content {
+    flex-direction: column;
+    width: 100%;
+  }
+  .compare-bar-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .encyclopedia-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .plant-detail-modal {
+    border-radius: var(--radius-lg);
+  }
+  .encyclopedia-header {
+    padding: 32px 16px;
+  }
+  .encyclopedia-header-inner {
+    gap: 16px;
+  }
+  .encyclopedia-search {
+    min-width: unset;
+  }
+  .enc-season-banner {
+    margin: 0 16px;
+    font-size: 13px;
+  }
+  .enc-filter-tabs {
+    padding: 0 16px 8px 16px;
+  }
+  .compare-bar {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    max-width: none;
+    width: calc(100% - 32px);
+    padding: 10px 16px;
+    gap: 12px;
+    font-size: 12px;
+  }
+  .compare-bar-content {
+    font-size: 11px;
+  }
+  .compare-bar-item {
+    font-size: 11px;
+  }
+  .pet-terms-content {
+    padding: 32px 24px;
+  }
+  .pet-terms-modal {
+    max-width: 90vw;
+  }
+}
+
+/* ===== 식물 등록 / 내 등록 식물 버튼 ===== */
+.enc-user-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.enc-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: #35A865;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.enc-submit-btn:hover { background: #2d8f55; }
+
+.enc-my-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.45);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.enc-my-btn:hover { background: rgba(255,255,255,0.25); }
+
+/* ===== 식물 등록 모달 ===== */
+.enc-submit-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.enc-submit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+}
+.enc-submit-header h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a3a2a;
+  margin: 0;
+}
+.enc-submit-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  line-height: 1;
+}
+.enc-submit-header button:hover { color: #333; }
+
+.enc-submit-desc {
+  margin: 0;
+  padding: 10px 24px;
+  font-size: 13px;
+  color: #888;
+  background: #f9f9f9;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.enc-submit-errors {
+  margin: 12px 24px;
+  padding: 12px 16px;
+  background: #fff3f3;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  color: #c04040;
+  font-size: 13px;
+}
+.enc-submit-errors ul {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+}
+.enc-submit-errors li { margin-bottom: 2px; }
+
+.enc-submit-ok {
+  margin: 12px 24px;
+  padding: 12px 16px;
+  background: #eef6ef;
+  border: 1px solid #b2d8ba;
+  border-radius: 8px;
+  color: #2e7d32;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ===== 등록 폼 ===== */
+.enc-submit-form {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.enc-field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.enc-field-row label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+}
+.enc-required {
+  color: #c04040;
+  font-size: 12px;
+  margin-left: 3px;
+}
+.enc-field-row input,
+.enc-field-row select,
+.enc-field-row textarea {
+  padding: 9px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 7px;
+  font-size: 14px;
+  color: #222;
+  background: #fafafa;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+.enc-field-row input:focus,
+.enc-field-row select:focus,
+.enc-field-row textarea:focus {
+  outline: none;
+  border-color: #35A865;
+  background: #fff;
+}
+.enc-field-row textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.enc-char-count {
+  font-size: 11px;
+  color: #aaa;
+  text-align: right;
+  margin-top: -2px;
+}
+.enc-char-count.warn { color: #c04040; }
+
+.enc-radio-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 2px;
+}
+.enc-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+}
+.enc-radio-group input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #35A865;
+  cursor: pointer;
+}
+
+/* ===== 등록 폼 하단 버튼 ===== */
+.enc-submit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.enc-cancel-btn {
+  padding: 10px 20px;
+  background: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.enc-cancel-btn:hover { background: #e0e0e0; }
+
+.enc-confirm-btn {
+  padding: 10px 24px;
+  background: #35A865;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.enc-confirm-btn:hover { background: #2d8f55; }
+.enc-confirm-btn:disabled {
+  background: #a5d6b8;
+  cursor: not-allowed;
+}
+
+/* ===== 내 등록 식물 목록 ===== */
+.enc-my-list {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.enc-my-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 14px;
+  padding: 32px 0;
+}
+
+.enc-my-item {
+  padding: 14px 16px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 10px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.enc-my-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.enc-my-top strong {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1a3a2a;
+}
+
+.enc-my-sci {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+}
+
+.enc-my-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.enc-my-status.pending  { background: #fff3cd; color: #856404; }
+.enc-my-status.approved { background: #eef6ef; color: #2e7d32; }
+.enc-my-status.rejected { background: #fdeaea; color: #c04040; }
+
+.enc-my-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.enc-my-reject {
+  font-size: 12px;
+  color: #c04040;
+  background: #fff3f3;
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.enc-my-date {
+  font-size: 11px;
+  color: #bbb;
+  text-align: right;
+}
+
+/* 내 식물 목록 - 상단 레이아웃 */
+.enc-my-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.enc-my-top-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.enc-my-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.enc-my-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.enc-my-delete:hover {
+  background: #fdeaea;
+}
+
+/* 식물 등록 이미지 업로드 */
+.enc-img-upload-wrap {
+  margin-top: 4px;
+}
+
+.enc-img-upload-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #f0f7f2;
+  border: 1.5px dashed #35A865;
+  border-radius: 8px;
+  color: #35A865;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.enc-img-upload-btn:hover {
+  background: #e0f2e9;
+}
+
+.enc-img-preview-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.enc-img-preview {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1.5px solid #e0e0e0;
+}
+
+.enc-img-remove {
+  background: none;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+}
+.enc-img-remove:hover {
+  background: #fdeaea;
+  color: #c04040;
+  border-color: #f5c6cb;
+}
+
+/* ── 모달 꽃말/정보 카드 ── */
+.modal-info-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #f8faf8;
+  border: 1px solid #e2ede6;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.flower-lang-card {
+  background: linear-gradient(135deg, #fff5f8, #fef0f5);
+  border-color: #f4c2d0;
+}
+
+.modal-info-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.modal-info-card strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.modal-info-card p {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── 모달 분류 그리드 학명 ── */
+.modal-latin {
+  font-style: italic;
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── 모달 반려동물 독성 배지 ── */
+.modal-pet-badge {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.modal-pet-badge.safe {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.modal-pet-badge.toxic {
+  background: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffcc80;
+}
+
+/* ── 반려동물 위험 필터 버튼 ── */
+.pet-danger-btn {
+  border-color: #ffcc80 !important;
+  color: #e65100 !important;
+}
+.pet-danger-btn.active {
+  background: #ff6d00 !important;
+  color: #fff !important;
+  border-color: #ff6d00 !important;
+}
