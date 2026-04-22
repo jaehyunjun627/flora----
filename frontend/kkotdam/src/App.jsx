@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './contexts/AuthContext';
 import Layout from './components/Layout';
 import ChatBot from './components/ChatBot';
+import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -36,23 +37,23 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/products" element={<ProductListPage />} />
-            <Route path="/products/new" element={<ProductNewPage />} />
             <Route path="/products/:id" element={<ProductDetailPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/orders" element={<OrderListPage />} />
+            <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+            <Route path="/checkout" element={<ProtectedRoute><CheckoutPage /></ProtectedRoute>} />
+            <Route path="/orders" element={<ProtectedRoute><OrderListPage /></ProtectedRoute>} />
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/community/:id" element={<CommunityDetailPage />} />
-            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage" element={<ProtectedRoute><MyPage /></ProtectedRoute>} />
             <Route path="/plants" element={<PlantEncyclopediaPage />} />
             <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="/subscription/options" element={<SubscriptionOptionsPage />} />
-            <Route path="/subscription/checkout" element={<SubscriptionCheckoutPage />} />
+            <Route path="/subscription/options" element={<ProtectedRoute><SubscriptionOptionsPage /></ProtectedRoute>} />
+            <Route path="/subscription/checkout" element={<ProtectedRoute><SubscriptionCheckoutPage /></ProtectedRoute>} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/local-trade" element={<Navigate to="/community" replace />} />
             <Route path="/local-festival" element={<LocalFestivalPage />} />
             <Route path="/diagnosis" element={<PlantDiagnosisPage />} />
-            <Route path="/seller" element={<SellerDashboardPage />} />
+            <Route path="/seller" element={<ProtectedRoute requiredRole="SELLER"><SellerDashboardPage /></ProtectedRoute>} />
+            <Route path="/products/new" element={<ProtectedRoute requiredRole="SELLER"><ProductNewPage /></ProtectedRoute>} />
             <Route path="/service" element={<ServicePage />} />
           </Routes>
         </Layout>

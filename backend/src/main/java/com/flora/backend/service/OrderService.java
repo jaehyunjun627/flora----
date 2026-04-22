@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -56,14 +57,13 @@ public class OrderService {
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // 재고 검증 및 차감
+        // 재고 검증
         for (CartItem item : cartItems) {
             if (item.getProduct().getStockQuantity() < item.getQuantity()) {
                 throw new IllegalArgumentException(item.getProduct().getName() + " 재고가 부족합니다");
             }
         }
 
-        // 첫번째 상품 기준으로 주문 생성 (통합 구조)
         CartItem firstItem = cartItems.get(0);
         Order order = Order.builder()
                 .user(user)
@@ -78,18 +78,37 @@ public class OrderService {
                 .unitPrice(firstItem.getProduct().getPrice())
                 .build();
 
+        // 전체 장바구니 아이템을 OrderItem으로 저장
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem item : cartItems) {
+            orderItems.add(OrderItem.builder()
+                    .order(order)
+                    .product(item.getProduct())
+                    .quantity(item.getQuantity())
+                    .unitPrice(item.getProduct().getPrice())
+                    .build());
+        }
+        order.getItems().addAll(orderItems);
+
         Order savedOrder = orderRepository.save(order);
 
-        // 판매자에게 새 주문 알림
-        if (firstItem.getProduct().getSeller() != null) {
-            notificationService.create(
-                firstItem.getProduct().getSeller(),
-                "NEW_ORDER",
-                user.getNickname() + "님이 '" + firstItem.getProduct().getName() + "' 상품을 주문했습니다",
-                savedOrder.getId(),
-                "ORDER"
-            );
-        }
+        // 판매자별 알림 발송
+        cartItems.stream()
+                .filter(item -> item.getProduct().getSeller() != null)
+                .collect(Collectors.groupingBy(item -> item.getProduct().getSeller().getId()))
+                .forEach((sellerId, sellerItems) -> {
+                    User seller = sellerItems.get(0).getProduct().getSeller();
+                    String productNames = sellerItems.stream()
+                            .map(i -> i.getProduct().getName())
+                            .collect(Collectors.joining(", "));
+                    notificationService.create(
+                            seller,
+                            "NEW_ORDER",
+                            user.getNickname() + "님이 '" + productNames + "' 상품을 주문했습니다",
+                            savedOrder.getId(),
+                            "ORDER"
+                    );
+                });
 
         // 재고 차감
         for (CartItem item : cartItems) {
@@ -118,8 +137,15 @@ public class OrderService {
 
         order.setStatus("CANCELLED");
 
-        // 재고 복구
-        if (order.getProduct() != null) {
+        // 전체 OrderItem 재고 복구
+        if (!order.getItems().isEmpty()) {
+            for (OrderItem item : order.getItems()) {
+                Product product = item.getProduct();
+                product.setStockQuantity(product.getStockQuantity() + item.getQuantity());
+                productRepository.save(product);
+            }
+        } else if (order.getProduct() != null) {
+            // 구버전 단일 상품 주문 호환
             Product product = order.getProduct();
             product.setStockQuantity(product.getStockQuantity() + order.getQuantity());
             productRepository.save(product);

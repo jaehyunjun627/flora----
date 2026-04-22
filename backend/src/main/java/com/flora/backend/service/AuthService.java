@@ -1,6 +1,10 @@
 package com.flora.backend.service;
 
+import com.flora.backend.config.BusinessException;
+import com.flora.backend.config.DuplicateException;
 import com.flora.backend.config.JwtTokenProvider;
+import com.flora.backend.config.ResourceNotFoundException;
+import com.flora.backend.config.UnauthorizedException;
 import com.flora.backend.dto.UserDto;
 import com.flora.backend.entity.User;
 import com.flora.backend.repository.jpa.UserRepository;
@@ -20,10 +24,10 @@ public class AuthService {
     @Transactional
     public UserDto signup(UserDto request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다");
+            throw new DuplicateException("이미 사용 중인 이메일입니다");
         }
         if (userRepository.existsByNickname(request.getNickname())) {
-            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다");
+            throw new DuplicateException("이미 사용 중인 닉네임입니다");
         }
 
         String role = "USER";

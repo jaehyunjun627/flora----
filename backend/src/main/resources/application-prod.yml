@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+logging:
+  level:
+    com.flora.backend: WARN
+    org.hibernate.SQL: ERROR
+    root: WARN

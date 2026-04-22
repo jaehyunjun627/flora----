@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ORDERS")
@@ -42,7 +44,7 @@ public class Order {
     @Column(name = "recipient_phone", length = 20)
     private String recipientPhone;
 
-    // === OrderItem 통합 (단일 상품 주문) ===
+    // === OrderItem 통합 (단일 상품 주문) — SellerService 쿼리 호환용 ===
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -51,6 +53,11 @@ public class Order {
 
     @Column(name = "unit_price", precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    // === 다중 상품 주문 아이템 ===
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<OrderItem> items = new ArrayList<>();
 
     // === Payment 통합 ===
     @Column(name = "pg_transaction_id", length = 100)

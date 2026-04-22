@@ -1,11 +1,14 @@
 package com.flora.backend.dto;
 
 import com.flora.backend.entity.Order;
+import com.flora.backend.entity.OrderItem;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class OrderDto {
@@ -23,11 +26,31 @@ public class OrderDto {
     @NotBlank
     private String recipientPhone;
 
-    // OrderItem 통합
+    // 대표 상품 (첫 번째 아이템 / SellerService 호환용)
     private Long productId;
     private String productName;
     private Integer quantity;
     private BigDecimal unitPrice;
+
+    // 전체 주문 아이템 목록
+    private List<ItemDto> items;
+
+    @Getter @Builder
+    public static class ItemDto {
+        private Long productId;
+        private String productName;
+        private Integer quantity;
+        private BigDecimal unitPrice;
+
+        public static ItemDto from(OrderItem item) {
+            return ItemDto.builder()
+                    .productId(item.getProduct().getId())
+                    .productName(item.getProduct().getName())
+                    .quantity(item.getQuantity())
+                    .unitPrice(item.getUnitPrice())
+                    .build();
+        }
+    }
 
     // Payment 통합
     private String pgTransactionId;
@@ -79,6 +102,7 @@ public class OrderDto {
                 .sellerId(o.getProduct() != null && o.getProduct().getSeller() != null ? o.getProduct().getSeller().getId() : null)
                 .sellerNickname(o.getProduct() != null && o.getProduct().getSeller() != null ? o.getProduct().getSeller().getNickname() : null)
                 .orderedAt(o.getOrderedAt())
+                .items(o.getItems().stream().map(ItemDto::from).collect(Collectors.toList()))
                 .build();
     }
 }

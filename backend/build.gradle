@@ -46,6 +46,9 @@ dependencies {
 	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
+	// .env 파일 자동 로드 (로컬 개발 편의용)
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
 	// Dev tools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

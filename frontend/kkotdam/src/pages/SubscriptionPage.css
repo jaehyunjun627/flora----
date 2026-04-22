@@ -233,6 +233,8 @@
   position: relative;
   text-align: center;
   transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
 }
 
 .sub-plan-card:hover {
@@ -334,6 +336,7 @@
   padding: 0;
   margin: 20px 0 28px;
   text-align: left;
+  flex: 1;
 }
 
 .sub-plan-features li {
