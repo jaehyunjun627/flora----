@@ -38,8 +38,9 @@ export default function ProductListPage() {
       const params = { page, size: 12 };
       if (category) params.category = category;
       const res = await api.get("/api/products", { params });
-      setProducts(res.data.content || []);
-      setTotalPages(res.data.totalPages || 0);
+      const pageData = res.data.data || res.data;
+      setProducts(pageData.content || []);
+      setTotalPages(pageData.totalPages || 0);
     } catch (e) {
       console.error("상품 조회 실패:", e);
     } finally {
