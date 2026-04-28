@@ -22,7 +22,13 @@ api.interceptors.request.use(
 
 // 응답 인터셉터
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // 백엔드 공통 응답 {success, data} 구조 자동 언래핑
+    if (response.data && response.data.success === true && 'data' in response.data) {
+      response.data = response.data.data;
+    }
+    return response;
+  },
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
