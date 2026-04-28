@@ -8,12 +8,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -27,45 +25,68 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        ensureSeller("seller1@flora.com", "초록마켓", "🌿");
-        ensureSeller("seller2@flora.com", "꽃길농원", "🌸");
-        ensureProducts();
-        ensureFestivals();
+        log.info("===== DataInitializer 시작 =====");
+        try {
+            insertSellersIfAbsent();
+            insertProductsIfEmpty();
+            insertFestivalsIfEmpty();
+        } catch (Exception e) {
+            log.error("DataInitializer 오류: {}", e.getMessage(), e);
+        }
+        log.info("===== DataInitializer 완료 =====");
     }
 
-    @Transactional
-    public void ensureSeller(String email, String nickname, String emoji) {
-        if (userRepository.findByEmail(email).isPresent()) return;
-        try {
-            userRepository.save(User.builder()
-                    .email(email)
-                    .passwordHash(passwordEncoder.encode("password123"))
-                    .nickname(nickname).role("SELLER")
-                    .isActive(true).points(100).streakDays(5).profileEmoji(emoji).build());
-            log.info("셀러 계정 생성: {}", email);
-        } catch (Exception e) {
-            log.warn("셀러 계정 생성 스킵 (이미 존재): {}", email);
+    private void insertSellersIfAbsent() {
+        if (userRepository.findByEmail("seller1@flora.com").isEmpty()) {
+            try {
+                userRepository.save(User.builder()
+                        .email("seller1@flora.com")
+                        .passwordHash(passwordEncoder.encode("password123"))
+                        .nickname("초록마켓").role("SELLER")
+                        .isActive(true).points(200).streakDays(15).profileEmoji("🌿").build());
+                log.info("셀러1 생성 완료");
+            } catch (Exception e) {
+                log.warn("셀러1 생성 실패: {}", e.getMessage());
+            }
+        } else {
+            log.info("셀러1 이미 존재");
+        }
+
+        if (userRepository.findByEmail("seller2@flora.com").isEmpty()) {
+            try {
+                userRepository.save(User.builder()
+                        .email("seller2@flora.com")
+                        .passwordHash(passwordEncoder.encode("password123"))
+                        .nickname("꽃길농원").role("SELLER")
+                        .isActive(true).points(180).streakDays(10).profileEmoji("🌸").build());
+                log.info("셀러2 생성 완료");
+            } catch (Exception e) {
+                log.warn("셀러2 생성 실패: {}", e.getMessage());
+            }
+        } else {
+            log.info("셀러2 이미 존재");
         }
     }
 
-    @Transactional
-    public void ensureProducts() {
-        if (productRepository.count() > 0) return;
+    private void insertProductsIfEmpty() {
+        long count = productRepository.count();
+        log.info("현재 상품 수: {}", count);
+        if (count > 0) return;
 
-        // DB에 있는 셀러 중 아무나 사용
         List<User> sellers = userRepository.findAll().stream()
                 .filter(u -> "SELLER".equals(u.getRole()) || "ADMIN".equals(u.getRole()))
                 .toList();
+        log.info("사용 가능한 셀러 수: {}", sellers.size());
 
         if (sellers.isEmpty()) {
-            log.warn("셀러 계정이 없어 상품 더미 데이터를 건너뜁니다.");
+            log.warn("셀러 없음 - 상품 삽입 불가");
             return;
         }
 
         User s1 = sellers.get(0);
         User s2 = sellers.size() > 1 ? sellers.get(1) : sellers.get(0);
 
-        log.info("상품 더미 데이터 삽입 중...");
+        log.info("상품 더미 데이터 삽입 시작...");
         saveProduct(s1, "몬스테라 델리시오사", "열대 분위기의 대형 잎이 특징인 인기 관엽식물입니다.", 28000, 35000, 30, "식물", 4.5, 24);
         saveProduct(s1, "산세베리아 (스투키)", "공기 정화 식물의 대명사. 초보자에게 추천합니다.", 15000, 18000, 50, "식물", 4.7, 38);
         saveProduct(s1, "스투키 미니 화분세트", "귀여운 미니 사이즈 스투키 3개 세트.", 22000, 27000, 20, "식물", 4.3, 12);
@@ -78,22 +99,25 @@ public class DataInitializer implements ApplicationRunner {
         saveProduct(s2, "배합 분갈이 흙 (5L)", "펄라이트, 코코피트, 부엽토 최적 배합.", 7000, 9000, 100, "비료/토양", 4.6, 45);
         saveProduct(s1, "스테인리스 물조리개 (1L)", "긴 주둥이로 좁은 화분에도 편한 물조리개.", 16500, 20000, 25, "원예도구", 4.3, 9);
         saveProduct(s1, "원예 가위 세트 (3종)", "전정가위, 적심가위, 미니 가위 3종 세트.", 13000, 16000, 40, "원예도구", 4.4, 17);
-        log.info("상품 더미 데이터 삽입 완료.");
+        log.info("상품 {}개 삽입 완료", productRepository.count());
     }
 
     private void saveProduct(User seller, String name, String desc, int price, int originalPrice,
                              int stock, String category, double rating, int reviewCount) {
-        productRepository.save(Product.builder()
-                .seller(seller).name(name).description(desc)
-                .price(BigDecimal.valueOf(price))
-                .originalPrice(BigDecimal.valueOf(originalPrice))
-                .stockQuantity(stock).category(category)
-                .rating(BigDecimal.valueOf(rating)).reviewCount(reviewCount)
-                .isActive(true).isGroupBuy(false).build());
+        try {
+            productRepository.save(Product.builder()
+                    .seller(seller).name(name).description(desc)
+                    .price(BigDecimal.valueOf(price))
+                    .originalPrice(BigDecimal.valueOf(originalPrice))
+                    .stockQuantity(stock).category(category)
+                    .rating(BigDecimal.valueOf(rating)).reviewCount(reviewCount)
+                    .isActive(true).isGroupBuy(false).build());
+        } catch (Exception e) {
+            log.warn("상품 삽입 실패 [{}]: {}", name, e.getMessage());
+        }
     }
 
-    @Transactional
-    public void ensureFestivals() {
+    private void insertFestivalsIfEmpty() {
         if (festivalRepository.count() > 0) return;
         log.info("축제 더미 데이터 삽입 중...");
         festivalRepository.save(Festival.builder().name("고양 국제 꽃박람회").emoji("🌸").category("꽃축제").region("경기")
