@@ -28,16 +28,24 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        if (userRepository.count() > 0) {
-            log.info("DB에 데이터가 이미 존재합니다. 초기 데이터 삽입을 건너뜁니다.");
-            return;
+        log.info("초기 더미 데이터 확인 중...");
+
+        if (userRepository.findByEmail("seller1@flora.com").isEmpty()) {
+            log.info("셀러 계정 삽입 중...");
+            insertUsers();
         }
 
-        log.info("초기 더미 데이터를 삽입합니다...");
+        if (productRepository.count() == 0) {
+            log.info("상품 더미 데이터 삽입 중...");
+            insertProducts();
+        }
 
-        insertUsers();
-        insertProducts();
-        insertFestivals();
+        if (festivalRepository.count() == 0) {
+            log.info("축제 더미 데이터 삽입 중...");
+            insertFestivals();
+        }
+
+        log.info("초기 더미 데이터 확인 완료.");
 
         log.info("초기 더미 데이터 삽입 완료.");
     }
