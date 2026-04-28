@@ -70,7 +70,7 @@ public class DataInitializer implements CommandLineRunner {
     private void insertProductsIfEmpty() {
         long count = productRepository.count();
         log.info("현재 상품 수: {}", count);
-        if (count > 0) return;
+        if (count >= 10) return;
 
         List<User> sellers = userRepository.findAll().stream()
                 .filter(u -> "SELLER".equals(u.getRole()) || "ADMIN".equals(u.getRole()))
@@ -117,7 +117,7 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void insertFestivalsIfEmpty() {
-        if (festivalRepository.count() > 0) return;
+        if (festivalRepository.count() >= 5) return;
         log.info("축제 더미 데이터 삽입 중...");
         festivalRepository.save(Festival.builder().name("고양 국제 꽃박람회").emoji("🌸").category("꽃축제").region("경기")
                 .location("경기 고양시 일산서구").organizer("고양시").lat(37.6584).lng(126.7756)
