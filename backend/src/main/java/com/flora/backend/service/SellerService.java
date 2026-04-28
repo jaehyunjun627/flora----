@@ -132,7 +132,7 @@ public class SellerService {
     // ===== 상품 관리 =====
     public List<ProductDto> getSellerProducts(Long sellerId) {
         validateSeller(sellerId);
-        return productRepository.findBySellerIdOrderByCreatedAtDesc(sellerId)
+        return productRepository.findBySellerIdAndIsActiveTrue(sellerId)
                 .stream().map(ProductDto::from).collect(Collectors.toList());
     }
 
