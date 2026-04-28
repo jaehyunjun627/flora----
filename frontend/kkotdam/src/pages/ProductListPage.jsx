@@ -9,8 +9,8 @@ const CATEGORIES = [
   { value: "꽃", label: "꽃" },
   { value: "식물", label: "식물" },
   { value: "화분/소품", label: "화분/소품" },
-  { value: "비료", label: "비료/토양" },
-  { value: "도구", label: "원예도구" },
+  { value: "비료/토양", label: "비료/토양" },
+  { value: "원예도구", label: "원예도구" },
 ];
 
 export default function ProductListPage() {
@@ -186,6 +186,6 @@ function ProductCard({ product, onClick }) {
 }
 
 function getCategoryEmoji(category) {
-  const map = { "식물": "🌿", "꽃": "🌸", "화분": "🪴", "비료": "🌱", "도구": "✂️" };
+  const map = { "식물": "🌿", "꽃": "🌸", "화분/소품": "🪴", "비료/토양": "🌱", "원예도구": "✂️" };
   return map[category] || "🌼";
 }
