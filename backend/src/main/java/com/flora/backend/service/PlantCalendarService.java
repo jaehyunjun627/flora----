@@ -29,6 +29,7 @@ public class PlantCalendarService {
                 map.put("diaryMemo", c.getDiaryMemo());
                 map.put("diaryImageUrl", c.getDiaryImageUrl());
                 map.put("diaryRecordedDate", c.getDiaryRecordedDate());
+                map.put("diaryCount", c.getDiaryMemo() != null ? 1 : 0);
                 return map;
             }).toList();
     }
@@ -57,6 +58,18 @@ public class PlantCalendarService {
         calendar.setWateringNextDate(LocalDate.now().plusDays(calendar.getWateringCycleDays() != null ? calendar.getWateringCycleDays() : 7));
         calendarRepository.save(calendar);
         return Map.of("message", "물주기 완료!", "nextWateringDate", calendar.getWateringNextDate());
+    }
+
+    public List<Map<String, Object>> getDiaries(Long calendarId) {
+        PlantCalendar calendar = calendarRepository.findById(calendarId)
+            .orElseThrow(() -> new RuntimeException("캘린더를 찾을 수 없습니다"));
+        if (calendar.getDiaryMemo() == null) return List.of();
+        Map<String, Object> diary = new HashMap<>();
+        diary.put("id", calendar.getId());
+        diary.put("memo", calendar.getDiaryMemo());
+        diary.put("imageUrl", calendar.getDiaryImageUrl());
+        diary.put("recordedDate", calendar.getDiaryRecordedDate());
+        return List.of(diary);
     }
 
     // GrowthDiary 통합 - 일지를 PlantCalendar에 직접 저장

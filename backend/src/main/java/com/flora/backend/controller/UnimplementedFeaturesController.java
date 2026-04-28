@@ -41,19 +41,6 @@ public class UnimplementedFeaturesController {
     }
 
     /**
-     * 일기 상세 조회 (현재 GET만 미구현, POST는 있음)
-     * 
-     * TODO: CalendarService에 getDiaries() 메서드 추가 필요
-     */
-    @GetMapping("/api/calendar/{calendarId}/diaries")
-    public ResponseEntity<ApiResponse<?>> getDiaries(@PathVariable Long calendarId) {
-        log.warn("일기 조회: 미구현 기능 호출 - calendarId={}", calendarId);
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                ApiResponse.error("이 기능은 아직 구현되지 않았습니다.")
-        );
-    }
-
-    /**
      * 회원 정보 조회 (현재 미구현)
      * 
      * 참고: /api/auth/me 엔드포인트가 있으므로, /api/members/me는 삭제하거나
