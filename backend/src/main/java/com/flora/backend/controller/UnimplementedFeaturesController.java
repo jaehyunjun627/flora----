@@ -28,19 +28,6 @@ import org.springframework.web.bind.annotation.*;
 public class UnimplementedFeaturesController {
 
     /**
-     * 축제 정보 조회 (현재 미구현)
-     * 
-     * TODO: Festival 엔티티 및 FestivalService 구현 필요
-     */
-    @GetMapping("/api/festivals")
-    public ResponseEntity<ApiResponse<?>> getFestivals() {
-        log.warn("축제 정보 조회: 미구현 기능 호출");
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
-                ApiResponse.error("이 기능은 아직 구현되지 않았습니다.")
-        );
-    }
-
-    /**
      * 로컬 거래 게시글 조회 (현재 미구현)
      * 
      * TODO: LocalTrade 엔티티 및 LocalTradeService 구현 필요

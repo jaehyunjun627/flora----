@@ -87,7 +87,12 @@ export default function MyPage() {
   const joinDate  = myData?.createdAt ? new Date(myData.createdAt).toLocaleDateString('ko-KR') : '';
   const userPoints = myData?.points || 0;
 
-  const handleCancelSubscription = (id) => {
+  const handleCancelSubscription = async (id) => {
+    try {
+      await api.patch(`/api/subscriptions/${id}/cancel`);
+    } catch {
+      // DB에 구독 레코드가 없는 경우(localStorage 기반 구독) — localStorage로 fallback
+    }
     const updated = subscriptions.map(s =>
       s.id === id ? { ...s, status: 'cancelled', cancelledAt: new Date().toISOString() } : s
     );

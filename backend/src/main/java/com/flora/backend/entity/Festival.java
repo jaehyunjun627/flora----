@@ -23,6 +23,18 @@ public class Festival {
     @Column(length = 50)
     private String region;
 
+    @Column(length = 100)
+    private String location;
+
+    @Column(length = 30)
+    private String category;
+
+    @Column(length = 50)
+    private String organizer;
+
+    private Double lat;
+    private Double lng;
+
     @Column(name = "start_date")
     private LocalDate startDate;
 
@@ -34,4 +46,7 @@ public class Festival {
 
     @Column(name = "bg_color", length = 20)
     private String bgColor;
+
+    @Column(length = 200)
+    private String tags;
 }

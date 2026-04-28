@@ -61,9 +61,6 @@ export default function CheckoutPage() {
   const processPayment = async () => {
     setProcessing(true);
     try {
-      // 더미 결제: 2초 대기 후 주문 생성
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
       const res = await api.post('/api/orders', {
         recipientName: deliveryInfo.name,
         recipientPhone: deliveryInfo.phone,

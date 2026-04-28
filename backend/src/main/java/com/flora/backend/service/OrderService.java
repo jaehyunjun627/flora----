@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +41,6 @@ public class OrderService {
         return OrderDto.from(order);
     }
 
-    // 장바구니 첫번째 상품으로 주문 생성 (단일 상품 주문)
     @Transactional
     public OrderDto createOrderFromCart(OrderDto req, Long userId) {
         User user = userRepository.findById(userId)
@@ -51,20 +51,25 @@ public class OrderService {
             throw new IllegalArgumentException("장바구니가 비어있습니다");
         }
 
-        // 장바구니 전체 총액 계산
-        BigDecimal totalPrice = cartItems.stream()
-                .map(item -> item.getProduct().getPrice()
-                        .multiply(BigDecimal.valueOf(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        // 재고 검증
+        // 비관적 잠금(SELECT FOR UPDATE)으로 상품 행 잠금 → 동시 주문 Race Condition 방지
+        List<Product> lockedProducts = new ArrayList<>();
         for (CartItem item : cartItems) {
-            if (item.getProduct().getStockQuantity() < item.getQuantity()) {
-                throw new IllegalArgumentException(item.getProduct().getName() + " 재고가 부족합니다");
+            Product product = productRepository.findByIdWithLock(item.getProduct().getId())
+                    .orElseThrow(() -> new IllegalArgumentException(item.getProduct().getName() + " 상품을 찾을 수 없습니다"));
+            if (product.getStockQuantity() < item.getQuantity()) {
+                throw new IllegalArgumentException(product.getName() + " 재고가 부족합니다");
             }
+            lockedProducts.add(product);
         }
 
+        // 잠금된 상품 기준으로 총액 계산
+        BigDecimal totalPrice = IntStream.range(0, cartItems.size())
+                .mapToObj(i -> lockedProducts.get(i).getPrice()
+                        .multiply(BigDecimal.valueOf(cartItems.get(i).getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         CartItem firstItem = cartItems.get(0);
+        Product firstProduct = lockedProducts.get(0);
         Order order = Order.builder()
                 .user(user)
                 .orderNumber(generateOrderNumber())
@@ -73,19 +78,18 @@ public class OrderService {
                 .deliveryAddress(req.getDeliveryAddress())
                 .recipientName(req.getRecipientName())
                 .recipientPhone(req.getRecipientPhone())
-                .product(firstItem.getProduct())
+                .product(firstProduct)
                 .quantity(firstItem.getQuantity())
-                .unitPrice(firstItem.getProduct().getPrice())
+                .unitPrice(firstProduct.getPrice())
                 .build();
 
-        // 전체 장바구니 아이템을 OrderItem으로 저장
         List<OrderItem> orderItems = new ArrayList<>();
-        for (CartItem item : cartItems) {
+        for (int i = 0; i < cartItems.size(); i++) {
             orderItems.add(OrderItem.builder()
                     .order(order)
-                    .product(item.getProduct())
-                    .quantity(item.getQuantity())
-                    .unitPrice(item.getProduct().getPrice())
+                    .product(lockedProducts.get(i))
+                    .quantity(cartItems.get(i).getQuantity())
+                    .unitPrice(lockedProducts.get(i).getPrice())
                     .build());
         }
         order.getItems().addAll(orderItems);
@@ -110,14 +114,13 @@ public class OrderService {
                     );
                 });
 
-        // 재고 차감
-        for (CartItem item : cartItems) {
-            Product product = item.getProduct();
-            product.setStockQuantity(product.getStockQuantity() - item.getQuantity());
+        // 재고 차감 (잠금 보유 중이므로 안전)
+        for (int i = 0; i < cartItems.size(); i++) {
+            Product product = lockedProducts.get(i);
+            product.setStockQuantity(product.getStockQuantity() - cartItems.get(i).getQuantity());
             productRepository.save(product);
         }
 
-        // 장바구니 비우기
         cartItemRepository.deleteByUserId(userId);
 
         return OrderDto.from(savedOrder);

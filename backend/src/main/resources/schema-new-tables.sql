@@ -113,3 +113,12 @@ CREATE TABLE GROWTH_DIARIES (
     image_url     VARCHAR2(500),
     created_at    TIMESTAMP
 );
+
+-- 11. 주문 아이템 (장바구니 다중 상품 주문 지원)
+CREATE TABLE ORDER_ITEMS (
+    id         NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    order_id   NUMBER NOT NULL,
+    product_id NUMBER NOT NULL,
+    quantity   NUMBER(10),
+    unit_price NUMBER(10, 2)
+);
