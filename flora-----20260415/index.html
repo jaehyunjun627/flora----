@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>식물도감</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🌿</span>
+        <div class="logo-text">
+          <h1>식물도감</h1>
+          <p>Flora Encyclopedia</p>
+        </div>
+      </div>
+      <div class="header-stats">
+        <span id="total-count">0</span>종의 식물
+      </div>
+    </div>
+  </header>
+
+  <!-- 검색 & 필터 -->
+  <section class="filter-section">
+    <div class="filter-inner">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="식물 이름 또는 학명으로 검색..." />
+      </div>
+
+      <div class="filter-row">
+        <!-- 카테고리 -->
+        <div class="filter-group">
+          <span class="filter-label">분류</span>
+          <div class="chip-group" id="category-filters">
+            <button class="chip active" data-value="all">전체</button>
+            <button class="chip" data-value="꽃">꽃</button>
+            <button class="chip" data-value="나무">나무</button>
+            <button class="chip" data-value="채소">채소</button>
+            <button class="chip" data-value="허브">허브</button>
+            <button class="chip" data-value="과수">과수</button>
+            <button class="chip" data-value="다육식물">다육</button>
+            <button class="chip" data-value="관엽식물">관엽</button>
+            <button class="chip" data-value="야생화">야생화</button>
+            <button class="chip" data-value="수생식물">수생</button>
+          </div>
+        </div>
+
+        <!-- 계절 -->
+        <div class="filter-group">
+          <span class="filter-label">계절</span>
+          <div class="chip-group" id="season-filters">
+            <button class="chip active" data-value="all">전체</button>
+            <button class="chip chip-spring" data-value="봄">🌸 봄</button>
+            <button class="chip chip-summer" data-value="여름">☀️ 여름</button>
+            <button class="chip chip-autumn" data-value="가을">🍂 가을</button>
+            <button class="chip chip-winter" data-value="겨울">❄️ 겨울</button>
+          </div>
+        </div>
+
+        <!-- 반려동물 독성 -->
+        <div class="filter-group">
+          <span class="filter-label">반려동물 안전</span>
+          <div class="chip-group" id="toxicity-filters">
+            <button class="chip active" data-value="all">전체</button>
+            <button class="chip chip-safe" data-value="safe">✅ 안전</button>
+            <button class="chip chip-toxic" data-value="toxic">⚠️ 독성 주의</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-info">
+        <span id="result-count">0</span>개의 식물을 찾았습니다
+        <button class="reset-btn" id="reset-btn">필터 초기화</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 식물 그리드 -->
+  <main class="main-content">
+    <div class="plant-grid" id="plant-grid">
+      <!-- 카드 동적 생성 -->
+    </div>
+    <div class="empty-state" id="empty-state" style="display:none">
+      <div class="empty-icon">🔍</div>
+      <p>검색 결과가 없습니다</p>
+      <small>다른 검색어나 필터를 시도해보세요</small>
+    </div>
+  </main>
+
+  <!-- 상세 모달 -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-img-wrap">
+        <img id="modal-img" src="" alt="" />
+        <div class="modal-badges" id="modal-badges"></div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-title-row">
+          <div>
+            <h2 id="modal-name-ko"></h2>
+            <p class="modal-name-en" id="modal-name-en"></p>
+            <p class="modal-name-latin" id="modal-name-latin"></p>
+          </div>
+          <div class="modal-toxicity-badge" id="modal-toxicity-badge"></div>
+        </div>
+        <div class="modal-meta" id="modal-meta"></div>
+        <p class="modal-desc" id="modal-desc"></p>
+        <div class="modal-seasons" id="modal-seasons"></div>
+        <a class="wiki-link" id="wiki-link" href="#" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Wikimedia Commons에서 더 보기
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+.input-wrapper {
+  margin-bottom: 16px;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, background 0.2s ease;
+  box-sizing: border-box;
+  background: var(--card-bg);
+  color: var(--text-dark);
+  font-family: var(--sans);
+}
+
+.input-field:focus {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.input-field.input-error {
+  border: 2px solid var(--error);
+}
+
+.input-error-msg {
+  color: var(--error);
+  font-size: 12px;
+  margin-top: 4px;
+}

@@ -1,0 +1,2697 @@
+[
+  {
+    "id": 1,
+    "nameKo": "장미",
+    "nameEn": "Rose",
+    "nameLatin": "Rosa",
+    "family": "장미과",
+    "description": "전 세계적으로 사랑받는 꽃으로 다양한 색상의 품종이 있습니다. 향기롭고 아름다운 꽃을 피우며 정원과 꽃다발에 널리 사용됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Rosa_Red_Chateau01.jpg?width=500",
+    "wikiImage": "Rosa_gallica_Officinalis_2",
+    "flowerLanguage": "사랑, 열정, 아름다움"
+  },
+  {
+    "id": 2,
+    "nameKo": "해바라기",
+    "nameEn": "Sunflower",
+    "nameLatin": "Helianthus annuus",
+    "family": "국화과",
+    "description": "밝고 큰 노란 꽃이 특징이며 태양을 향해 고개를 돌리는 식물입니다. 씨앗은 식용유와 간식으로 사용됩니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sunflower_from_Silesia2.jpg/640px-Sunflower_from_Silesia2.jpg",
+    "wikiImage": "Helianthus_annuus",
+    "flowerLanguage": "당신만 바라봐요, 기다림"
+  },
+  {
+    "id": 3,
+    "nameKo": "튤립",
+    "nameEn": "Tulip",
+    "nameLatin": "Tulipa",
+    "family": "백합과",
+    "description": "봄을 대표하는 꽃으로 화려한 색상이 특징입니다. 네덜란드의 상징적인 꽃이며 구근식물입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Sunflower_from_Silesia2.jpg/640px-Sunflower_from_Silesia2.jpg",
+    "wikiImage": "Tulipa",
+    "flowerLanguage": "사랑의 고백, 완벽한 사랑"
+  },
+  {
+    "id": 4,
+    "nameKo": "국화",
+    "nameEn": "Chrysanthemum",
+    "nameLatin": "Chrysanthemum",
+    "family": "국화과",
+    "description": "가을을 대표하는 꽃으로 다양한 색상과 형태가 있습니다. 한국과 일본에서 오랫동안 재배되어 온 관상식물입니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Chrysanthemum_sp.jpg/640px-Chrysanthemum_sp.jpg",
+    "wikiImage": "Chrysanthemum",
+    "flowerLanguage": "고귀함, 진실, 장수"
+  },
+  {
+    "id": 5,
+    "nameKo": "라벤더",
+    "nameEn": "Lavender",
+    "nameLatin": "Lavandula",
+    "family": "꿀풀과",
+    "description": "보라색 꽃과 향기로운 잎이 특징입니다. 아로마테라피와 향수에 널리 사용되며 허브 정원의 필수 식물입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Lavandula_angustifolia_001.JPG/640px-Lavandula_angustifolia_001.JPG",
+    "wikiImage": "Lavandula",
+    "flowerLanguage": "침묵, 기다림, 사랑의 답장"
+  },
+  {
+    "id": 6,
+    "nameKo": "민들레",
+    "nameEn": "Dandelion",
+    "nameLatin": "Taraxacum platycarpum Dahlst.",
+    "family": "국화과",
+    "description": "줄기는 없고, 잎이 뿌리에서 뭉쳐나며 옆으로 퍼진다. 잎은 거꾸로 세운 바소꼴이고 길이가 6~15cm, 폭이 1.2~5cm이며 깃꼴로 깊이 패어 들어간 모양이다. 꽃은 4~5월에 노란색으로 피고 잎과 길이가 비슷한 꽃대 끝에 두상화가 1개 달린다. 열매는 수과이고 길이 3~3.5mm의 긴 타원 모양이며 갈색이고 윗부분에 가시 같은 돌기가 있으며 부리는 길이가 7~8.5mm이다. 한국·중국·일본에 분포한다. (출처: 산림청 숲에사는식물정보 API)",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Dandelion_2009.jpg/640px-Dandelion_2009.jpg",
+    "wikiImage": "Dandelion_closeup",
+    "flowerLanguage": "행복, 신탁, 이별"
+  },
+  {
+    "id": 7,
+    "nameKo": "수국",
+    "nameEn": "Hydrangea",
+    "nameLatin": "Hydrangea macrophylla",
+    "family": "수국과",
+    "description": "크고 화려한 꽃송이가 특징입니다. 토양의 산성도에 따라 꽃 색이 변하며 정원 관상용으로 인기 있습니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Hydrangea_macrophylla_2.jpg/640px-Hydrangea_macrophylla_2.jpg",
+    "wikiImage": "Hydrangea_macrophylla",
+    "flowerLanguage": "변덕, 진심, 냉정"
+  },
+  {
+    "id": 8,
+    "nameKo": "벚꽃",
+    "nameEn": "Cherry Blossom",
+    "nameLatin": "Prunus serrulata",
+    "family": "장미과",
+    "description": "봄의 상징으로 분홍빛 꽃이 화려하게 피어납니다. 일본과 한국에서 꽃구경 문화의 중심이 되는 나무입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Prunus_serrulata_2.jpg/640px-Prunus_serrulata_2.jpg",
+    "wikiImage": "Prunus_serrulata",
+    "flowerLanguage": "정신적인 아름다움, 순결"
+  },
+  {
+    "id": 9,
+    "nameKo": "개나리",
+    "nameEn": "Forsythia",
+    "nameLatin": "Forsythia koreana",
+    "family": "물푸레나무과",
+    "description": "봄에 가장 먼저 피는 노란 꽃으로 한국의 봄을 상징합니다. 잎보다 먼저 꽃이 피는 낙엽관목입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Forsythia.jpg/640px-Forsythia.jpg",
+    "wikiImage": "Forsythia",
+    "flowerLanguage": "희망, 행운"
+  },
+  {
+    "id": 10,
+    "nameKo": "진달래",
+    "nameEn": "Azalea",
+    "nameLatin": "Rhododendron mucronulatum",
+    "family": "진달래과",
+    "description": "봄에 피는 분홍빛 꽃으로 한국 산지에 흔히 자라는 낙엽관목입니다. 진달래꽃전(화전)으로도 즐겨 먹습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Rhododendron_mucronulatum.jpg/640px-Rhododendron_mucronulatum.jpg",
+    "wikiImage": "Rhododendron_mucronulatum",
+    "flowerLanguage": "사랑의 기쁨, 절제"
+  },
+  {
+    "id": 11,
+    "nameKo": "은행나무",
+    "nameEn": "Ginkgo",
+    "nameLatin": "Ginkgo biloba",
+    "family": "은행나무과",
+    "description": "살아있는 화석이라 불리는 고대 식물입니다. 가을에 노란 잎으로 단풍이 들며 종자는 식용으로 사용됩니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Ginkgo_biloba_2.jpg/640px-Ginkgo_biloba_2.jpg",
+    "wikiImage": "Ginkgo_biloba",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 12,
+    "nameKo": "단풍나무",
+    "nameEn": "Maple",
+    "nameLatin": "Acer palmatum",
+    "family": "무환자나무과",
+    "description": "가을 단풍이 아름다운 나무로 붉고 노란 단풍잎이 매력적입니다. 정원 조경과 분재로 널리 사용됩니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/801_Maple_acer_palmatum.jpg/640px-801_Maple_acer_palmatum.jpg",
+    "wikiImage": "Acer_palmatum",
+    "flowerLanguage": "자제력, 은퇴"
+  },
+  {
+    "id": 13,
+    "nameKo": "소나무",
+    "nameEn": "Pine",
+    "nameLatin": "Pinus densiflora",
+    "family": "소나무과",
+    "description": "한국을 대표하는 상록수로 사계절 푸른 잎이 특징입니다. 한국의 민화와 문화에 빠지지 않는 나무입니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Pinus_densiflora_Kumgang.jpg/640px-Pinus_densiflora_Kumgang.jpg",
+    "wikiImage": "Pinus_densiflora",
+    "flowerLanguage": "장수, 절개, 기개"
+  },
+  {
+    "id": 14,
+    "nameKo": "대나무",
+    "nameEn": "Bamboo",
+    "nameLatin": "Phyllostachys edulis",
+    "family": "벼과",
+    "description": "빠른 성장 속도와 강한 생명력이 특징입니다. 건축재, 식재료, 공예품 등 다양한 용도로 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Bamboo_garden.jpg/640px-Bamboo_garden.jpg",
+    "wikiImage": "Phyllostachys_edulis",
+    "flowerLanguage": "절개, 지조, 청렴"
+  },
+  {
+    "id": 15,
+    "nameKo": "목련",
+    "nameEn": "Magnolia",
+    "nameLatin": "Magnolia kobus",
+    "family": "목련과",
+    "description": "이른 봄 잎이 나기 전 크고 흰 꽃을 피웁니다. 고귀하고 우아한 느낌으로 정원수로 인기가 높습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Magnolia_%C3%97_soulangeana_002.jpg/640px-Magnolia_%C3%97_soulangeana_002.jpg",
+    "wikiImage": "Magnolia_kobus",
+    "flowerLanguage": "자연의 사랑, 고귀함"
+  },
+  {
+    "id": 16,
+    "nameKo": "무궁화",
+    "nameEn": "Rose of Sharon",
+    "nameLatin": "Hibiscus syriacus",
+    "family": "아욱과",
+    "description": "한국의 국화로 여름부터 가을까지 오래 피는 꽃입니다. '무궁화 삼천리'라는 애국가 가사에도 등장합니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Hibiscus_syriacus1.jpg/640px-Hibiscus_syriacus1.jpg",
+    "wikiImage": "Hibiscus_syriacus",
+    "flowerLanguage": "섬세한 아름다움"
+  },
+  {
+    "nameKo": "매화",
+    "nameEn": "Japanese Apricot",
+    "nameLatin": "Prunus mume",
+    "family": "장미과",
+    "description": "이른 봄 추위 속에서 가장 먼저 피는 꽃으로 절개와 고결함의 상징입니다. 향기롭고 흰색 또는 분홍색 꽃이 핍니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Prunus_mume_2016_G2.jpg",
+    "id": 17,
+    "image": "",
+    "flowerLanguage": "고결함, 충직, 인내"
+  },
+  {
+    "nameKo": "수선화",
+    "nameEn": "Daffodil",
+    "nameLatin": "Narcissus poeticus",
+    "family": "수선화과",
+    "description": "봄에 피는 구근식물로 흰색 꽃잎과 노란 컵 모양의 부화관이 특징입니다. 향기가 진하며 정원과 화분에서 즐겨 키웁니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Narcissus_poeticus_01",
+    "id": 19,
+    "image": "",
+    "flowerLanguage": "자기애, 고결, 신비"
+  },
+  {
+    "nameKo": "히아신스",
+    "nameEn": "Hyacinth",
+    "nameLatin": "Hyacinthus orientalis",
+    "family": "백합과",
+    "description": "진한 향기와 촘촘하게 피는 꽃이 특징인 구근식물입니다. 보라, 분홍, 흰색 등 다양한 색상이 있으며 봄을 알립니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Hyacinthus_orientalis_-_floriade_canberra",
+    "id": 20,
+    "image": "",
+    "flowerLanguage": "슬픔을 넘어선 사랑"
+  },
+  {
+    "nameKo": "팬지",
+    "nameEn": "Pansy",
+    "nameLatin": "Viola tricolor",
+    "family": "제비꽃과",
+    "description": "다양한 색상의 얼굴 무늬 꽃이 특징입니다. 서늘한 날씨를 좋아하며 화단과 화분에 널리 심습니다.",
+    "season": [
+      "봄",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Viola_x_wittrockiana_Morpho_2009",
+    "id": 21,
+    "image": "",
+    "flowerLanguage": "나를 생각해줘, 사랑의 추억"
+  },
+  {
+    "nameKo": "피튜니아",
+    "nameEn": "Petunia",
+    "nameLatin": "Petunia hybrida",
+    "family": "가지과",
+    "description": "나팔 모양의 화려한 꽃이 봄부터 가을까지 피는 일년초입니다. 다양한 색상과 무늬가 있어 화단 장식에 인기 높습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Petunia_single_flower",
+    "id": 22,
+    "image": "",
+    "flowerLanguage": "당신과 함께하고 싶어요"
+  },
+  {
+    "nameKo": "봉선화",
+    "nameEn": "Garden Balsam",
+    "nameLatin": "Impatiens balsamina",
+    "family": "봉선화과",
+    "description": "여름에 빨강·분홍·흰색 꽃이 피는 한해살이풀입니다. 꽃과 잎으로 손톱을 물들이는 전통이 있어 '봉숭아'로도 불립니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Impatiens_balsamina_flowers",
+    "id": 23,
+    "image": "",
+    "flowerLanguage": "나를 건드리지 마세요"
+  },
+  {
+    "nameKo": "맨드라미",
+    "nameEn": "Cockscomb",
+    "nameLatin": "Celosia cristata",
+    "family": "비름과",
+    "description": "닭벼슬 모양의 독특한 꽃이 특징인 여름 꽃입니다. 진홍색·주황색·노란색 등 선명한 색상이 아름답습니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Cockscomb_or_Celosia_cristata",
+    "id": 24,
+    "image": "",
+    "flowerLanguage": "영원한 사랑, 개성"
+  },
+  {
+    "nameKo": "코스모스",
+    "nameEn": "Cosmos",
+    "nameLatin": "Cosmos bipinnatus",
+    "family": "국화과",
+    "description": "가을 들판을 수놓는 분홍·흰색 꽃이 특징인 한해살이풀입니다. 섬세한 잎과 하늘거리는 꽃이 사랑스럽습니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Cosmos_bipinnatus_flowers",
+    "id": 25,
+    "image": "",
+    "flowerLanguage": "소녀의 순정, 순결한 마음"
+  },
+  {
+    "nameKo": "달리아",
+    "nameEn": "Dahlia",
+    "nameLatin": "Dahlia pinnata",
+    "family": "국화과",
+    "description": "화려하고 풍성한 꽃이 특징인 구근식물입니다. 다양한 크기와 색상으로 가을 정원을 화려하게 장식합니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Dahlia_x_hybrida",
+    "id": 26,
+    "image": "",
+    "flowerLanguage": "화려함, 우아한 품위"
+  },
+  {
+    "nameKo": "카네이션",
+    "nameEn": "Carnation",
+    "nameLatin": "Dianthus caryophyllus",
+    "family": "석죽과",
+    "description": "어버이날을 상징하는 꽃으로 향기롭고 프릴 모양의 꽃잎이 특징입니다. 빨강·분홍·흰색 등 다양한 색이 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Dianthus_caryophyllus_flowers",
+    "id": 27,
+    "image": "",
+    "flowerLanguage": "사랑, 감사, 모정"
+  },
+  {
+    "nameKo": "글라디올러스",
+    "nameEn": "Gladiolus",
+    "nameLatin": "Gladiolus dalenii",
+    "family": "붓꽃과",
+    "description": "긴 줄기에 화려한 꽃이 차례로 피는 구근식물입니다. 여름 화단과 꽃꽂이에 많이 활용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Gladiolus_dalenii",
+    "id": 28,
+    "image": "",
+    "flowerLanguage": "깊은 사랑"
+  },
+  {
+    "nameKo": "프리지아",
+    "nameEn": "Freesia",
+    "nameLatin": "Freesia refracta",
+    "family": "붓꽃과",
+    "description": "달콤한 향기와 밝은 노란색·흰색·보라색 꽃이 특징입니다. 구근식물로 봄에 피며 향수 원료로도 사용됩니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Freesia_refracta",
+    "id": 29,
+    "image": "",
+    "flowerLanguage": "순결, 천진함"
+  },
+  {
+    "id": 31,
+    "nameKo": "알로에 베라",
+    "nameEn": "Aloe Vera",
+    "nameLatin": "Aloe vera",
+    "family": "아스포델루스과",
+    "description": "두꺼운 잎 안에 투명한 젤이 들어있는 다육식물입니다. 화상과 피부 진정에 효과적이며 미용 제품에 널리 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/640px-Aloe_vera_flower_inset.png",
+    "wikiImage": "Aloe_vera",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 32,
+    "nameKo": "선인장",
+    "nameEn": "Cactus",
+    "nameLatin": "Cactaceae",
+    "family": "선인장과",
+    "description": "가시가 변형된 잎이 특징인 다육식물입니다. 건조한 환경에서 잘 자라며 인테리어 식물로 인기가 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Opuntia_Cactus_Flower.jpg?width=500",
+    "wikiImage": "Opuntia_Cactus_Flower",
+    "flowerLanguage": "강인한 사랑, 열정"
+  },
+  {
+    "id": 33,
+    "nameKo": "몬스테라",
+    "nameEn": "Monstera",
+    "nameLatin": "Monstera deliciosa",
+    "family": "천남성과",
+    "description": "구멍이 뚫린 독특한 잎 모양이 특징인 관엽식물입니다. 열대 우림 원산으로 실내에서 잘 자랍니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Monstera_deliciosa3.jpg/640px-Monstera_deliciosa3.jpg",
+    "wikiImage": "Monstera_deliciosa",
+    "flowerLanguage": "원대한 계획"
+  },
+  {
+    "id": 34,
+    "nameKo": "고무나무",
+    "nameEn": "Rubber Plant",
+    "nameLatin": "Ficus elastica",
+    "family": "뽕나무과",
+    "description": "광택 있는 큰 잎이 특징인 관엽식물입니다. 공기정화 기능이 뛰어나며 실내 관상식물로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Ficus_elastica_-_Rubber_Plant.jpg/640px-Ficus_elastica_-_Rubber_Plant.jpg",
+    "wikiImage": "Ficus_elastica",
+    "flowerLanguage": "번영, 만족"
+  },
+  {
+    "id": 35,
+    "nameKo": "스파티필룸",
+    "nameEn": "Peace Lily",
+    "nameLatin": "Spathiphyllum",
+    "family": "천남성과",
+    "description": "흰색 꽃과 진한 녹색 잎이 아름다운 실내식물입니다. 공기정화 효능이 높아 NASA 추천 식물 목록에 포함됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Spathiphyllum_cochlearispathum_RTBG.jpg/640px-Spathiphyllum_cochlearispathum_RTBG.jpg",
+    "wikiImage": "Spathiphyllum",
+    "flowerLanguage": "평화, 위로"
+  },
+  {
+    "id": 36,
+    "nameKo": "포토스",
+    "nameEn": "Pothos",
+    "nameLatin": "Epipremnum aureum",
+    "family": "천남성과",
+    "description": "초보자도 키우기 쉬운 덩굴성 관엽식물입니다. 반음지에서도 잘 자라며 공기정화 효능이 뛰어납니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Epipremnum_aureum_31082012.jpg/640px-Epipremnum_aureum_31082012.jpg",
+    "wikiImage": "Epipremnum_aureum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 37,
+    "nameKo": "산세베리아",
+    "nameEn": "Snake Plant",
+    "nameLatin": "Dracaena trifasciata",
+    "family": "용설란과",
+    "description": "세로 줄무늬 잎이 특징인 강인한 실내식물입니다. 밤에 산소를 방출하는 특성이 있어 침실에 적합합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg/640px-Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg",
+    "wikiImage": "Dracaena_trifasciata",
+    "flowerLanguage": "관용, 개성"
+  },
+  {
+    "id": 38,
+    "nameKo": "율마",
+    "nameEn": "lemon cypress",
+    "nameLatin": "Cupressus macrocarpa",
+    "family": "측백나무과",
+    "description": "상쾌한 레몬 향이 나는 상록 침엽수입니다. 크리스마스트리 모양으로 인테리어 소품으로 인기가 높습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "관엽식물",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Macrocarpa_goldcrest_wilma.jpg?width=500",
+    "wikiImage": "Macrocarpa_goldcrest_wilma",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 40,
+    "nameKo": "행운목",
+    "nameEn": "Lucky Bamboo",
+    "nameLatin": "Dracaena sanderiana",
+    "family": "용설란과",
+    "description": "대나무처럼 생긴 줄기가 특징으로 행운을 가져다 준다고 알려진 실내식물입니다. 물에서도 재배 가능합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Lucky_bamboo.jpg/640px-Lucky_bamboo.jpg",
+    "wikiImage": "Dracaena_sanderiana",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 41,
+    "nameKo": "바질",
+    "nameEn": "Basil",
+    "nameLatin": "Ocimum basilicum",
+    "family": "꿀풀과",
+    "description": "이탈리아 요리에 필수적인 허브입니다. 향기롭고 맛있는 잎을 피자, 파스타, 샐러드에 사용합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Basil-Basilico-Ocimum_basilicum-albahaca.jpg/640px-Basil-Basilico-Ocimum_basilicum-albahaca.jpg",
+    "wikiImage": "Ocimum_basilicum",
+    "flowerLanguage": "좋은 기원, 사랑의 전언"
+  },
+  {
+    "id": 42,
+    "nameKo": "로즈마리",
+    "nameEn": "Rosemary",
+    "nameLatin": "Salvia rosmarinus",
+    "family": "꿀풀과",
+    "description": "강한 향기가 특징인 상록 허브입니다. 고기 요리와 빵에 사용되며 두뇌 활성화에도 도움이 된다고 알려져 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Rosemary_bush.jpg/640px-Rosemary_bush.jpg",
+    "wikiImage": "Salvia_rosmarinus",
+    "flowerLanguage": "추억, 충실"
+  },
+  {
+    "id": 43,
+    "nameKo": "민트",
+    "nameEn": "Mint",
+    "nameLatin": "Mentha",
+    "family": "꿀풀과",
+    "description": "상쾌한 청량감이 특징인 허브입니다. 차, 칵테일, 디저트 등에 폭넓게 사용되며 소화 촉진 효과가 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Mint-2.jpg/640px-Mint-2.jpg",
+    "wikiImage": "Mentha",
+    "flowerLanguage": "덕, 미덕, 청초함"
+  },
+  {
+    "id": 44,
+    "nameKo": "타임",
+    "nameEn": "Thyme",
+    "nameLatin": "Thymus vulgaris",
+    "family": "꿀풀과",
+    "description": "작은 잎과 강한 향기가 특징인 허브입니다. 수프, 스튜, 고기 요리의 향신료로 폭넓게 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Thymus_vulgaris_3.jpg/640px-Thymus_vulgaris_3.jpg",
+    "wikiImage": "Thymus_vulgaris_close-up",
+    "flowerLanguage": "용기, 정력"
+  },
+  {
+    "id": 45,
+    "nameKo": "오레가노",
+    "nameEn": "Oregano",
+    "nameLatin": "Origanum vulgare",
+    "family": "꿀풀과",
+    "description": "피자와 파스타에 빠질 수 없는 허브입니다. 항균 성분이 풍부하며 지중해 요리에 널리 사용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Origanum_vulgare_-_harilik_pune.jpg/640px-Origanum_vulgare_-_harilik_pune.jpg",
+    "wikiImage": "Origanum_vulgare",
+    "flowerLanguage": "기쁨, 유쾌함"
+  },
+  {
+    "id": 46,
+    "nameKo": "파슬리",
+    "nameEn": "Parsley",
+    "nameLatin": "Petroselinum crispum",
+    "family": "산형과",
+    "description": "요리 장식과 향신료로 사용되는 허브입니다. 비타민 K와 C가 풍부하며 입냄새 제거에도 효과적입니다.",
+    "season": [
+      "봄",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Petroselinum_crispum.jpg/640px-Petroselinum_crispum.jpg",
+    "wikiImage": "Petroselinum_crispum",
+    "flowerLanguage": "승리, 향연"
+  },
+  {
+    "id": 47,
+    "nameKo": "딜",
+    "nameEn": "Dill",
+    "nameLatin": "Anethum graveolens",
+    "family": "산형과",
+    "description": "깃털 같은 잎이 특징인 허브입니다. 생선 요리와 피클에 많이 사용되며 소화 기능 향상에 도움을 줍니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Anethum_graveolens20090812_475.jpg?width=500",
+    "wikiImage": "Anethum_graveolens20090812_475",
+    "flowerLanguage": "행운, 보호"
+  },
+  {
+    "id": 48,
+    "nameKo": "코리앤더",
+    "nameEn": "Coriander",
+    "nameLatin": "Coriandrum sativum",
+    "family": "산형과",
+    "description": "잎과 씨앗 모두 요리에 사용되는 허브입니다. 특유의 향으로 동남아시아, 인도, 멕시코 요리에 필수입니다.",
+    "season": [
+      "봄",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriandrum_sativum_4zz.jpg?width=500",
+    "wikiImage": "Coriandrum_sativum_4zz",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 49,
+    "nameKo": "카모마일",
+    "nameEn": "Chamomile",
+    "nameLatin": "Matricaria chamomilla",
+    "family": "국화과",
+    "description": "사과향이 나는 작고 예쁜 꽃이 특징입니다. 허브차로 인기가 높으며 진정과 수면에 도움이 된다고 알려져 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Chamomile%40original_size.jpg/640px-Chamomile%40original_size.jpg",
+    "wikiImage": "Matricaria_chamomilla",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 50,
+    "nameKo": "레몬밤",
+    "nameEn": "Lemon Balm",
+    "nameLatin": "Melissa officinalis",
+    "family": "꿀풀과",
+    "description": "레몬향이 나는 허브로 스트레스 완화와 수면 개선에 도움이 된다고 알려져 있습니다. 차로 즐겨 마십니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Melissa_officinalis_(36847904235).jpg?width=500",
+    "wikiImage": "Melissa_officinalis_(36847904235)",
+    "flowerLanguage": "공감, 치유"
+  },
+  {
+    "nameKo": "금잔화",
+    "nameEn": "Marigold",
+    "nameLatin": "Calendula officinalis",
+    "family": "국화과",
+    "description": "주황·노란색 꽃이 봄부터 가을까지 피는 한해살이풀입니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Calendula_officinalis",
+    "image": "",
+    "id": 51,
+    "flowerLanguage": "이별의 슬픔"
+  },
+  {
+    "nameKo": "제비꽃",
+    "nameEn": "Violet",
+    "nameLatin": "Viola odorata",
+    "family": "제비꽃과",
+    "description": "이른 봄 보라색 꽃이 피는 여러해살이풀입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Viola_odorata_-_Altnahinch",
+    "image": "",
+    "id": 52,
+    "flowerLanguage": "성실, 진실한 사랑"
+  },
+  {
+    "nameKo": "나팔꽃",
+    "nameEn": "Morning Glory",
+    "nameLatin": "Ipomoea purpurea",
+    "family": "메꽃과",
+    "description": "아침에 피었다가 오후에 지는 나팔 모양의 꽃입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "wikiImage": "Ipomoea_purpurea",
+    "image": "",
+    "id": 53,
+    "flowerLanguage": "사랑의 기쁨, 덧없는 사랑"
+  },
+  {
+    "nameKo": "수레국화",
+    "nameEn": "Cornflower",
+    "nameLatin": "Centaurea cyanus",
+    "family": "국화과",
+    "description": "선명한 파란색 꽃이 특징인 한해살이풀입니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Centaurea_cyanus_close_up",
+    "image": "",
+    "id": 54,
+    "flowerLanguage": "행운, 행복"
+  },
+  {
+    "nameKo": "칸나",
+    "nameEn": "Canna",
+    "nameLatin": "Canna indica",
+    "family": "홍초과",
+    "description": "크고 화려한 빨강·주황 꽃이 여름에 피는 열대성 구근식물입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "wikiImage": "Canna_indica_-_Kannada",
+    "image": "",
+    "id": 55,
+    "flowerLanguage": "열정적인 아름다움"
+  },
+  {
+    "nameKo": "철쭉",
+    "nameEn": "Royal Azalea",
+    "nameLatin": "Rhododendron schlippenbachii",
+    "family": "진달래과",
+    "description": "봄에 분홍색 꽃이 화려하게 피는 낙엽관목입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "wikiImage": "Rhododendron_schlippenbachii",
+    "image": "",
+    "id": 56,
+    "flowerLanguage": "사랑의 기쁨, 절제"
+  },
+  {
+    "nameKo": "모란",
+    "nameEn": "Tree Peony",
+    "nameLatin": "Paeonia suffruticosa",
+    "family": "작약과",
+    "description": "꽃의 왕이라 불리는 낙엽관목으로 크고 화려한 꽃이 특징입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "wikiImage": "Paeonia_Hai_Huang_2020_G1",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Paeonia_Hai_Huang_2020_G1.jpg?width=500",
+    "id": 57,
+    "flowerLanguage": "부귀영화, 수줍음"
+  },
+  {
+    "nameKo": "치자나무",
+    "nameEn": "Gardenia",
+    "nameLatin": "Gardenia jasminoides",
+    "family": "꼭두서니과",
+    "description": "진한 향기와 흰색 꽃이 아름다운 상록관목입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "wikiImage": "Gardenia_jasminoides",
+    "image": "",
+    "id": 58,
+    "flowerLanguage": "한없는 사랑, 순결"
+  },
+  {
+    "nameKo": "회화나무",
+    "nameEn": "Japanese Pagoda Tree",
+    "nameLatin": "Sophora japonica",
+    "family": "콩과",
+    "description": "여름에 흰색 꽃이 피는 낙엽교목으로 학자수라고도 불립니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "wikiImage": "Sophora_japonica_flowers",
+    "image": "",
+    "id": 59,
+    "flowerLanguage": "장수, 충성"
+  },
+  {
+    "id": 60,
+    "nameKo": "매화나무",
+    "nameEn": "Plum Blossom",
+    "nameLatin": "Prunus mume",
+    "family": "장미과",
+    "description": "이른 봄 추위를 뚫고 피는 꽃으로 절개와 청렴을 상징합니다. 매실은 매실청, 매실주 등으로 활용됩니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Prunus_mume.jpg/640px-Prunus_mume.jpg",
+    "wikiImage": "Prunus_mume",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 62,
+    "nameKo": "백일홍",
+    "nameEn": "Zinnia",
+    "nameLatin": "Zinnia elegans",
+    "family": "국화과",
+    "description": "선명한 색상으로 100일 동안 꽃이 핀다고 해서 이름이 붙었습니다. 더위에 강하고 화단 조성에 인기 있습니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Zinnia_hybrida.jpg/640px-Zinnia_hybrida.jpg",
+    "wikiImage": "Zinnia_elegans",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 64,
+    "nameKo": "채송화",
+    "nameEn": "Moss Rose",
+    "nameLatin": "Portulaca grandiflora",
+    "family": "쇠비름과",
+    "description": "밝고 화려한 색상의 작은 꽃이 피는 식물입니다. 햇빛이 강한 날에만 꽃이 피며 건조에 강합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Portulaca_grandiflora_26032014.jpg?width=500",
+    "wikiImage": "Portulaca_grandiflora_26032014",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 67,
+    "nameKo": "할미꽃",
+    "nameEn": "Pasqueflower",
+    "nameLatin": "Pulsatilla koreana",
+    "family": "미나리아재비과",
+    "description": "이른 봄 고개를 숙이고 피는 보라색 꽃입니다. 전체에 흰 털이 덮여 있으며 우리나라 고유종입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Pulsatilla_koreana1.jpg/640px-Pulsatilla_koreana1.jpg",
+    "wikiImage": "Pulsatilla_koreana",
+    "flowerLanguage": "가련한 사랑, 슬픈 추억"
+  },
+  {
+    "id": 68,
+    "nameKo": "원추리",
+    "nameEn": "Daylily",
+    "nameLatin": "Hemerocallis fulva",
+    "family": "원추리과",
+    "description": "주황색 꽃이 하루만 피고 지는 특징을 가진 식물입니다. 산기슭과 들판에 자라는 야생화입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Hemerocallis_fulva1.jpg/640px-Hemerocallis_fulva1.jpg",
+    "wikiImage": "Hemerocallis_fulva",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 69,
+    "nameKo": "도라지",
+    "nameEn": "Bellflower",
+    "nameLatin": "Platycodon grandiflorus",
+    "family": "초롱꽃과",
+    "description": "보라색과 흰색 꽃이 별 모양으로 피는 식물입니다. 뿌리는 나물과 약재로 쓰이며 한국 민요에도 등장합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Platycodon_grandiflorus1.jpg/640px-Platycodon_grandiflorus1.jpg",
+    "wikiImage": "Platycodon_grandiflorus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 70,
+    "nameKo": "엉겅퀴",
+    "nameEn": "Thistle",
+    "nameLatin": "Cirsium japonicum",
+    "family": "국화과",
+    "description": "가시 달린 잎과 보라색 꽃이 특징인 야생화입니다. 뿌리와 어린순은 식용, 약용으로 사용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Cirsium_japonicum.jpg/640px-Cirsium_japonicum.jpg",
+    "wikiImage": "Cirsium_japonicum",
+    "flowerLanguage": "엄격함"
+  },
+  {
+    "id": 71,
+    "nameKo": "클레마티스",
+    "nameEn": "Clematis",
+    "nameLatin": "Clematis",
+    "family": "미나리아재비과",
+    "description": "덩굴성 식물로 크고 아름다운 꽃이 피는 화초입니다. 다양한 색상과 형태의 품종이 있어 정원 조경에 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Clematis_alpina.jpg/640px-Clematis_alpina.jpg",
+    "wikiImage": "Clematis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 79,
+    "nameKo": "임파티엔스",
+    "nameEn": "Busy Lizzie",
+    "nameLatin": "Impatiens walleriana",
+    "family": "봉선화과",
+    "description": "그늘에서도 잘 자라는 화려한 꽃식물입니다. 다양한 색상으로 화단과 화분에 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Impatiens_walleriana.jpg/640px-Impatiens_walleriana.jpg",
+    "wikiImage": "Impatiens_walleriana",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 80,
+    "nameKo": "베고니아",
+    "nameEn": "Begonia",
+    "nameLatin": "Begonia",
+    "family": "베고니아과",
+    "description": "화려한 꽃과 윤기 있는 잎이 특징인 관상식물입니다. 반음지에서 잘 자라며 실내외 모두에서 재배합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Begonia_semperflorens.jpg/640px-Begonia_semperflorens.jpg",
+    "wikiImage": "Begonia",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 81,
+    "nameKo": "참나리",
+    "nameEn": "Tiger Lily",
+    "nameLatin": "Lilium lancifolium",
+    "family": "백합과",
+    "description": "주황색 바탕에 검은 점이 있는 꽃이 특징인 백합입니다. 한국과 아시아 전역에 자생하는 야생화입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Lilium_lancifolium1.jpg/640px-Lilium_lancifolium1.jpg",
+    "wikiImage": "Lilium_lancifolium",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 82,
+    "nameKo": "옥잠화",
+    "nameEn": "Plantain Lily",
+    "nameLatin": "Hosta",
+    "family": "비짜루과",
+    "description": "하트 모양의 넓은 잎이 특징인 음지식물입니다. 여름에 흰색이나 보라색 꽃이 피며 정원의 그늘진 곳에 적합합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Hosta_flowers.jpg/640px-Hosta_flowers.jpg",
+    "wikiImage": "Hosta",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 83,
+    "nameKo": "억새",
+    "nameEn": "Silver Grass",
+    "nameLatin": "Miscanthus sinensis",
+    "family": "벼과",
+    "description": "가을에 은빛 이삭이 바람에 흔들리는 아름다운 풀입니다. 한국 가을 들판과 산의 상징적인 식물입니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Miscanthus_sinensis.jpg/640px-Miscanthus_sinensis.jpg",
+    "wikiImage": "Miscanthus_sinensis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 84,
+    "nameKo": "갈대",
+    "nameEn": "Common Reed",
+    "nameLatin": "Phragmites australis",
+    "family": "벼과",
+    "description": "물가와 습지에서 자라는 키 큰 풀입니다. 가을에 갈색 이삭이 피며 생태계에서 중요한 역할을 합니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Phragmites_australis.jpg/640px-Phragmites_australis.jpg",
+    "wikiImage": "Phragmites_australis_in_Hannover",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 85,
+    "nameKo": "쑥",
+    "nameEn": "Mugwort",
+    "nameLatin": "Artemisia princeps",
+    "family": "국화과",
+    "description": "독특한 향기가 나는 약용식물입니다. 쑥국, 쑥떡, 쑥탕 등 한국 전통 음식과 민간요법에 활용됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Korean_mugwort_1.jpg?width=500",
+    "wikiImage": "Korean_mugwort_1",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 86,
+    "nameKo": "클로버",
+    "nameEn": "Clover",
+    "nameLatin": "Trifolium repens",
+    "family": "콩과",
+    "description": "세 잎 혹은 네 잎이 달리는 작은 풀식물입니다. 네 잎 클로버는 행운의 상징으로 잘 알려져 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Trifolium_repens_%285154568317%29.jpg?width=500",
+    "wikiImage": "Trifolium_repens_(5154568317)",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 87,
+    "nameKo": "괭이밥",
+    "nameEn": "Wood Sorrel",
+    "nameLatin": "Oxalis corniculata",
+    "family": "괭이밥과",
+    "description": "하트 모양의 잎을 가진 작은 야생화입니다. 노란 꽃이 피며 잎은 신맛이 납니다. 어린이들에게 친숙한 풀입니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Oxalis_corniculata.jpg/640px-Oxalis_corniculata.jpg",
+    "wikiImage": "Oxalis_corniculata",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 88,
+    "nameKo": "쇠비름",
+    "nameEn": "Purslane",
+    "nameLatin": "Portulaca oleracea",
+    "family": "쇠비름과",
+    "description": "두툼한 잎을 가진 야생식물로 식용 가능합니다. 오메가3 지방산이 풍부하며 항산화 효능이 있습니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Portulaca_oleracea1.jpg/640px-Portulaca_oleracea1.jpg",
+    "wikiImage": "Portulaca_oleracea",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 89,
+    "nameKo": "수련",
+    "nameEn": "Water Lily",
+    "nameLatin": "Nymphaea",
+    "family": "수련과",
+    "description": "연못 수면 위에 피는 아름다운 꽃입니다. 흰색, 분홍색, 노란색 등 다양한 색상이 있으며 수생식물입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "수생식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/640px-Camponotus_flavomarginatus_ant.jpg",
+    "wikiImage": "Nymphaea",
+    "flowerLanguage": "청순, 순결한 마음"
+  },
+  {
+    "id": 90,
+    "nameKo": "연꽃",
+    "nameEn": "Lotus",
+    "nameLatin": "Nelumbo nucifera",
+    "family": "연꽃과",
+    "description": "불교에서 신성시하는 꽃으로 진흙탕에서 피어나는 청결함의 상징입니다. 뿌리(연근)는 식용합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "수생식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Lotus_flower_%28978659).jpg/640px-Lotus_flower_%28978659).jpg",
+    "wikiImage": "Nelumbo_nucifera",
+    "flowerLanguage": "청정, 고결, 신성"
+  },
+  {
+    "id": 91,
+    "nameKo": "접시꽃",
+    "nameEn": "Hollyhock",
+    "nameLatin": "Alcea rosea",
+    "family": "아욱과",
+    "description": "키가 크고 화려한 꽃이 줄기를 따라 피는 식물입니다. 붉은색, 분홍색, 흰색 등 다양한 색상이 있습니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Alcea_rosea.jpg/640px-Alcea_rosea.jpg",
+    "wikiImage": "Alcea_rosea",
+    "flowerLanguage": "다산, 풍요, 야망"
+  },
+  {
+    "id": 93,
+    "nameKo": "에키네시아",
+    "nameEn": "Echinacea",
+    "nameLatin": "Echinacea purpurea",
+    "family": "국화과",
+    "description": "보라색 꽃과 가시 달린 원추형 꽃턱이 특징입니다. 면역력 강화 허브로 유명하며 약재로 활용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Echinacea_purpurea_001.JPG/640px-Echinacea_purpurea_001.JPG",
+    "wikiImage": "Echinacea_purpurea",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 94,
+    "nameKo": "루드베키아",
+    "nameEn": "Black-eyed Susan",
+    "nameLatin": "Rudbeckia hirta",
+    "family": "국화과",
+    "description": "노란 꽃잎과 검은 꽃턱이 특징인 북미 원산 야생화입니다. 더위에 강하고 화단에서 오래 꽃을 피웁니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Rudbeckia_hirta_Indian_Summer.jpg/640px-Rudbeckia_hirta_Indian_Summer.jpg",
+    "wikiImage": "Rudbeckia_hirta",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 95,
+    "nameKo": "버베나",
+    "nameEn": "Verbena",
+    "nameLatin": "Verbena",
+    "family": "마편초과",
+    "description": "작은 꽃들이 모여 피는 방석 모양 식물입니다. 다양한 색상으로 화단 가장자리 식재에 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Verbena_officinalis.jpg/640px-Verbena_officinalis.jpg",
+    "wikiImage": "Verbena",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 96,
+    "nameKo": "금어초",
+    "nameEn": "Snapdragon",
+    "nameLatin": "Antirrhinum majus",
+    "family": "질경이과",
+    "description": "물고기 입처럼 열리는 독특한 꽃 모양이 특징입니다. 다양한 색상으로 봄 화단에 인기가 높습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Antirrhinum_majus_2.jpg/640px-Antirrhinum_majus_2.jpg",
+    "wikiImage": "Antirrhinum_majus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 97,
+    "nameKo": "알리움",
+    "nameEn": "Ornamental Onion",
+    "nameLatin": "Allium giganteum",
+    "family": "수선화과",
+    "description": "둥근 공 모양으로 보라색 꽃이 피는 구근식물입니다. 독특한 형태로 정원에서 눈에 띄는 관상식물입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Allium_giganteum2.jpg/640px-Allium_giganteum2.jpg",
+    "wikiImage": "Allium_giganteum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 98,
+    "nameKo": "왁스플라워",
+    "nameEn": "Waxflower",
+    "nameLatin": "Chamelaucium uncinatum",
+    "family": "도금양과",
+    "description": "작고 별 모양의 꽃이 무리지어 피는 식물입니다. 내구성이 좋아 꽃꽂이 소재로 인기가 높습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Chamelaucium_uncinatum.jpg/640px-Chamelaucium_uncinatum.jpg",
+    "wikiImage": "Chamelaucium_uncinatum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 99,
+    "nameKo": "리시안서스",
+    "nameEen": "Lisianthus",
+    "nameLatin": "Eustoma grandiflorum",
+    "family": "용담과",
+    "description": "장미와 비슷한 우아한 꽃 모양이 특징입니다. 보라, 흰색, 분홍색으로 피며 꽃꽂이 소재로 인기 있습니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Eustoma_grandiflorum.jpg/640px-Eustoma_grandiflorum.jpg",
+    "wikiImage": "Eustoma_grandiflorum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 100,
+    "nameKo": "안스리움",
+    "nameEn": "Anthurium",
+    "nameLatin": "Anthurium andraeanum",
+    "family": "천남성과",
+    "description": "빨간 하트 모양의 불염포가 특징인 열대식물입니다. 실내에서 오래 관상할 수 있어 화분 식물로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Anthurium_andraeanum.jpg/640px-Anthurium_andraeanum.jpg",
+    "wikiImage": "Anthurium_andraeanum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 101,
+    "nameKo": "칼라",
+    "nameEn": "Calla Lily",
+    "nameLatin": "Zantedeschia aethiopica",
+    "family": "천남성과",
+    "description": "우아한 나팔 모양의 흰 꽃이 특징입니다. 결혼식 부케에 자주 사용되며 고귀함을 상징합니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Zantedeschia_aethiopica.jpg/640px-Zantedeschia_aethiopica.jpg",
+    "wikiImage": "Zantedeschia_aethiopica",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 102,
+    "nameKo": "스타티스",
+    "nameEn": "Sea Lavender",
+    "nameLatin": "Limonium sinuatum",
+    "family": "갯질경이과",
+    "description": "작은 보라색과 흰색 꽃이 무리지어 피는 식물입니다. 드라이플라워로 활용도가 높아 화원에서 인기 있습니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Limonium_sinuatum.jpg/640px-Limonium_sinuatum.jpg",
+    "wikiImage": "Limonium_sinuatum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 103,
+    "nameKo": "스위트피",
+    "nameEn": "Sweet Pea",
+    "nameLatin": "Lathyrus odoratus",
+    "family": "콩과",
+    "description": "달콤하고 강한 향기와 나비 모양 꽃이 특징입니다. 분홍, 보라, 흰색 등 다양한 색상이 있습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Lathyrus_odoratus_flowers.jpg/640px-Lathyrus_odoratus_flowers.jpg",
+    "wikiImage": "Lathyrus_odoratus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 105,
+    "nameKo": "거베라",
+    "nameEn": "Gerbera",
+    "nameLatin": "Gerbera jamesonii",
+    "family": "국화과",
+    "description": "큰 해바라기 모양의 화려한 꽃이 특징입니다. 다양한 색상으로 꽃꽂이와 화분에 널리 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Gerbera_jamesonii.jpg/640px-Gerbera_jamesonii.jpg",
+    "wikiImage": "Gerbera_jamesonii",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 106,
+    "nameKo": "제라늄",
+    "nameEn": "Geranium",
+    "nameLatin": "Pelargonium",
+    "family": "쥐손이풀과",
+    "description": "창가와 발코니 화분에 인기 있는 식물입니다. 다양한 색상의 꽃이 오래 피며 독특한 향기가 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Pelargonium_zonale.jpg/640px-Pelargonium_zonale.jpg",
+    "wikiImage": "Pelargonium",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 107,
+    "nameKo": "부겐빌레아",
+    "nameEn": "Bougainvillea",
+    "nameLatin": "Bougainvillea",
+    "family": "분꽃과",
+    "description": "화려한 붉은 포엽이 특징인 열대 덩굴식물입니다. 더운 지방에서 담장이나 아치에 올려 키웁니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Bougainvillea_glabra.jpg/640px-Bougainvillea_glabra.jpg",
+    "wikiImage": "Bougainvillea",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 108,
+    "nameKo": "플럼바고",
+    "nameEn": "Plumbago",
+    "nameLatin": "Plumbago auriculata",
+    "family": "갯질경이과",
+    "description": "하늘색 작은 꽃이 무더기로 피는 식물입니다. 오랜 기간 꽃이 피며 울타리나 화단 배경으로 인기 있습니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Plumbago_auriculata.jpg/640px-Plumbago_auriculata.jpg",
+    "wikiImage": "Plumbago_auriculata",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 109,
+    "nameKo": "파키라",
+    "nameEn": "Money Tree",
+    "nameLatin": "Pachira aquatica",
+    "family": "아욱과",
+    "description": "줄기를 꼬아서 키우는 독특한 모양의 관엽식물입니다. 재물운을 가져다 준다고 알려져 선물용으로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pachira_aquatica.jpg/640px-Pachira_aquatica.jpg",
+    "wikiImage": "Pachira_aquatica",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 110,
+    "nameKo": "유칼립투스",
+    "nameEn": "Eucalyptus",
+    "nameLatin": "Eucalyptus",
+    "family": "도금양과",
+    "description": "시원한 향기가 나는 상록수입니다. 드라이플라워와 인테리어 장식으로 인기가 높으며 코알라의 먹이입니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Eucalyptus_flower.jpg/640px-Eucalyptus_flower.jpg",
+    "wikiImage": "Eucalyptus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 111,
+    "nameKo": "올리브나무",
+    "nameEn": "Olive Tree",
+    "nameLatin": "Olea europaea",
+    "family": "물푸레나무과",
+    "description": "지중해 지방 원산의 상록수입니다. 열매에서 올리브유를 얻으며 인테리어 나무로도 인기가 높습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Olive_flowers.jpg/640px-Olive_flowers.jpg",
+    "wikiImage": "Olea_europaea",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 112,
+    "nameKo": "피그나무",
+    "nameEn": "Fig Tree",
+    "nameLatin": "Ficus carica",
+    "family": "뽕나무과",
+    "description": "달콤한 무화과가 열리는 낙엽수입니다. 넓은 잎과 독특한 열매로 정원과 화분에서 재배합니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Ficus_carica_in_Downpatrick.jpg/640px-Ficus_carica_in_Downpatrick.jpg",
+    "wikiImage": "Ficus_carica",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 113,
+    "nameKo": "자스민",
+    "nameEn": "Jasmine",
+    "nameLatin": "Jasminum",
+    "family": "물푸레나무과",
+    "description": "강하고 달콤한 향기로 유명한 덩굴식물입니다. 흰 꽃이 피며 향수와 차의 원료로 사용됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Jasminum_officinale.jpg/640px-Jasminum_officinale.jpg",
+    "wikiImage": "Jasminum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 116,
+    "nameKo": "라일락",
+    "nameEn": "Lilac",
+    "nameLatin": "Syringa vulgaris",
+    "family": "물푸레나무과",
+    "description": "봄에 달콤한 향기와 보라색 꽃이 피는 관목입니다. 서양에서 봄의 상징으로 여겨지는 인기 있는 정원수입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Syringa_vulgaris_002.jpg/640px-Syringa_vulgaris_002.jpg",
+    "wikiImage": "Syringa_vulgaris",
+    "flowerLanguage": "첫사랑의 감동"
+  },
+  {
+    "id": 117,
+    "nameKo": "등나무",
+    "nameEn": "Wisteria",
+    "nameLatin": "Wisteria floribunda",
+    "family": "콩과",
+    "description": "봄에 보라색 꽃이 길게 늘어지는 덩굴식물입니다. 퍼골라나 아치에 올려 키우면 장관을 이룹니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Wisteria_floribunda_2.jpg/640px-Wisteria_floribunda_2.jpg",
+    "wikiImage": "Wisteria_floribunda",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 118,
+    "nameKo": "능소화",
+    "nameEn": "Chinese Trumpet Creeper",
+    "nameLatin": "Campsis grandiflora",
+    "family": "능소화과",
+    "description": "여름에 주황색 나팔 모양의 꽃이 피는 덩굴식물입니다. 담장이나 벽면을 타오르며 시원한 느낌을 줍니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Campsis_grandiflora.jpg/640px-Campsis_grandiflora.jpg",
+    "wikiImage": "Campsis_grandiflora",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 119,
+    "nameKo": "담쟁이덩굴",
+    "nameEn": "Ivy",
+    "nameLatin": "Parthenocissus tricuspidata",
+    "family": "포도과",
+    "description": "벽을 타고 오르는 덩굴식물로 가을에 단풍이 드는 모습이 아름답습니다. 오래된 건물의 외벽 장식에 주로 사용됩니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Parthenocissus_tricuspidata.jpg/640px-Parthenocissus_tricuspidata.jpg",
+    "wikiImage": "Parthenocissus_tricuspidata",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 120,
+    "nameKo": "호랑가시나무",
+    "nameEn": "Holly",
+    "nameLatin": "Ilex cornuta",
+    "family": "감탕나무과",
+    "description": "가시 달린 잎과 붉은 열매가 특징인 상록관목입니다. 크리스마스 장식으로 유명하며 겨울에도 빨간 열매를 유지합니다.",
+    "season": [
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Ilex_cornuta_with_berries.jpg/640px-Ilex_cornuta_with_berries.jpg",
+    "wikiImage": "Ilex_cornuta",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 121,
+    "nameKo": "에케베리아",
+    "nameEn": "Echeveria",
+    "nameLatin": "Echeveria",
+    "family": "돌나물과",
+    "description": "장미 모양으로 겹쳐진 두툼한 잎이 아름다운 다육식물입니다. 다양한 색상과 형태의 품종이 있어 수집 식물로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Echeveria_elegans.jpg/640px-Echeveria_elegans.jpg",
+    "wikiImage": "Echeveria",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 122,
+    "nameKo": "하월시아",
+    "nameEn": "Haworthia",
+    "nameLatin": "Haworthiopsis attenuata",
+    "family": "아스포델루스과",
+    "description": "창문처럼 투명한 잎 끝이 특징인 소형 다육식물입니다. 그늘에서도 잘 자라며 실내 데스크에 두기 좋습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Haworthiopsis_attenuata.jpg/640px-Haworthiopsis_attenuata.jpg",
+    "wikiImage": "Haworthiopsis_attenuata",
+    "flowerLanguage": "작은 희망"
+  },
+  {
+    "id": 123,
+    "nameKo": "세덤",
+    "nameEn": "Stonecrop",
+    "nameLatin": "Sedum",
+    "family": "돌나물과",
+    "description": "작고 통통한 잎이 특징인 다육식물입니다. 건조와 추위에 강하며 지피 식물과 화분에 다양하게 활용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Sedum_spectabile_Herbstfreude.jpg/640px-Sedum_spectabile_Herbstfreude.jpg",
+    "wikiImage": "Sedum",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 124,
+    "nameKo": "크라술라",
+    "nameEn": "Jade Plant",
+    "nameLatin": "Crassula ovata",
+    "family": "돌나물과",
+    "description": "동전 모양의 두툼한 잎이 달린 다육나무입니다. 재물을 부른다는 속설이 있어 풍수 식물로 인기가 많습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Crassula_ovata.jpg/640px-Crassula_ovata.jpg",
+    "wikiImage": "Crassula_ovata",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 125,
+    "nameKo": "아가베",
+    "nameEn": "Agave",
+    "nameLatin": "Agave",
+    "family": "아스파라거스과",
+    "description": "두껍고 뾰족한 잎이 로제트 형태로 자라는 식물입니다. 건조 지역 원산으로 선인장과 비슷한 특성을 가집니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Agave_americana.jpg/640px-Agave_americana.jpg",
+    "wikiImage": "Agave",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 126,
+    "nameKo": "스투키",
+    "nameEn": "Stuckyi",
+    "nameLatin": "Dracaena stuckyi",
+    "family": "용설란과",
+    "description": "원통형의 길쭉한 잎이 특징인 실내 식물입니다. 공기정화 능력이 뛰어나며 건조에 강해 키우기 쉽습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Sansevieria_cylindrica.jpg/640px-Sansevieria_cylindrica.jpg",
+    "wikiImage": "Dracaena_stuckyi",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 127,
+    "nameKo": "아이비",
+    "nameEn": "English Ivy",
+    "nameLatin": "Hedera helix",
+    "family": "두릅나무과",
+    "description": "덩굴성으로 빠르게 자라는 관엽식물입니다. 공기정화 효능이 뛰어나며 벽면 장식과 행잉 식물로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Hedera_helix_L_2.jpg/640px-Hedera_helix_L_2.jpg",
+    "wikiImage": "Hedera_helix",
+    "flowerLanguage": "신뢰, 우정"
+  },
+  {
+    "id": 128,
+    "nameKo": "칼라디움",
+    "nameEn": "Caladium",
+    "nameLatin": "Caladium bicolor",
+    "family": "천남성과",
+    "description": "화려하고 독특한 잎 무늬가 특징인 관엽식물입니다. 빨간색, 분홍색, 흰색의 아름다운 잎이 관상 가치가 높습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Caladium_bicolor.jpg/640px-Caladium_bicolor.jpg",
+    "wikiImage": "Caladium_bicolor",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 129,
+    "nameKo": "필로덴드론",
+    "nameEn": "Philodendron",
+    "nameLatin": "Philodendron",
+    "family": "천남성과",
+    "description": "다양한 형태의 잎이 있는 열대 관엽식물입니다. 포토스와 함께 실내 식물의 대표 주자로 키우기 쉽습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Philodendron_hederaceum.jpg/640px-Philodendron_hederaceum.jpg",
+    "wikiImage": "Philodendron",
+    "flowerLanguage": "건강, 풍요"
+  },
+  {
+    "id": 130,
+    "nameKo": "자트로파",
+    "nameEn": "Jatropha",
+    "nameLatin": "Jatropha integerrima",
+    "family": "대극과",
+    "description": "붉은 꽃이 계속 피는 열대 관목입니다. 온화한 기후에서 야외 조경에 사용되며 독성이 있어 주의가 필요합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Jatropha_integerrima.jpg/640px-Jatropha_integerrima.jpg",
+    "wikiImage": "Jatropha_integerrima",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 131,
+    "nameKo": "냉이",
+    "nameEn": "Shepherd's Purse",
+    "nameLatin": "Capsella bursa-pastoris",
+    "family": "십자화과",
+    "description": "봄에 어린 잎을 나물로 먹는 야생식물입니다. 삼각형 모양의 열매가 특징이며 된장국에 넣어 먹습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Capsella_bursa-pastoris.jpg/640px-Capsella_bursa-pastoris.jpg",
+    "wikiImage": "Capsella_bursa-pastoris",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 132,
+    "nameKo": "달맞이꽃",
+    "nameEn": "Evening Primrose",
+    "nameLatin": "Oenothera biennis",
+    "family": "바늘꽃과",
+    "description": "밤에 피는 노란 꽃으로 달을 향한다는 의미에서 이름이 붙었습니다. 씨앗 오일은 건강기능식품에 사용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Oenothera_biennis.jpg/640px-Oenothera_biennis.jpg",
+    "wikiImage": "Oenothera_biennis",
+    "flowerLanguage": "무언의 사랑"
+  },
+  {
+    "id": 133,
+    "nameKo": "패랭이꽃",
+    "nameEn": "China Pink",
+    "nameLatin": "Dianthus chinensis",
+    "family": "석죽과",
+    "description": "가늘고 빽빽하게 자라는 줄기에 분홍색 꽃이 피는 식물입니다. 꽃잎 끝이 톱니처럼 갈라진 모양이 특징입니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Dianthus_chinensis1.jpg/640px-Dianthus_chinensis1.jpg",
+    "wikiImage": "Dianthus_chinensis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 134,
+    "nameKo": "메리골드",
+    "nameEn": "Marigold",
+    "nameLatin": "Tagetes",
+    "family": "국화과",
+    "description": "강한 향기와 주황색, 노란색 꽃이 특징입니다. 해충 방지 효과가 있어 채소밭 주변에 심기도 합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Tagetes_erecta.jpg/640px-Tagetes_erecta.jpg",
+    "wikiImage": "Tagetes",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 135,
+    "nameKo": "아마릴리스",
+    "nameEn": "Amaryllis",
+    "nameLatin": "Hippeastrum",
+    "family": "수선화과",
+    "description": "큰 나팔 모양의 꽃이 특징인 구근식물입니다. 겨울에서 봄에 걸쳐 실내에서 꽃을 피우며 크리스마스 선물로 인기 있습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Hippeastrum-papilio.jpg/640px-Hippeastrum-papilio.jpg",
+    "wikiImage": "Hippeastrum",
+    "flowerLanguage": ""
+  },
+  {
+    "nameKo": "자작나무",
+    "nameEn": "White Birch",
+    "nameLatin": "Betula platyphylla",
+    "family": "자작나무과",
+    "description": "흰색 수피가 아름다운 낙엽교목입니다. 시베리아·북부 지방의 상징적인 나무로 군락을 이루면 환상적인 풍경을 만듭니다.",
+    "season": [
+      "봄",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "wikiImage": "Betula_platyphylla_var._japonica",
+    "id": 138,
+    "image": "",
+    "flowerLanguage": "미래에 대한 희망"
+  },
+  {
+    "nameKo": "수양버들",
+    "nameEn": "Weeping Willow",
+    "nameLatin": "Salix babylonica",
+    "family": "버드나무과",
+    "description": "길게 늘어진 가지가 바람에 흔들리는 우아한 낙엽교목입니다. 강가나 연못 근처에 심으면 아름다운 풍경을 연출합니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "wikiImage": "Salix_babylonica_Weeping_Willow",
+    "id": 143,
+    "image": "",
+    "flowerLanguage": "솔직함, 자유"
+  },
+  {
+    "nameKo": "배롱나무",
+    "nameEn": "Crape Myrtle",
+    "nameLatin": "Lagerstroemia indica",
+    "family": "부처꽃과",
+    "description": "여름에 100일 동안 꽃이 핀다고 해서 '백일홍나무'라고도 불립니다. 분홍·빨강·흰색 꽃이 화려하게 피어납니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "wikiImage": "Lagerstroemia_indica_-_Crape_Myrtle",
+    "id": 144,
+    "image": "",
+    "flowerLanguage": "웅변, 부귀, 결백"
+  },
+  {
+    "nameKo": "알로에",
+    "nameLatin": "Aloe vera",
+    "family": "아스포델과",
+    "description": "두꺼운 잎에 수분과 영양을 저장하는 다육식물입니다. 화상·피부 진정 효과로 유명하며 화장품 원료로도 널리 사용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "다육식물",
+    "wikiImage": "Aloe_vera_flower_inset",
+    "nameEn": "Aloe Vera",
+    "id": 145,
+    "image": "",
+    "flowerLanguage": "자연 치유, 건강"
+  },
+  {
+    "nameKo": "용설란",
+    "nameEn": "Century Plant",
+    "nameLatin": "Agave americana",
+    "family": "아스파라거스과",
+    "description": "뾰족한 잎 끝이 특징인 대형 다육식물입니다. 일생에 한 번 꽃을 피우고 죽는 것으로 유명하며 멕시코가 원산지입니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "다육식물",
+    "wikiImage": "Agave_americana_2",
+    "id": 146,
+    "image": "",
+    "flowerLanguage": "결심, 강인함"
+  },
+  {
+    "id": 147,
+    "nameKo": "강황",
+    "nameEn": "Turmeric",
+    "nameLatin": "Curcuma longa",
+    "family": "생강과",
+    "description": "노란색 뿌리식물로 카레의 노란색을 내는 향신료입니다. 항염 효능이 있어 건강기능식품으로 인기 있습니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Curcuma_longa_roots.jpg/640px-Curcuma_longa_roots.jpg",
+    "wikiImage": "Curcuma_longa",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 148,
+    "nameKo": "향수박하",
+    "nameEn": "Peppermint",
+    "nameLatin": "Mentha × piperita",
+    "family": "꿀풀과",
+    "description": "스피어민트와 워터민트의 교잡종으로 강한 청량감이 특징입니다. 치약, 껌, 사탕의 향료로 널리 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Mentha_x_piperita_003.JPG/640px-Mentha_x_piperita_003.JPG",
+    "wikiImage": "Mentha_×_piperita",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 149,
+    "nameKo": "레몬그라스",
+    "nameEn": "Lemongrass",
+    "nameLatin": "Cymbopogon citratus",
+    "family": "벼과",
+    "description": "레몬향이 나는 열대 풀입니다. 태국 요리에 필수 재료이며 모기 퇴치 효과로도 유명합니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Lemon_grass.jpg/640px-Lemon_grass.jpg",
+    "wikiImage": "Cymbopogon_citratus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 150,
+    "nameKo": "스테비아",
+    "nameEn": "Stevia",
+    "nameLatin": "Stevia rebaudiana",
+    "family": "국화과",
+    "description": "설탕의 수백 배에 달하는 단맛이 있는 식물입니다. 천연 감미료로 당뇨 환자들에게 설탕 대체제로 인기 있습니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Stevia_plant.jpg/640px-Stevia_plant.jpg",
+    "wikiImage": "Stevia_rebaudiana",
+    "flowerLanguage": "달콤한 희망"
+  },
+  {
+    "nameKo": "산수유",
+    "nameEn": "Cornelian Cherry",
+    "nameLatin": "Cornus officinalis",
+    "family": "층층나무과",
+    "description": "이른 봄 잎보다 먼저 샛노란 꽃이 피는 낙엽교목입니다.",
+    "season": [
+      "봄",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "wikiImage": "Cornus_officinalis_6",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Cornus_officinalis_6.jpg?width=500",
+    "id": 151,
+    "flowerLanguage": "지속과 영원"
+  },
+  {
+    "nameKo": "캐모마일",
+    "nameEn": "Chamomile",
+    "nameLatin": "Matricaria chamomilla",
+    "family": "국화과",
+    "description": "작은 데이지 모양의 꽃이 피는 허브로 긴장 완화와 숙면에 도움이 됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "wikiImage": "Matricaria_recutita",
+    "image": "",
+    "id": 152,
+    "flowerLanguage": "역경 속의 힘, 인내"
+  },
+  {
+    "nameKo": "아글라오네마",
+    "nameEn": "Chinese Evergreen",
+    "nameLatin": "Aglaonema modestum",
+    "family": "천남성과",
+    "description": "무늬가 아름다운 잎이 특징으로 빛이 적은 환경에서도 잘 자랍니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "wikiImage": "Aglaonema_modestum",
+    "image": "",
+    "id": 157,
+    "flowerLanguage": "행복"
+  },
+  {
+    "nameKo": "크로톤",
+    "nameEn": "Croton",
+    "nameLatin": "Codiaeum variegatum",
+    "family": "대극과",
+    "description": "다채로운 색의 잎이 아름다운 열대 관엽식물입니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "wikiImage": "Codiaeum_variegatum_cultivar",
+    "image": "",
+    "id": 158,
+    "flowerLanguage": "개성, 강렬함"
+  },
+  {
+    "nameKo": "디펜바키아",
+    "nameEn": "Dumb Cane",
+    "nameLatin": "Dieffenbachia seguine",
+    "family": "천남성과",
+    "description": "무늬 있는 넓은 잎이 아름다운 관엽식물로 독성이 있어 취급 시 주의가 필요합니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "wikiImage": "Dieffenbachia_seguine_2",
+    "image": "",
+    "id": 159,
+    "flowerLanguage": "숨겨진 위험"
+  },
+  {
+    "id": 161,
+    "nameKo": "주목",
+    "nameEn": "Japanese Yew",
+    "nameLatin": "Taxus cuspidata",
+    "family": "주목과",
+    "description": "천 년 이상 사는 장수 나무입니다. 붉은 열매가 달리지만 씨앗과 잎은 독성이 있어 주의가 필요합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Taxus_cuspidata.jpg/640px-Taxus_cuspidata.jpg",
+    "wikiImage": "Taxus_cuspidata",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 162,
+    "nameKo": "측백나무",
+    "nameEn": "Oriental Arborvitae",
+    "nameLatin": "Platycladus orientalis",
+    "family": "측백나무과",
+    "description": "위로 곧게 자라는 상록침엽수입니다. 묘지와 사원에 많이 심으며 방풍과 경계 목적으로 줄지어 심기도 합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Platycladus_orientalis.jpg/640px-Platycladus_orientalis.jpg",
+    "wikiImage": "Platycladus_orientalis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 163,
+    "nameKo": "전나무",
+    "nameEn": "Fir",
+    "nameLatin": "Abies holophylla",
+    "family": "소나무과",
+    "description": "크리스마스 트리로 사용되는 상록침엽수입니다. 은은한 향기와 아름다운 수형이 특징입니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Abies_holophylla_3.jpg/640px-Abies_holophylla_3.jpg",
+    "wikiImage": "Abies_holophylla",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 164,
+    "nameKo": "느티나무",
+    "nameEn": "Japanese Zelkova",
+    "nameLatin": "Zelkova serrata",
+    "family": "느릅나무과",
+    "description": "수형이 아름다운 대형 낙엽교목입니다. 오래된 마을 입구에 정자나무로 심어져 우리 민족과 함께한 나무입니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Zelkova_serrata_1.jpg/640px-Zelkova_serrata_1.jpg",
+    "wikiImage": "Zelkova_serrata",
+    "flowerLanguage": "장수, 평화"
+  },
+  {
+    "id": 165,
+    "nameKo": "참나무",
+    "nameEn": "Oak",
+    "nameLatin": "Quercus",
+    "family": "참나무과",
+    "description": "도토리가 달리는 낙엽교목입니다. 다람쥐의 먹이이며 목재는 가구와 건축에 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Quercus_robur.jpg/640px-Quercus_robur.jpg",
+    "wikiImage": "Quercus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 167,
+    "nameKo": "왕벚나무",
+    "nameEn": "Yoshino Cherry",
+    "nameLatin": "Prunus × yedoensis",
+    "family": "장미과",
+    "description": "한국과 일본에서 가장 많이 심는 벚나무 품종입니다. 봄에 만개하는 흰 꽃이 절경을 이루는 나무입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Prunus_%C3%97_yedoensis.jpg/640px-Prunus_%C3%97_yedoensis.jpg",
+    "wikiImage": "Prunus_×_yedoensis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 168,
+    "nameKo": "모과나무",
+    "nameEn": "Chinese Quince",
+    "nameLatin": "Pseudocydonia sinensis",
+    "family": "장미과",
+    "description": "노란 열매와 알록달록한 수피가 특징인 낙엽소교목입니다. 모과차와 술로 즐기며 방향제로도 사용합니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Pseudocydonia_sinensis1.jpg/640px-Pseudocydonia_sinensis1.jpg",
+    "wikiImage": "Pseudocydonia_sinensis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 172,
+    "nameKo": "패모",
+    "nameEn": "Fritillary",
+    "nameLatin": "Fritillaria thunbergii",
+    "family": "백합과",
+    "description": "종 모양의 꽃이 아래를 향해 피는 구근식물입니다. 약재로도 사용되며 이른 봄 정원에 피는 희귀한 꽃입니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Fritillaria_thunbergii.jpg/640px-Fritillaria_thunbergii.jpg",
+    "wikiImage": "Fritillaria_thunbergii",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 173,
+    "nameKo": "범의귀",
+    "nameEn": "Saxifrage",
+    "nameLatin": "Saxifraga stolonifera",
+    "family": "범의귀과",
+    "description": "원형 잎에 흰 꽃이 피는 식물입니다. 그늘진 습한 곳에서 잘 자라며 그라운드 커버로 활용됩니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Saxifraga_stolonifera.jpg/640px-Saxifraga_stolonifera.jpg",
+    "wikiImage": "Saxifraga_stolonifera",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 174,
+    "nameKo": "꽈리",
+    "nameEn": "Chinese Lantern",
+    "nameLatin": "Physalis alkekengi",
+    "family": "가지과",
+    "description": "가을에 주황색 등롱 모양의 열매집이 달리는 식물입니다. 말려서 꽃꽂이 소재로 활용하며 아이들이 좋아합니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Physalis_alkekengi.jpg/640px-Physalis_alkekengi.jpg",
+    "wikiImage": "Physalis_alkekengi",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 175,
+    "nameKo": "수염패랭이꽃",
+    "nameEn": "Sweet William",
+    "nameLatin": "Dianthus barbatus",
+    "family": "석죽과",
+    "description": "작은 꽃들이 무리지어 피는 화려한 식물입니다. 다양한 색상과 패턴으로 화단 경계에 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "꽃",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Dianthus_barbatus_3.jpg/640px-Dianthus_barbatus_3.jpg",
+    "wikiImage": "Dianthus_barbatus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 177,
+    "nameKo": "홍화",
+    "nameEn": "Safflower",
+    "nameLatin": "Carthamus tinctorius",
+    "family": "국화과",
+    "description": "주황색 꽃이 특징이며 씨앗에서 기름을 추출합니다. 꽃은 붉은 염료와 약재로도 사용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Carthamus_tinctorius.jpg/640px-Carthamus_tinctorius.jpg",
+    "wikiImage": "Carthamus_tinctorius",
+    "flowerLanguage": ""
+  },
+  {
+    "nameKo": "개양귀비",
+    "nameEn": "Corn Poppy",
+    "nameLatin": "Papaver rhoeas",
+    "family": "양귀비과",
+    "description": "선명한 빨강 꽃잎과 검은 수술이 특징인 야생화입니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "wikiImage": "Papaver_rhoeas_LC0050",
+    "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Papaver_rhoeas_LC0050.jpg?width=500",
+    "id": 178,
+    "flowerLanguage": "위안, 기억"
+  },
+  {
+    "id": 179,
+    "nameKo": "쥐똥나무",
+    "nameEn": "Privet",
+    "nameLatin": "Ligustrum obtusifolium",
+    "family": "물푸레나무과",
+    "description": "흰 꽃과 검은 열매가 달리는 낙엽관목입니다. 빠른 성장으로 생울타리용으로 많이 사용됩니다.",
+    "season": [
+      "봄",
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Ligustrum_obtusifolium_1.jpg/640px-Ligustrum_obtusifolium_1.jpg",
+    "wikiImage": "Ligustrum_obtusifolium",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 180,
+    "nameKo": "조팝나무",
+    "nameEn": "Spirea",
+    "nameLatin": "Spiraea prunifolia",
+    "family": "장미과",
+    "description": "봄에 흰 꽃들이 줄기를 따라 빽빽이 피는 낙엽관목입니다. 조팝밥처럼 꽃이 핀다고 해서 이름이 붙었습니다.",
+    "season": [
+      "봄"
+    ],
+    "petToxicity": "safe",
+    "category": "나무",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Spiraea_prunifolia.jpg/640px-Spiraea_prunifolia.jpg",
+    "wikiImage": "Spiraea_prunifolia",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 181,
+    "nameKo": "꿩의다리",
+    "nameEn": "Meadow Rue",
+    "nameLatin": "Thalictrum aquilegiifolium",
+    "family": "미나리아재비과",
+    "description": "보라색 또는 흰색 솜털 같은 꽃이 피는 식물입니다. 습한 곳에서 잘 자라며 분홍빛 꽃이 우아합니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Thalictrum_aquilegiifolium.jpg/640px-Thalictrum_aquilegiifolium.jpg",
+    "wikiImage": "Thalictrum_aquilegiifolium",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 182,
+    "nameKo": "으아리",
+    "nameEn": "Clematis terniflora",
+    "nameLatin": "Clematis terniflora",
+    "family": "미나리아재비과",
+    "description": "가을에 흰 꽃이 피는 덩굴식물입니다. 씨앗에 깃털 같은 털이 달려 있어 바람에 잘 날립니다.",
+    "season": [
+      "가을"
+    ],
+    "petToxicity": "toxic",
+    "category": "야생화",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Clematis_terniflora.jpg/640px-Clematis_terniflora.jpg",
+    "wikiImage": "Clematis_terniflora",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 183,
+    "nameKo": "소철",
+    "nameEen": "Sago Palm",
+    "nameLatin": "Cycas revoluta",
+    "family": "소철과",
+    "description": "야자처럼 생긴 잎을 가진 살아있는 화석 식물입니다. 실내 관상식물로 인기 있지만 독성이 강합니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Cycas_revoluta_-_kz01.jpg/640px-Cycas_revoluta_-_kz01.jpg",
+    "wikiImage": "Cycas_revoluta",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 184,
+    "nameKo": "아레카야자",
+    "nameEn": "Areca Palm",
+    "nameLatin": "Dypsis lutescens",
+    "family": "야자과",
+    "description": "가늘고 긴 잎이 황금빛으로 빛나는 야자나무입니다. 공기정화 효능이 뛰어나며 실내 장식으로 인기 있습니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "safe",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Dypsis_lutescens.jpg/640px-Dypsis_lutescens.jpg",
+    "wikiImage": "Dypsis_lutescens",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 185,
+    "nameKo": "천냥금",
+    "nameEn": "Ardisia",
+    "nameLatin": "Ardisia crenata",
+    "family": "앵초과",
+    "description": "빨간 열매가 오래 달려있는 상록관목입니다. 천 냥이나 되는 금 같다는 의미에서 이름이 붙었습니다.",
+    "season": [
+      "가을",
+      "겨울"
+    ],
+    "petToxicity": "toxic",
+    "category": "관엽식물",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Ardisia_crenata.jpg/640px-Ardisia_crenata.jpg",
+    "wikiImage": "Ardisia_crenata",
+    "flowerLanguage": ""
+  },
+  {
+    "nameKo": "기린초",
+    "nameEn": "Sedum",
+    "nameLatin": "Sedum kamtschaticum",
+    "family": "돌나물과",
+    "description": "노란 별 모양의 꽃이 피는 다육식물입니다. 암석 정원이나 지피식물로 활용되며 강인한 생명력을 가집니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "다육식물",
+    "wikiImage": "Sedum_kamtschaticum",
+    "id": 189,
+    "image": "",
+    "flowerLanguage": "순박함, 인내"
+  },
+  {
+    "nameKo": "부레옥잠",
+    "nameEn": "Water Hyacinth",
+    "nameLatin": "Eichhornia crassipes",
+    "family": "물옥잠과",
+    "description": "수면을 떠다니며 자라는 수생식물입니다. 보라색 꽃이 아름답고 수질 정화 능력이 있어 연못 장식에 활용됩니다.",
+    "season": [
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "수생식물",
+    "wikiImage": "Eichhornia_crassipes",
+    "id": 192,
+    "image": "",
+    "flowerLanguage": "사랑의 번성, 자유"
+  },
+  {
+    "id": 194,
+    "nameKo": "세이지",
+    "nameEn": "Sage",
+    "nameLatin": "Salvia officinalis",
+    "family": "꿀풀과",
+    "description": "은녹색 잎과 보라색 꽃이 특징인 허브입니다. 육류 요리와 소시지에 사용되며 약용으로도 활용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Salvia_officinalis_CT3.jpg/640px-Salvia_officinalis_CT3.jpg",
+    "wikiImage": "Salvia_officinalis",
+    "flowerLanguage": "가정의 행복, 지혜"
+  },
+  {
+    "id": 195,
+    "nameKo": "펜넬",
+    "nameEn": "Fennel",
+    "nameLatin": "Foeniculum vulgare",
+    "family": "산형과",
+    "description": "아니스향이 나는 허브로 씨앗, 잎, 줄기 모두 사용 가능합니다. 소화 촉진 효과가 있어 차로도 마십니다.",
+    "season": [
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Foeniculum_vulgare_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-070.jpg/640px-Foeniculum_vulgare_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-070.jpg",
+    "wikiImage": "Foeniculum_vulgare",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 197,
+    "nameKo": "타라곤",
+    "nameEn": "Tarragon",
+    "nameLatin": "Artemisia dracunculus",
+    "family": "국화과",
+    "description": "아니스향이 나는 프랑스 요리의 필수 허브입니다. 닭요리, 생선, 달걀 요리에 사용되며 허브 버터에도 활용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Artemisia_dracunculus_kz02.jpg/640px-Artemisia_dracunculus_kz02.jpg",
+    "wikiImage": "Artemisia_dracunculus",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 198,
+    "nameKo": "보리지",
+    "nameEn": "Borage",
+    "nameLatin": "Borago officinalis",
+    "family": "지치과",
+    "description": "별 모양의 파란 꽃이 아름다운 허브입니다. 꽃은 샐러드 장식에 사용되며 오이향이 나는 특징이 있습니다.",
+    "season": [
+      "봄",
+      "여름"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Borago_officinalis.jpg/640px-Borago_officinalis.jpg",
+    "wikiImage": "Borago_officinalis",
+    "flowerLanguage": ""
+  },
+  {
+    "id": 200,
+    "nameKo": "매리골드",
+    "nameEn": "Pot Marigold",
+    "nameLatin": "Calendula arvensis",
+    "family": "국화과",
+    "description": "밝은 노란색과 주황색 꽃이 특징인 허브 식물입니다. 꽃잎을 식용하며 피부 관리와 항염 효과로 약재에 사용됩니다.",
+    "season": [
+      "봄",
+      "여름",
+      "가을"
+    ],
+    "petToxicity": "safe",
+    "category": "허브",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Calendula_officinalis-1.jpg/640px-Calendula_officinalis-1.jpg",
+    "wikiImage": "Calendula_arvensis",
+    "flowerLanguage": ""
+  }
+]
